@@ -3,6 +3,9 @@ from crispy_forms.layout import Layout, Submit
 from django import forms
 
 class ListCheckerForm(forms.Form):
+    # listA = forms.CharField(widget=forms.Textarea(attrs={'rows':10, 'cols':100}), label="Enter list A", max_length=99999) # If you want to control rows and columns
+    # listB = forms.CharField(widget=forms.Textarea(attrs={'rows':10, 'cols':100}), label="Enter list B", max_length=99999)
+
     listA = forms.CharField(widget=forms.Textarea, label="Enter list A", max_length=99999)
     listB = forms.CharField(widget=forms.Textarea, label="Enter list B", max_length=99999)
     
