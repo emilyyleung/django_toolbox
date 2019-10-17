@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='list-home'),
-    path('app/', views.form, name='list-form')
+    path('comma/', views.sepComma, name='list-comma'),
+    path('multiline/', views.sepMulti, name='list-multiline')
 ]

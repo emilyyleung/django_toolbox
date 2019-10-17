@@ -24,7 +24,7 @@ def splitListToItems(inputList, listToAppend):
         listToAppend.append(x)
     return listToAppend
 
-def form(request):
+def sepComma(request):
 	print("FORM")
 
 	if request.method == 'POST':
@@ -33,6 +33,12 @@ def form(request):
 		if listForm.is_valid():
 			clean_listA = listForm.cleaned_data['listA'].strip()
 			clean_listB = listForm.cleaned_data['listB'].strip()
+
+			multiline_list = []
+			multiline_input = listForm.cleaned_data['multiline']
+			multiline_list.append(multiline_input)
+			multiline_array = multiline_list[0].split("\r\n")
+			print(multiline_array)
 
 			out = {}
 
@@ -71,6 +77,76 @@ def form(request):
 					out["INTAB"] = check_list_intersection(list_A, list_B)
 					out["DUPES_A"] = dupes_A
 					out["DUPES_B"] = dupes_B
+
+				return render(request, "list_difference/form.html", {"form": listForm, "out": out})
+
+			except Exception as e:
+				print(e)
+
+			# print(list_A)
+			# print(list_B)
+
+	else:
+		listForm = ListCheckerForm()
+	return render(request, "list_difference/form.html", {"form": listForm})
+
+
+def sepMulti(request):
+	print("FORM")
+
+	if request.method == 'POST':
+		listForm = ListCheckerForm(request.POST)
+
+		if listForm.is_valid():
+			clean_listA = listForm.cleaned_data['listA'].strip()
+			clean_listB = listForm.cleaned_data['listB'].strip()
+
+			multiline_list_A = []
+			multiline_list_B = []
+
+			multiline_input_A = listForm.cleaned_data['listA']
+			multiline_input_B = listForm.cleaned_data['listB']
+			
+			multiline_list_A.append(multiline_input_A)
+			multiline_list_B.append(multiline_input_B)
+
+			multiline_array_A = multiline_list_A[0].split("\r\n")
+			multiline_array_B = multiline_list_B[0].split("\r\n")
+
+			print(multiline_array_A)
+			print(multiline_array_B)
+
+			out = {}
+
+			try:
+
+				seen_A = {}
+				dupes_A = []
+
+				for x in multiline_array_A:
+					if x not in seen_A:
+						seen_A[x] = 1
+					else:
+						if seen_A[x] == 1:
+							dupes_A.append(x)
+						seen_A[x] += 1
+
+				seen_B = {}
+				dupes_B = []
+
+				for x in multiline_array_B:
+					if x not in seen_B:
+						seen_B[x] = 1
+					else:
+						if seen_B[x] == 1:
+							dupes_B.append(x)
+						seen_B[x] += 1
+
+				out["AB"] = check_list_difference(multiline_array_A, multiline_array_B)
+				out["BA"] = check_list_difference(multiline_array_B, multiline_array_A)
+				out["INTAB"] = check_list_intersection(multiline_array_A, multiline_array_B)
+				out["DUPES_A"] = dupes_A
+				out["DUPES_B"] = dupes_B
 
 				return render(request, "list_difference/form.html", {"form": listForm, "out": out})
 
