@@ -1,0 +1,64 @@
+{% extends "list_difference/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container-fluid">
+	<div class="row justify-content-left">
+		
+		<div class="col">
+			<form method="POST" class="post-form">  
+		        {% csrf_token %}  
+		        {{ form|crispy }}
+		        <p><em>Separate multiple list items with commas: ,</em></p>
+		        <button type="submit" class="save btn btn-info" name="visualiser">Compare Lists</button>
+		        <!-- <button type="submit" class="save btn btn-info" name="practical">Text View</button> -->
+			</form> 
+		</div>
+		
+
+		<div class="col">
+			
+			{% if out %}
+				
+				<b>A Only</b>
+					{% for ab in out.AB %}
+						<li>{{ ab }}</li>
+					{% endfor %}
+
+				<hr/>
+
+				<b>B Only</b>
+					{% for ba in out.BA %}
+						<li>{{ ba }}</li>
+					{% endfor %}
+
+				<hr/>
+
+				<b>A & B</b>
+					{% for intab in out.INTAB %}
+						<li>{{ intab }}</li>
+					{% endfor %}
+
+				<hr/>
+
+				<b>Duplicates in A</b>
+					{% for dup_a in out.DUPES_A %}
+						<li>{{ dup_a }}</li>
+					{% endfor %}
+
+				<hr/>
+
+				<b>Duplicates in B</b>
+					{% for dup_b in out.DUPES_B %}
+						<li>{{ dup_b }}</li>
+					{% endfor %}
+
+			{% endif %}
+
+		</div>
+
+	</div>
+	
+</div>
+
+{% endblock content %}
