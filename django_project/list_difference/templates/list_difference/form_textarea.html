@@ -20,38 +20,33 @@
 			
 			{% if out %}
 				
-				<b>A Only</b>
-					{% for ab in out.AB %}
-						<li>{{ ab }}</li>
-					{% endfor %}
+				<b>A Only</b><br/>			
+				<textarea cols="40" rows="10">{{ out.A_Only }}</textarea>
 
 				<hr/>
 
-				<b>B Only</b>
-					{% for ba in out.BA %}
-						<li>{{ ba }}</li>
-					{% endfor %}
+				<b>B Only</b><br/>
+				<textarea cols="40" rows="10">{{ out.B_Only }}</textarea>
 
 				<hr/>
 
-				<b>A & B</b>
-					{% for intab in out.INTAB %}
-						<li>{{ intab }}</li>
-					{% endfor %}
+				<b>A & B</b><br/>
+				<textarea cols="40" rows="10">{{ out.A_B }}</textarea>
 
 				<hr/>
 
-				<b>Duplicates in A</b>
-					{% for dup_a in out.DUPES_A %}
-						<li>{{ dup_a }}</li>
-					{% endfor %}
+				<b>Duplicates in A</b><br/>
+				<textarea cols="40" rows="10">{{ out.Dup_A }}</textarea>
 
 				<hr/>
 
-				<b>Duplicates in B</b>
-					{% for dup_b in out.DUPES_B %}
-						<li>{{ dup_b }}</li>
-					{% endfor %}
+				<b>Duplicates in B</b><br/>
+				<textarea cols="40" rows="10">{{ out.Dup_B }}</textarea>
+
+				<hr/>
+
+				<b>Unique Set</b><br/>
+				<textarea cols="40" rows="10">{{ out.Set_AB }}</textarea>
 
 			{% endif %}
 
