@@ -20,7 +20,7 @@
 			
 			{% if out %}
 				
-				<b>A Only</b>
+				<b>A Only</b>				
 					{% for ab in out.AB %}
 						<li>{{ ab }}</li>
 					{% endfor %}
@@ -52,6 +52,10 @@
 					{% for dup_b in out.DUPES_B %}
 						<li>{{ dup_b }}</li>
 					{% endfor %}
+
+				<hr/>
+
+				<textarea cols="40" rows="10">{{ out.ABC }}</textarea>
 
 			{% endif %}
 

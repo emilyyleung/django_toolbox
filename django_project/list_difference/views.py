@@ -148,6 +148,16 @@ def sepMulti(request):
 				out["DUPES_A"] = dupes_A
 				out["DUPES_B"] = dupes_B
 
+				separator = "\n"
+				join = []
+				joined = separator.join(check_list_difference(multiline_array_A, multiline_array_B))
+
+				join.append(joined)
+
+				print(join)
+
+				out["ABC"] = join[0]
+
 				return render(request, "list_difference/form.html", {"form": listForm, "out": out})
 
 			except Exception as e:
