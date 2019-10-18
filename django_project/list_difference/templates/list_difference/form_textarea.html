@@ -1,0 +1,59 @@
+{% extends "list_difference/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container-fluid">
+	<div class="row justify-content-left">
+		
+		<div class="col">
+			<form method="POST" class="post-form">  
+		        {% csrf_token %}  
+		        {{ form|crispy }}
+		        <p><em>Separate multiple list items with commas: ,</em></p>
+		        <button type="submit" class="save btn btn-info" name="visualiser">Compare Lists</button>
+		        <!-- <button type="submit" class="save btn btn-info" name="practical">Text View</button> -->
+			</form> 
+		</div>
+		
+
+		<div class="col">
+			
+			{% if out %}
+				
+				<b>A Only</b><br/>			
+				<textarea cols="40" rows="10">{{ out.A_Only }}</textarea>
+
+				<hr/>
+
+				<b>B Only</b><br/>
+				<textarea cols="40" rows="10">{{ out.B_Only }}</textarea>
+
+				<hr/>
+
+				<b>A & B</b><br/>
+				<textarea cols="40" rows="10">{{ out.A_B }}</textarea>
+
+				<hr/>
+
+				<b>Duplicates in A</b><br/>
+				<textarea cols="40" rows="10">{{ out.Dup_A }}</textarea>
+
+				<hr/>
+
+				<b>Duplicates in B</b><br/>
+				<textarea cols="40" rows="10">{{ out.Dup_B }}</textarea>
+
+				<hr/>
+
+				<b>Unique Set</b><br/>
+				<textarea cols="40" rows="10">{{ out.Set_AB }}</textarea>
+
+			{% endif %}
+
+		</div>
+
+	</div>
+	
+</div>
+
+{% endblock content %}
