@@ -7,7 +7,7 @@
 		
 		<div class="col">
 			<form method="POST" class="post-form">  
-		        {% csrf_token %}  
+		        {% csrf_token %}
 		        {{ form|crispy }}
 		        <p><em>Separate multiple list items with commas: ,</em></p>
 		        <button type="submit" class="save btn btn-info" name="visualiser">Compare Lists</button>
