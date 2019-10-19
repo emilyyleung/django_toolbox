@@ -9,10 +9,10 @@
 	        {% csrf_token %}  
 	        <div class="form-row">
 	        	<div style="text-align: center" class="form-group col-md-6 mb-0">
-	        		{{ form.listA|as_crispy_field }}
+	        		<h4><b>{{ form.listA|as_crispy_field }}</b></h4>
 	        	</div>
 	        	<div style="text-align: center" class="form-group col-md-6 mb-0">
-	        		{{ form.listB|as_crispy_field }}
+	        		<h4><b>{{ form.listB|as_crispy_field }}</b></h4>
 	        	</div>
 	        </div>
 	        <br/>
@@ -25,36 +25,34 @@
 	
 		
 		{% if out %}
-			<hr/>
+			<br/>
 			
 			<div class="form-row">
-				<div class="form-group col-md-4 mb-0">
-					<div style="text-align: center"><b>A Only</b><br/></div>	
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-success" style="text-align: center"><b>A Only</b><br/></div>	
 					<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ out.A_Only }}</textarea>
 				</div>
-				<div class="form-group col-md-4 mb-0">
-					<div style="text-align: center"><b>A & B</b><br/></div>
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-secondary" style="text-align: center;"><b>A & B</b><br/></div>
 					<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ out.A_B }}</textarea>
 				</div>
-				<div class="form-group col-md-4 mb-0">
-					<div style="text-align: center"><b>B Only</b><br/></div>
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-info" style="text-align: center"><b>B Only</b><br/></div>
 					<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ out.B_Only }}</textarea>
 				</div>
 			</div>
 
-			<hr/>
-
 			<div class="form-row">
-				<div class="form-group col-md-4 mb-0">
-					<div style="text-align: center"><b>Duplicates in A</b><br/></div>
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-success" style="text-align: center"><b>Duplicates in A</b><br/></div>
 					<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ out.Dup_A }}</textarea>
 				</div>
-				<div class="form-group col-md-4 mb-0">
-					<div style="text-align: center"><b>Unique Set</b><br/></div>
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-secondary" style="text-align: center"><b>Unique Set</b><br/></div>
 					<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ out.Set_AB }}</textarea>
 				</div>
-				<div class="form-group col-md-4 mb-0">
-					<div style="text-align: center"><b>Duplicates in B</b><br/></div>
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-info" style="text-align: center"><b>Duplicates in B</b><br/></div>
 					<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ out.Dup_B }}</textarea>
 				</div>
 			</div>
