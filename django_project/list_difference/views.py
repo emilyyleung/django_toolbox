@@ -238,7 +238,7 @@ def sepTextarea(request):
 				out["Dup_B"] = multi_Dup_B
 				out["Set_AB"] = multi_Set_AB
 
-				return render(request, "list_difference/form_textarea.html", {"form": listForm, "out": out})
+				return render(request, "list_difference/form_custom_textarea.html", {"form": listForm, "out": out})
 
 			except Exception as e:
 				print(e)
@@ -248,4 +248,4 @@ def sepTextarea(request):
 
 	else:
 		listForm = ListCheckerForm()
-	return render(request, "list_difference/form_textarea.html", {"form": listForm})
+	return render(request, "list_difference/form_custom_textarea.html", {"form": listForm})

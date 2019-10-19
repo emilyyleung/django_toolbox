@@ -1,0 +1,65 @@
+{% extends "list_difference/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container-fluid">
+		
+	<div class="col">
+		<form method="POST" class="post-form">  
+	        {% csrf_token %}  
+	        <div class="form-row">
+	        	<div style="text-align: center" class="form-group col-md-6 mb-0">
+	        		<h4><b>{{ form.listA|as_crispy_field }}</b></h4>
+	        	</div>
+	        	<div style="text-align: center" class="form-group col-md-6 mb-0">
+	        		<h4><b>{{ form.listB|as_crispy_field }}</b></h4>
+	        	</div>
+	        </div>
+	        <br/>
+	        <div style="text-align: center">
+		        <p><em>Separate multiple list items with a new line</em></p>
+		        <button type="submit" class="save btn btn-info" name="visualiser">Compare Lists</button>
+		        <!-- <button type="submit" class="save btn btn-info" name="practical">Text View</button> -->
+		    </div>
+		</form> 
+	
+		
+		{% if out %}
+			<br/>
+			
+			<div class="form-row">
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-success" style="text-align: center"><b>A Only</b><br/></div>	
+					<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ out.A_Only }}</textarea>
+				</div>
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-secondary" style="text-align: center;"><b>A & B</b><br/></div>
+					<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ out.A_B }}</textarea>
+				</div>
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-info" style="text-align: center"><b>B Only</b><br/></div>
+					<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ out.B_Only }}</textarea>
+				</div>
+			</div>
+
+			<div class="form-row">
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-success" style="text-align: center"><b>Duplicates in A</b><br/></div>
+					<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ out.Dup_A }}</textarea>
+				</div>
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-secondary" style="text-align: center"><b>Unique Set</b><br/></div>
+					<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ out.Set_AB }}</textarea>
+				</div>
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-info" style="text-align: center"><b>Duplicates in B</b><br/></div>
+					<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ out.Dup_B }}</textarea>
+				</div>
+			</div>
+		{% endif %}
+
+	</div>
+	
+</div>
+
+{% endblock content %}
