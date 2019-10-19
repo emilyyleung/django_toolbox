@@ -24,4 +24,5 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('cal/', include('cal.urls')),
     path('list/', include('list_difference.urls')),
+    path('app/', include('home.urls')),
 ]

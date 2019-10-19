@@ -1,0 +1,71 @@
+{% extends "list_difference/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<script type="text/javascript">
+	function myFunction() {
+    var input, filter, cards, cardContainer, h5, title, i;
+    input = document.getElementById("myFilter");
+    filter = input.value.toUpperCase();
+    cardContainer = document.getElementById("testitems");
+    cards = cardContainer.getElementsByClassName("card mb-2");
+    for (i = 0; i < cards.length; i++) {
+        title = cards[i].querySelector(".card-body h5.card-title");
+        if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+</script>
+
+<div class="container-fluid noselect">
+	<h1 class="display-4">Toolbox</h1>
+	<p class="lead">
+		<div class="alert alert-light" role="alert">
+			<blockquote class="blockquote text-left">
+			  <p class="mb-0">I have one rule for every software project I start. The end result must be something I will actually use.</p>
+			  <footer class="blockquote-footer">Marc Hemeon</footer>
+			</blockquote>
+		</div>
+	</p>
+
+	<div class="row">
+		<div class="col-md-4 mb-3">
+	      <input type="text" id="myFilter" class="form-control" onkeyup="myFunction()" placeholder="Search for tool..">
+	    </div>
+	</div>
+	<br/>
+	
+
+	<div class="row" id="testitems">
+		{% for app in out.root %}
+
+			<div class="col-md-2">
+		        <div class="card mb-2">
+		            
+		            <a href="{{ app.url }}" style="color: inherit;">
+					  <div class="card-body">
+					  	<div class="icon" style="text-align: center; color: Orange;">
+								<span style="font-size: 3em">
+									<i class='{{ app.logo }}'></i>
+								</span>
+						</div>
+					    <h5 class="card-title">{{ app.title }}</h5>
+					    <p class="card-text">{{ app.description }}</p>
+					  </div>
+					</a>
+		        </div>
+		        <br/>
+		    </div>
+
+	    {% endfor %}
+	</div>
+
+</div>
+
+
+
+{% endblock content %}
