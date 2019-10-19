@@ -191,8 +191,8 @@ def sepTextarea(request):
 			multiline_array_A = multiline_list_A[0].split("\r\n")
 			multiline_array_B = multiline_list_B[0].split("\r\n")
 
-			print(multiline_array_A)
-			print(multiline_array_B)
+			# print(multiline_array_A)
+			# print(multiline_array_B)
 
 			obj_A = {}
 			obj_A["list_length"] = str(len(multiline_array_A))
