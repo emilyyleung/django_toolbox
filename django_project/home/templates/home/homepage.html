@@ -11,7 +11,7 @@
 	    input = document.getElementById("myFilter");
 	    filter = input.value.toUpperCase();
 	    cardContainer = document.getElementById("testitems");
-	    cards = cardContainer.getElementsByClassName("col-md-2");
+	    cards = cardContainer.getElementsByClassName("col-lg-2 col-md-3 col-sm-12 col-xs-12");
 	    for (i = 0; i < cards.length; i++) {
 	        title = cards[i].querySelector(".card-body h5.card-title");
 	        if (title.innerText.toUpperCase().indexOf(filter) > -1) {
@@ -47,7 +47,7 @@
 	<div class="row" id="testitems">
 		{% for app in out.root %}
 
-			<div class="col-md-2">
+			<div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
 		        <div class="card mb-2">
 		            
 		            <a target="_blank" href="{{ app.url }}" style="color: inherit;">
