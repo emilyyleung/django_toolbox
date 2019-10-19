@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
 		
-	<div class="col">
+	<div class="col noselect">
 		<form method="POST" class="post-form">  
 	        {% csrf_token %}  
 	        <div class="form-row">
@@ -26,6 +26,23 @@
 		
 		{% if out %}
 			<br/>
+
+			<div class="form-row">
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-success" style="text-align: center"><b>Input List A Stats</b><br/></div>
+					<b>Input list length: </b>{{ out.Stats_A.list_length }}
+					<br/>
+					<b>Unique list length: </b>{{ out.Stats_A.u_list_length }}
+				</div>
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+				</div>
+				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
+					<div class="alert alert-info" style="text-align: center"><b>Input List B Stats</b><br/></div>
+					<b>Input list length: </b>{{ out.Stats_B.list_length }}
+					<br/>
+					<b>Unique list length: </b>{{ out.Stats_B.u_list_length }}
+				</div>
+			</div>
 			
 			<div class="form-row">
 				<div class="form-group col-md-4 mb-0" style="padding-top: 20px">
@@ -56,6 +73,7 @@
 					<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ out.Dup_B }}</textarea>
 				</div>
 			</div>
+
 		{% endif %}
 
 	</div>

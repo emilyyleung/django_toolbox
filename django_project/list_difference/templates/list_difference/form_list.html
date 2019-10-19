@@ -55,8 +55,10 @@
 
 				<hr/>
 
-				<textarea cols="40" rows="10">{{ out.ABC }}</textarea>
-
+				{% if out.ABC %}
+					<textarea cols="40" rows="10">{{ out.ABC }}</textarea>
+				{% endif %}
+				
 			{% endif %}
 
 		</div>

@@ -34,11 +34,11 @@ def sepComma(request):
 			clean_listA = listForm.cleaned_data['listA'].strip()
 			clean_listB = listForm.cleaned_data['listB'].strip()
 
-			multiline_list = []
-			multiline_input = listForm.cleaned_data['multiline']
-			multiline_list.append(multiline_input)
-			multiline_array = multiline_list[0].split("\r\n")
-			print(multiline_array)
+			# multiline_list = []
+			# multiline_input = listForm.cleaned_data['multiline']
+			# multiline_list.append(multiline_input)
+			# multiline_array = multiline_list[0].split("\r\n")
+			# print(multiline_array)
 
 			out = {}
 
@@ -89,7 +89,6 @@ def sepComma(request):
 	else:
 		listForm = ListCheckerForm()
 	return render(request, "list_difference/form_list.html", {"form": listForm})
-
 
 def sepMulti(request):
 	print("FORM")
@@ -192,8 +191,16 @@ def sepTextarea(request):
 			multiline_array_A = multiline_list_A[0].split("\r\n")
 			multiline_array_B = multiline_list_B[0].split("\r\n")
 
-			print(multiline_array_A)
-			print(multiline_array_B)
+			# print(multiline_array_A)
+			# print(multiline_array_B)
+
+			obj_A = {}
+			obj_A["list_length"] = str(len(multiline_array_A))
+			obj_A["u_list_length"] = len(list(set(multiline_array_A)))
+
+			obj_B = {}
+			obj_B["list_length"] = len(multiline_array_B)
+			obj_B["u_list_length"] = len(list(set(multiline_array_B)))
 
 			unique_set = list(set(multiline_array_A + multiline_array_B))
 
@@ -223,10 +230,21 @@ def sepTextarea(request):
 							dupes_B.append(x)
 						seen_B[x] += 1
 
+				just_A = check_list_difference(multiline_array_A, multiline_array_B)
+				just_B = check_list_difference(multiline_array_B, multiline_array_A)
+				int_AB = check_list_intersection(multiline_array_A, multiline_array_B)
+
+				just_A.sort()
+				just_B.sort()
+				int_AB.sort()
+				dupes_A.sort()
+				dupes_B.sort()
+				unique_set.sort()			
+
 				separator = "\n"
-				multi_A = separator.join(check_list_difference(multiline_array_A, multiline_array_B))
-				multi_B = separator.join(check_list_difference(multiline_array_B, multiline_array_A))
-				multi_AB = separator.join(check_list_intersection(multiline_array_A, multiline_array_B))
+				multi_A = separator.join(just_A)
+				multi_B = separator.join(just_B)
+				multi_AB = separator.join(int_AB)
 				multi_Dup_A = separator.join(dupes_A)
 				multi_Dup_B = separator.join(dupes_B)
 				multi_Set_AB = separator.join(unique_set)
@@ -237,6 +255,8 @@ def sepTextarea(request):
 				out["Dup_A"] = multi_Dup_A
 				out["Dup_B"] = multi_Dup_B
 				out["Set_AB"] = multi_Set_AB
+				out["Stats_A"] = obj_A
+				out["Stats_B"] = obj_B
 
 				return render(request, "list_difference/form_custom_textarea.html", {"form": listForm, "out": out})
 
