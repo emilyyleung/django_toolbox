@@ -1,0 +1,68 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>  
+<html lang="en">  
+    <head>  
+        <meta charset="UTF-8">  
+        <title>List App</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.7/css/mdb.min.css" rel="stylesheet">
+
+        <!---------------------------------------------------- JQuery ----------------------------------------------------->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.7/js/mdb.min.js"></script>
+        
+        <style>
+            body {
+                line-height: 0
+            }
+            .error{
+                color: red;
+            }
+            .noselect{
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+            .stuck {
+                position:relative;
+            }
+            #kraken {
+                animation: bobble 2s infinite;
+                position: fixed;
+                right: 0;
+                margin-right: 50px;
+                bottom: 0;
+                margin-bottom: 60px;
+            }
+            @keyframes bobble {
+                0% {
+                    transform: translate3d(50px, 40px, 0px);
+                    animation-timing-function: ease-in;
+                }
+                50% {
+                    transform: translate3d(50px, 50px, 0px);
+                    animation-timing-function: ease-out;
+                }
+                100% {
+                    transform: translate3d(50px, 40px, 0px);
+                }
+            }
+        </style>
+    </head>  
+    <body style="padding: 30px">  
+        {% block content %}{% endblock %}
+    </body>  
+</html>  

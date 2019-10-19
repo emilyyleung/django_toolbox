@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'cal.apps.CalConfig',
     'users.apps.UsersConfig',
     'list_difference.apps.ListDifferenceConfig',
+    'home.apps.HomeConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
