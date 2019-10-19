@@ -194,6 +194,14 @@ def sepTextarea(request):
 			print(multiline_array_A)
 			print(multiline_array_B)
 
+			obj_A = {}
+			obj_A["list_length"] = str(len(multiline_array_A))
+			obj_A["u_list_length"] = len(list(set(multiline_array_A)))
+
+			obj_B = {}
+			obj_B["list_length"] = len(multiline_array_B)
+			obj_B["u_list_length"] = len(list(set(multiline_array_B)))
+
 			unique_set = list(set(multiline_array_A + multiline_array_B))
 
 			out = {}
@@ -247,6 +255,8 @@ def sepTextarea(request):
 				out["Dup_A"] = multi_Dup_A
 				out["Dup_B"] = multi_Dup_B
 				out["Set_AB"] = multi_Set_AB
+				out["Stats_A"] = obj_A
+				out["Stats_B"] = obj_B
 
 				return render(request, "list_difference/form_custom_textarea.html", {"form": listForm, "out": out})
 
