@@ -34,11 +34,11 @@ def sepComma(request):
 			clean_listA = listForm.cleaned_data['listA'].strip()
 			clean_listB = listForm.cleaned_data['listB'].strip()
 
-			multiline_list = []
-			multiline_input = listForm.cleaned_data['multiline']
-			multiline_list.append(multiline_input)
-			multiline_array = multiline_list[0].split("\r\n")
-			print(multiline_array)
+			# multiline_list = []
+			# multiline_input = listForm.cleaned_data['multiline']
+			# multiline_list.append(multiline_input)
+			# multiline_array = multiline_list[0].split("\r\n")
+			# print(multiline_array)
 
 			out = {}
 
@@ -89,7 +89,6 @@ def sepComma(request):
 	else:
 		listForm = ListCheckerForm()
 	return render(request, "list_difference/form_list.html", {"form": listForm})
-
 
 def sepMulti(request):
 	print("FORM")
