@@ -222,10 +222,21 @@ def sepTextarea(request):
 							dupes_B.append(x)
 						seen_B[x] += 1
 
+				just_A = check_list_difference(multiline_array_A, multiline_array_B)
+				just_B = check_list_difference(multiline_array_B, multiline_array_A)
+				int_AB = check_list_intersection(multiline_array_A, multiline_array_B)
+
+				just_A.sort()
+				just_B.sort()
+				int_AB.sort()
+				dupes_A.sort()
+				dupes_B.sort()
+				unique_set.sort()			
+
 				separator = "\n"
-				multi_A = separator.join(check_list_difference(multiline_array_A, multiline_array_B))
-				multi_B = separator.join(check_list_difference(multiline_array_B, multiline_array_A))
-				multi_AB = separator.join(check_list_intersection(multiline_array_A, multiline_array_B))
+				multi_A = separator.join(just_A)
+				multi_B = separator.join(just_B)
+				multi_AB = separator.join(int_AB)
 				multi_Dup_A = separator.join(dupes_A)
 				multi_Dup_B = separator.join(dupes_B)
 				multi_Set_AB = separator.join(unique_set)
