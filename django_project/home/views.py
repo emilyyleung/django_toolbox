@@ -6,23 +6,7 @@ from . import data_tools
 def home(request):
 	print("HOME")
 	if request.method == 'GET':
-		print(data_tools.data)
-		data = {
-			"root": [
-				{
-					"title": "List Compare",
-					"description": "Multiline input for comparing lists",
-					"logo": "fas fa-list-ol",
-					"url": "http://localhost:8000/list/textarea"
-				},
-				{
-					"title": "Kraken",
-					"description": "Returns a table of files in folder",
-					"logo": "far fa-folder",
-					"url": "http://localhost:7000/kraken/table"
-				}
-			]
-		}
+		# print(data_tools.data)
 		return render(request, "home/homepage.html", {"out": data_tools.data})
 	else:
 		pass
