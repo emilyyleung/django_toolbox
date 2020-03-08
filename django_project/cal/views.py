@@ -8,6 +8,8 @@ from django.utils.safestring import mark_safe
 from . models import *
 from . utils import Calendar
 
+import calendar
+
 def home(request):
     return JsonResponse({"hello": "world"})
 
@@ -34,3 +36,21 @@ def get_date(req_day):
         year, month = (int(x) for x in req_day.split('-'))
         return date(year, month, day=1)
     return datetime.today()
+
+####################################################################
+
+def test(request, year=2020, month=1):
+
+    # hc = calendar.HTMLCalendar(calendar.THURSDAY)
+    # hc = calendar.HTMLCalendar(firstweekday = 0)
+    hc = calendar.HTMLCalendar(calendar.SUNDAY)
+
+    cal_str = hc.formatmonth(int(year), int(month))
+
+    return HttpResponse(cal_str)
+
+def year(request, year=2020):
+    text_cal = calendar.HTMLCalendar(firstweekday = 0) 
+    cal_str = text_cal.formatyearpage(int(year), width=1)
+
+    return HttpResponse(cal_str)

@@ -1,0 +1,115 @@
+{% extends "jsonmaker/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container-fluid noselect">
+	<div class="jumbotron jumbotron-fluid shadow-none">
+        <h1 class="display-6"><span><i class="fas fa-asterisk" style="color: Orange"></i> </span>Bulk Rename</h1>
+        <p class="lead"><em>Rename Files in Bulk</em></p>
+    </div>
+
+    {% if working == "TRUE" %}
+		<div class="form-row" style="text-align: center;">
+			<div class="form-group col-md-6 mb-0">
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					<strong>SUCCESS</strong>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+		</div>
+    {% elif working == "FALSE" %}
+    	<div class="form-row" style="text-align: center;">
+			<div class="form-group col-md-6 mb-0">
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					<strong>FAILURE</strong>
+					<br/>
+					{{ error }}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+		</div>
+    {% endif %}
+
+    <div class="col">
+    	<form method="POST" class="post-form">
+    		{% csrf_token %}
+    		<div>
+		    	<div class="form-row">
+		        	<div class="form-group col-md-12 mb-0">
+		        		<h4><b>{{ form.directory|as_crispy_field }}</b></h4>
+		        	</div>
+		        </div>
+
+			</div>
+
+		  	<br/>
+
+			<div>
+		          
+		        <div class="form-row">
+		        	<div style="text-align: center" class="form-group col-md-6 mb-0">
+		        		<h4><b>{{ form.listA|as_crispy_field }}</b></h4>
+		        	</div>
+		        	<div style="text-align: center" class="form-group col-md-6 mb-0">
+		        		<h4><b>{{ form.listB|as_crispy_field }}</b></h4>
+		        	</div>
+		        </div>
+		        <br/>
+		        <div style="text-align: center">
+			        <p><em><b>Separate multiple list items with a new line</b></em></p>
+			        <button type="submit" class="save btn btn-info" name="create">Create Rename Table</button>
+			        <!-- <button type="submit" class="save btn btn-info" name="practical">Text View</button> -->
+			    </div>
+			</div>
+		
+		{% if filenames %}
+			<br/>
+			<div>
+				<div class="form-row">
+					<div class="form-group col-12 mb-0" style="padding-top: 20px">
+						<table class="table table-sm table-hover border">
+							<thead class="thead-light">
+								<th style="width: 50%">
+									<strong>CURRENT FILE NAMES</strong>
+								</th>
+								<th style="width: 50%">
+									<strong>NEW FILE NAMES</strong>
+								</th>
+							</thead>
+							<tbody>
+								{% for comparison in filenames %}
+									
+									<tr>
+										<td>
+											<span style="color:red">{{ comparison.old }}</span> 
+										</td>
+										<td>
+											<span style="color:green">{{ comparison.new }}</span>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div style="text-align: center">
+			        <p><em><b>Rename Files for Real</b></em></p>
+			        <button type="submit" class="save btn btn-info" name="rename">Rename Files</button>
+			        <!-- <button type="submit" class="save btn btn-info" name="practical">Text View</button> -->
+			    </div>
+			</div>
+
+		{% endif %}
+
+		</form> 
+
+	</div>
+	
+</div>
+
+{% endblock content %}
