@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/handsontable@7.4.2/dist/handsontable.full.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/handsontable@7.4.2/dist/handsontable.full.min.css" rel="stylesheet" media="screen">
+
+		<!-- pikaday calendar -->
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+		<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+
+		<!-- moment js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+	</head>
+	<body>
+		<div id="example"></div>
+
+		<script>
+			
+			var data = [
+				['859', 'Oscar', true, '01/10/2017', 'Developer', 'Systems', 'admin123'],
+				['987', 'Joshua', false, '03/10/2017', 'Manager', 'Finance', 'admin321'],
+				['789', 'Jose', true, '04/10/2017', 'Designer', 'Publication', 'admin333'],
+			];
+
+			var configurations = {
+				licenseKey: 'non-commercial-and-evaluation',
+				data: data,
+				colHeaders: ['ID', 'Number', 'Active', 'Date of Birth', 'Occupation', 'Department', 'Password'],
+				columns: [
+					{
+						type: 'numeric'
+					},
+					{
+
+					},
+					{
+						type: 'checkbox'
+					},
+					{
+						type: 'date',
+						dateFormat: 'DD/MM/YYYY'
+					},
+					{
+						type: 'dropdown',
+						source: ['Developer', 'Manager', 'Coordinator', 'Designer']
+					},
+					{
+						type: 'autocomplete',
+						source: ['Systems', 'Publication', 'Finance', 'Sales', 'Human Resources', 'Marketing']
+					},
+					{
+						type: 'password',
+						hashLength: 10 
+					}
+				],
+				customBorders: [{
+					range: {
+						from: {
+							row: 0,
+							col: 0
+						},
+						to: {
+							row: 1,
+							col: 2
+						}
+					},
+					top: {
+						width: 2,
+						color: '#5292F7'
+					},
+					left: {
+						width: 2,
+						color: 'orange'
+					},
+					bottom: {
+						width: 2,
+						color: 'red'
+					},
+					right: {
+						width: 2,
+						color: 'magenta'
+					},
+				}]
+			}
+
+			var table = new Handsontable(document.getElementById('example'), configurations);
+
+			table.render();
+		</script>
+	</body>
+</html>

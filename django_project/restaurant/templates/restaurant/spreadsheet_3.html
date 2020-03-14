@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/handsontable@7.4.2/dist/handsontable.full.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/handsontable@7.4.2/dist/handsontable.full.min.css" rel="stylesheet" media="screen">
+
+		<!-- pikaday calendar -->
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+		<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+
+		<!-- moment js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+	</head>
+	<body>
+		<div id="example"></div>
+
+		<script>
+			
+			var data = [
+				{"Name": "Oscar", "Salary": "300000"},
+				{"Name": "Joshua", "Salary": "330000"},
+				{"Name": "Jose", "Salary": "340000"},
+			];
+
+			var configurations = {
+				licenseKey: 'non-commercial-and-evaluation',
+				data: data,
+				colHeaders: true,
+				rowHeaders: true,
+				contextMenu: true,
+				columns: [
+					{ data: 'Name', readOnly: true },
+					{ data: 'Salary', type: 'numeric', numericFormat: {pattern: '0,0.00 $'} }
+				]
+			}
+
+			var table = new Handsontable(document.getElementById('example'), configurations);
+
+			table.render();
+
+			table.updateSettings({
+				cells: function(row, col, prop) {
+					var propertiesCell = {};
+					if ((row == 1) && (col == 1)) {
+						propertiesCell.readOnly = true;
+					}
+					return propertiesCell;
+				}
+			})
+		</script>
+	</body>
+</html>

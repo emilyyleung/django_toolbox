@@ -5,7 +5,7 @@ class Dish(models.Model):
 	name = models.CharField(max_length=200)
 	description = models.TextField()
 
-	cost = models.DecimalField(max_digits=5, decimal_places=2)
+	cost = models.DecimalField(max_digits=99999, decimal_places=2)
 
 	vegan = models.BooleanField(default=False)
 	vegetarian_option = models.BooleanField(default=False)
