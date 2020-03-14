@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class Dish(models.Model):
 	name = models.CharField(max_length=200)
-	description = models.TextField()
+	description = models.TextField(default="")
 
 	cost = models.DecimalField(max_digits=99999, decimal_places=2)
 

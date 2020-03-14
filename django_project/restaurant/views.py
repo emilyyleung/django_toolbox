@@ -51,9 +51,10 @@ def updateDishes(request):
 			data = request.POST['data']
 			jd = json.loads(data)
 
-			print(jd)
+			# print(jd)
 
 			for d in jd:
+
 				try:
 					exist = get_object_or_404(Dish, id=d["id"])
 					mod, created = Dish.objects.update_or_create(id=d["id"], defaults=d)
