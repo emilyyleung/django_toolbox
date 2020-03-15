@@ -113,12 +113,12 @@ def updateDishes(request):
 			# print(jd)
 
 			for d in jd:
-
+				# print(d["dish_course"]["course_name"])
 				try:
 					exist = get_object_or_404(Dish, id=d["id"])
 
 					try:
-						d["dish_course"] = get_object_or_404(Course, course_name=d["dish_course"])
+						d["dish_course"] = get_object_or_404(Course, course_name=d["dish_course"]["course_name"])
 					except:
 						d["dish_course"] = get_object_or_404(Course, course_name="N/A")
 
@@ -128,7 +128,7 @@ def updateDishes(request):
 					log.append(str(e))
 
 					try:
-						d["dish_course"] = get_object_or_404(Course, course_name=d["dish_course"])
+						d["dish_course"] = get_object_or_404(Course, course_name=d["dish_course"]["course_name"])
 					except:
 						d["dish_course"] = get_object_or_404(Course, course_name="N/A")
 
@@ -156,7 +156,7 @@ def uploadDishes(request):
 			jd = json.loads(data)
 
 			for d in jd:
-				print(d["dish_course"])
+				# print(d["dish_course"])
 				try:
 					exist = get_object_or_404(Dish, name=d["name"])
 
