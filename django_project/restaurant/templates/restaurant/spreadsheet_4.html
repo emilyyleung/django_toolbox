@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/handsontable@7.4.2/dist/handsontable.full.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/handsontable@7.4.2/dist/handsontable.full.min.css" rel="stylesheet" media="screen">
+
+		<!-- pikaday calendar -->
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+		<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+
+		<!-- moment js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+		<style>
+			
+			td.blue{
+				background: #1E90FF;
+				color: #f8f8ff;
+			}
+
+		</style>
+
+	</head>
+	<body>
+
+		<input type="search" id="search_field" placeholder="Search" />
+
+		<br/><br/>
+
+		<div id="example"></div>
+
+		<script>
+			var txtSearch = document.getElementById('search_field');
+			
+			var data = [
+				{"Name": "Oscar", "Age": 25, "Salary": "300000", "Weekly Wage":"=B1/52"},
+				{"Name": "Joshua", "Age": 23, "Salary": "330000", "Weekly Wage":"=B2/52"},
+				{"Name": "Jose", "Age": 21, "Salary": "340000", "Weekly Wage":"=B3/52"},
+				{"Name": "Pedro", "Age": 29, "Salary": "370000", "Weekly Wage":"=B4/52"},
+				{"Name": "Pablo", "Age": 23, "Salary": "390000", "Weekly Wage":"=B5/52"},
+			];
+
+			function buildObject(data) {
+				return {
+					'Name': data[0], 
+					'Age': data[1],
+					'Salary': data[2],
+					'Weekly Wage': data[3]
+				};
+			}
+			// var newResult = htContents.map(buildObject); // newResult must be expected data
+
+			var configurations = {
+				licenseKey: 'non-commercial-and-evaluation',
+				data: data,
+				colHeaders: ['Name', 'Age', 'Salary', 'Weekly Wage'],
+				rowHeaders: true,
+				contextMenu: true,
+				search: true,
+				formulas: true,
+				columns: [
+
+					{ data: 'Name', readOnly: true },
+					{ data: 'Age', type: 'numeric' },
+					{ data: 'Salary', type: 'numeric', numericFormat: {pattern: '0,0.00 $'} },
+					{ data: 'Weekly Wage', type: 'numeric', numericFormat: {pattern: '0,0.00 $'}, readOnly: true }
+				],
+				afterChange: function(modifications, actions) {
+					if (actions != 'loadData') {
+						console.log(modifications)
+						modifications.forEach(function(item, index) {
+							var row = table.getSourceData()[item[0]]
+
+							console.log(row)
+
+							// console.log(item)
+							// console.log(index)
+							// console.log(item[index])
+							
+							// console.log(table.getSourceData())
+							// console.log(table.getSourceData()[item[index]])
+
+							// console.log(table.getSourceData()[item[index]][modifications[index][1]])
+							// console.log(modifications[index][1])
+
+							var dict = {}
+							// dict[modifications[index][1]] = table.getSourceData()[index + 1][modifications[index][1]]
+
+							// console.log(dict)
+
+						})
+					}
+				}
+			}
+
+			var table = new Handsontable(document.getElementById('example'), configurations);
+
+			table.render();
+
+
+			Handsontable.dom.addEvent(txtSearch, 'keyup', function(event){
+				
+				var search = table.getPlugin('search');
+				var queryResult = search.query(this.value);
+
+				console.log(queryResult)
+
+				table.render();
+			})
+
+		</script>
+	</body>
+</html>

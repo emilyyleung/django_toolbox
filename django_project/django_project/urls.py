@@ -25,4 +25,8 @@ urlpatterns = [
     path('cal/', include('cal.urls')),
     path('list/', include('list_difference.urls')),
     path('app/', include('home.urls')),
+    path('polls/', include('polls.urls')),
+    path('jsonmaker/', include('jsonmaker.urls')),
+    path('countdown/', include('countdown.urls')),
+    path('restaurant/', include('restaurant.urls')),
 ]

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/handsontable@7.4.2/dist/handsontable.full.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/handsontable@7.4.2/dist/handsontable.full.min.css" rel="stylesheet" media="screen">
+
+		<!-- pikaday calendar -->
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+		<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+
+		<!-- moment js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+	</head>
+	<body>
+		<div id="example"></div>
+
+		<script>
+			
+			var data = [
+				['859', 'Oscar', true, '01/10/2017', 'Developer', 'Systems', 'admin123'],
+				['987', 'Joshua', false, '03/10/2017', 'Manager', 'Finance', 'admin321'],
+				['789', 'Jose', true, '04/10/2017', 'Designer', 'Publication', 'admin333'],
+			];
+
+			var configurations = {
+				licenseKey: 'non-commercial-and-evaluation',
+				data: Handsontable.helper.createSpreadsheetData(10,4),
+				colHeaders: true,
+				mergeCells: [
+					{
+						row: 1, col: 1, rowspan: 2, colspan: 2
+					},
+					{
+						row: 5, col: 1, rowspan: 2, colspan: 3
+					}
+				]
+			}
+
+			var table = new Handsontable(document.getElementById('example'), configurations);
+
+			table.render();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,55 @@
+{% extends "jsonmaker/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container-fluid noselect">
+	<div class="jumbotron jumbotron-fluid shadow-none">
+        <h1 class="display-6"><span><i class="fas fa-cheese" style="color: Orange"></i> </span>JSON Maker</h1>
+        <p class="lead"><em>Make Custom JSON Dictionary</em></p>
+    </div>
+
+    <div class="col">
+    	<form method="POST" class="post-form">
+    		{% csrf_token %}
+			<div>
+		          
+		        <div class="form-row">
+		        	<div style="text-align: center" class="form-group col-md-6 mb-0">
+		        		<h4><b>{{ form.listA|as_crispy_field }}</b></h4>
+		        	</div>
+		        	<div style="text-align: center" class="form-group col-md-6 mb-0">
+		        		<h4><b>{{ form.listB|as_crispy_field }}</b></h4>
+		        	</div>
+		        </div>
+		        <br/>
+		        <div style="text-align: center">
+			        <p><em><b>Separate multiple list keys / values with a new line</b></em></p>
+			        <button type="submit" class="save btn btn-info" name="create">Create dictionary</button>
+			        <!-- <button type="submit" class="save btn btn-info" name="practical">Text View</button> -->
+			    </div>
+			</div>
+		
+		{% if working == "TRUE" %}
+			<br/>
+			<div>
+				<div class="form-row">
+					<div class="form-group col-md-6 mb-0" style="padding-top: 20px">
+						<div class="alert alert-secondary" style="text-align: center"><b>Pretty Print</b><br/></div>	
+						<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ pretty_dictionary }}</textarea>
+					</div>
+					<div class="form-group col-md-6 mb-0" style="padding-top: 20px">
+						<div class="alert alert-secondary" style="text-align: center"><b>Minified</b><br/></div>	
+						<textarea class="form-control" id="exampleFormControlTextarea3" cols="40" rows="10">{{ dictionary }}</textarea>
+					</div>
+				</div>
+			</div>
+
+		{% endif %}
+
+		</form> 
+
+	</div>
+	
+</div>
+
+{% endblock content %}
