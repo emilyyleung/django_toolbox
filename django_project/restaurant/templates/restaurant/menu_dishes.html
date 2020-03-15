@@ -1,0 +1,214 @@
+{% extends "restaurant/restaurant_base.html" %}
+{% load custom_tags %}
+{% block content %}
+
+<style type="text/css">
+
+</style>
+
+{% include 'restaurant/openingHours_Social.html' %}
+
+<header class="jumbotron bg-white text-center">
+	<div class="container">
+		<h1 class="display-4">RICE BABY</h1>
+	</div>
+</header>
+
+<nav class="navbar navbar-expand-lg bg-white">
+	<div class="navbar-collapse" id="navbarText">
+		<ul class="navbar-nav mx-auto">
+			<li class="nav-item active">
+				<a class="nav-link" href="#">MAKE A BOOKING</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">GIFT VOUCHERS</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">VIEW OUR FOOD MENU</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">SPECIALS</a>
+			</li>
+		</ul>
+	</div>
+
+</nav>
+
+<hr/>
+
+<section class="container">
+	<h1 class="h1 text-center">MENU</h1>
+	<hr/>
+	<div class="row">
+		<div class="col">
+			<ul>
+				<li>
+					No split billing & AMEX
+					<hr/>
+				</li>
+				<li>
+					Surcharges: Credit Card & Paypass 1%; International & UnionPay 3%
+					<hr/>
+				</li>
+				<li>
+					Food may contain traces of nuts
+					<hr/>
+				</li>
+				<li>
+					All dishes are made with fresh ingredients, have no added MSG & are preservative free
+					<hr/>
+				</li>
+			</ul>
+		</div>
+		<div class="col">
+			<ul>
+				<li>
+					<b>V</b> - Vegetarian
+					<hr/>
+				</li>
+				<li>
+					<b>VO</b> - Vegetarian Option
+					<hr/>
+				</li>
+				<li>
+					<b>GF</b> - Gluten Free
+					<hr/>
+				</li>
+				<li>
+					<i class="fas fa-star"></i> - Signature Dish
+					<hr/>
+				</li>
+				<li>
+					<i class="fab fa-hotjar"></i> - Spice
+					<hr/>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<br/>
+	<br/>
+
+	<div class="row">
+		<div class="col">
+
+			{% for query in context.column_1 %}
+
+				{% regroup query.dishes by dish_course as dc %}
+				{% for dish_course in dc %}
+					<h1 style = "text-transform:uppercase;" class="h3"><b>{{ dish_course.grouper }} - {{query.translation}}</b></h1>
+					<br/>
+					<p>
+						{% for dish in dish_course.list %}
+							<p><b style = "text-transform:uppercase;">{{ dish.name }}</b>
+								{% if dish.vegan %}
+									<span style="vertical-align: center; color: lightgreen;"><b>V</b></span>
+								{% endif %}
+								{% if dish.vegetarian_option %}
+									<span style="vertical-align: center; color: violet;"><b>VO</b></span>
+								{% endif %}
+								{% if dish.gluten_free %}
+									<span style="vertical-align: center; color: skyblue;"><b>GF</b></span>
+								{% endif %}
+								{% if dish.signature_dish %}
+									<span style="vertical-align: center; color: orange;"><i class="fas fa-star"></i></span>
+								{% endif %}
+								{% if dish.spice_level %}
+									<span style="vertical-align: center; color: red;">
+										{% for spice in dish.spice_level|createList %}
+											<i class="fab fa-hotjar"></i>
+										{% endfor %}
+									</span>
+								{% endif %}
+								<span style="float: right; vertical-align: center;">{{ dish.cost }}</span>
+							</p>
+							<p>{{ dish.description }}</p>
+							<hr/>
+						{% endfor %}
+					</p>
+				{% endfor %}
+			{% endfor %}
+				
+		</div>
+		<div class="col">
+			{% for query in context.column_2 %}
+
+				{% regroup query.dishes by dish_course as dc %}
+				{% for dish_course in dc %}
+					<h1 style = "text-transform:uppercase;" class="h3"><b>{{ dish_course.grouper }} - {{query.translation}}</b></h1>
+					<br/>
+					<p>
+						{% for dish in dish_course.list %}
+							<p><b style = "text-transform:uppercase;">{{ dish.name }}</b>
+								{% if dish.vegan %}
+									<span style="vertical-align: center; color: lightgreen;"><b>V</b></span>
+								{% endif %}
+								{% if dish.vegetarian_option %}
+									<span style="vertical-align: center; color: violet;"><b>VO</b></span>
+								{% endif %}
+								{% if dish.gluten_free %}
+									<span style="vertical-align: center; color: skyblue;"><b>GF</b></span>
+								{% endif %}
+								{% if dish.signature_dish %}
+									<span style="vertical-align: center; color: orange;"><i class="fas fa-star"></i></span>
+								{% endif %}
+								{% if dish.spice_level %}
+									<span style="vertical-align: center; color: red;">
+										{% for spice in dish.spice_level|createList %}
+											<i class="fab fa-hotjar"></i>
+										{% endfor %}
+									</span>
+								{% endif %}
+								<span style="float: right; vertical-align: center;">{{ dish.cost }}</span>
+							</p>
+							<p>{{ dish.description }}</p>
+							<hr/>
+						{% endfor %}
+					</p>
+				{% endfor %}
+			{% endfor %}
+		</div>
+		<div class="col">
+			{% for query in context.column_3 %}
+
+				{% regroup query.dishes by dish_course as dc %}
+				{% for dish_course in dc %}
+					<h1 style = "text-transform:uppercase;" class="h3"><b>{{ dish_course.grouper }} - {{query.translation}}</b></h1>
+					<br/>
+					<p>
+						{% for dish in dish_course.list %}
+							<p><b style = "text-transform:uppercase;">{{ dish.name }}</b>
+								{% if dish.vegan %}
+									<span style="vertical-align: center; color: lightgreen;"><b>V</b></span>
+								{% endif %}
+								{% if dish.vegetarian_option %}
+									<span style="vertical-align: center; color: violet;"><b>VO</b></span>
+								{% endif %}
+								{% if dish.gluten_free %}
+									<span style="vertical-align: center; color: skyblue;"><b>GF</b></span>
+								{% endif %}
+								{% if dish.signature_dish %}
+									<span style="vertical-align: center; color: orange;"><i class="fas fa-star"></i></span>
+								{% endif %}
+								{% if dish.spice_level %}
+									<span style="vertical-align: center; color: red;">
+										{% for spice in dish.spice_level|createList %}
+											<i class="fab fa-hotjar"></i>
+										{% endfor %}
+									</span>
+								{% endif %}
+								<span style="float: right; vertical-align: center;">{{ dish.cost }}</span>
+							</p>
+							<p>{{ dish.description }}</p>
+							<hr/>
+						{% endfor %}
+					</p>
+				{% endfor %}
+			{% endfor %}
+		</div>
+	</div>
+
+	
+</section>
+
+{% endblock %}

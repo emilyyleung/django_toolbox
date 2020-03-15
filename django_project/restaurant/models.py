@@ -1,9 +1,19 @@
 from django.db import models
+from . ultils import get_default_course
+
+class Course(models.Model):
+	course_name = models.CharField(max_length=200)
+	translation = models.CharField(max_length=5)
+
+	def __str__(self):
+		return self.course_name
 
 # Create your models here.
 class Dish(models.Model):
 	name = models.CharField(max_length=200)
 	description = models.TextField(default="")
+
+	dish_course = models.ForeignKey(Course, default=get_default_course(Course), on_delete=models.SET_DEFAULT)
 
 	cost = models.DecimalField(max_digits=99999, decimal_places=2)
 
@@ -33,6 +43,8 @@ class Customer(models.Model):
 class Order(models.Model):
 	number = models.IntegerField(default=0)
 	dishes = models.ManyToManyField('dish')
+
+	date = models.DateTimeField(auto_now_add=True,)
 
 	def total(self):
 		log = []

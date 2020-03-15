@@ -40,7 +40,7 @@
 
 
 		<nav class="nav">
-			<h1 class="nav-link">Restaurant Database</h1>
+			<h1 class="nav-link">Restaurant Database - Dishes</h1>
 			<div style="width:50%; text-align: right;" class="input-group">	
 				<input type="search" id="search_field" placeholder="Search" aria-label="Search" class="form-control">
 			</div>
@@ -62,31 +62,34 @@
 					data: 'id', readOnly: true
 				},
 				{
-					data: 'name' 
+					data: 'name'
 				},
 				{
-					data: 'description' 
+					data: 'description'
+				},
+				{
+					data: 'dish_course.course_name'
 				},
 				{
 					data: 'cost', type: 'numeric', numericFormat: {pattern: '0,0.00 $'}
 				},
 				{
-					data: 'vegan', type: 'checkbox' 
+					data: 'vegan', type: 'checkbox'
 				},
 				{
-					data: 'vegetarian_option', type: 'checkbox' 
+					data: 'vegetarian_option', type: 'checkbox'
 				},
 				{
-					data: 'gluten_free', type: 'checkbox' 
+					data: 'gluten_free', type: 'checkbox'
 				},
 				{
-					data: 'signature_dish', type: 'checkbox' 
+					data: 'signature_dish', type: 'checkbox'
 				},
 				{
-					data: 'spice_level', type: 'numeric' 
+					data: 'spice_level', type: 'numeric'
 				},
 				{
-					data: 'pieces', type: 'numeric' 
+					data: 'pieces', type: 'numeric'
 				},
 				
 			]
@@ -214,12 +217,12 @@
 			var configurations = {
 				licenseKey: 'non-commercial-and-evaluation',
 				data: data,
-				colHeaders: ['ID', 'Name', 'Description', 'Cost', 'Vegan', 'Vegetarian Option', 'Gluten Free', 'Signature Dish', 'Spice Level', 'Pieces'],
+				colHeaders: ['ID', 'Name', 'Description', 'Course', 'Cost', 'Vegan', 'Vegetarian Option', 'Gluten Free', 'Signature Dish', 'Spice Level', 'Pieces'],
 				contextMenu: true,
 				search: true,
 				formulas: true,
 				filters: true,
-				colWidths: [30,300,500,100,60,150,100,120,100,80],
+				colWidths: [30,300,500,170,100,60,150,100,120,100,80],
 				columns: columns,
 				undo: true,
 				// Functions

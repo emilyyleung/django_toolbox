@@ -15,13 +15,72 @@ class DishViewSet(viewsets.ModelViewSet):
 	# filterset_fields = ['project__number',]
 	# search_fields = ('data_text',)
 
+class CourseViewSet(viewsets.ModelViewSet):
+	queryset = Course.objects.all()
+	serializer_class = CourseSerializer
+	# filter_backends = [filters.SearchFilter ,DjangoFilterBackend]
+	# filterset_fields = ['project__number',]
+	# search_fields = ('data_text',)
+
 # Create your views here.
 def home(request):
 	return JsonResponse({"hello": "world"})
 
 def menu(request):
-	context = Dish.objects.all()
-	return render(request, "restaurant/menu_base.html", {"context": context})
+	headers_1 = ["Snacks", "Pan Fried Dumplings"]
+	headers_2 = ["Rice", "Dumplings", "Soup", "Noodles"]
+	headers_3 = ["Vegetables", "Mains", "Dessert"]
+
+	all_dishes = Dish.objects.all().order_by('dish_course')
+
+	column_1 = []
+	column_2 = []
+	column_3 = []
+
+	# context = Dish.objects.all().filter(dish_course__course_name="Snacks")
+
+	for i in headers_1:
+		obj = {}
+		
+		course_obj = Course.objects.get(course_name=i)
+		translation = course_obj.translation
+
+		dishes = Dish.objects.all().filter(dish_course__course_name=i)
+		
+		obj["translation"] = translation
+		obj["dishes"] = dishes
+
+		column_1.append(obj)
+
+	for i in headers_2:
+		obj = {}
+		
+		course_obj = Course.objects.get(course_name=i)
+		translation = course_obj.translation
+
+		dishes = Dish.objects.all().filter(dish_course__course_name=i)
+		
+		obj["translation"] = translation
+		obj["dishes"] = dishes
+
+		column_2.append(obj)
+
+	for i in headers_3:
+		obj = {}
+		
+		course_obj = Course.objects.get(course_name=i)
+		translation = course_obj.translation
+
+		dishes = Dish.objects.all().filter(dish_course__course_name=i)
+		
+		obj["translation"] = translation
+		obj["dishes"] = dishes
+
+		column_3.append(obj)
+
+	context = {"column_1": column_1, "column_2": column_2, "column_3": column_3}
+
+	return render(request, "restaurant/menu_dishes.html", {"context": context})
 
 def spreadsheet_example(request):
 	return render(request, "restaurant/spreadsheet_4.html")
@@ -57,10 +116,22 @@ def updateDishes(request):
 
 				try:
 					exist = get_object_or_404(Dish, id=d["id"])
+
+					try:
+						d["dish_course"] = get_object_or_404(Course, course_name=d["dish_course"])
+					except:
+						d["dish_course"] = get_object_or_404(Course, course_name="N/A")
+
 					mod, created = Dish.objects.update_or_create(id=d["id"], defaults=d)
 					updatecount += 1
 				except Exception as e:
 					log.append(str(e))
+
+					try:
+						d["dish_course"] = get_object_or_404(Course, course_name=d["dish_course"])
+					except:
+						d["dish_course"] = get_object_or_404(Course, course_name="N/A")
+
 					mod, created = Dish.objects.update_or_create(id=d["id"], defaults=d)
 					createdcount += 1
 			return JsonResponse({"createdcount": createdcount, "updatecount": updatecount, "log": log})
@@ -85,14 +156,25 @@ def uploadDishes(request):
 			jd = json.loads(data)
 
 			for d in jd:
+				print(d["dish_course"])
 				try:
 					exist = get_object_or_404(Dish, name=d["name"])
+
+					try:
+						d["dish_course"] = get_object_or_404(Course, course_name=d["dish_course"])
+					except:
+						d["dish_course"] = get_object_or_404(Course, course_name="N/A")
 
 					mod, created = Dish.objects.update_or_create(name=d["name"], defaults=d)
 
 					updatecount += 1
 				except Exception as e:
 					log.append(str(e))
+
+					try:
+						d["dish_course"] = get_object_or_404(Course, course_name=d["dish_course"])
+					except:
+						d["dish_course"] = get_object_or_404(Course, course_name="N/A")
 
 					mod, created = Dish.objects.update_or_create(name=d["name"], defaults=d)
 
