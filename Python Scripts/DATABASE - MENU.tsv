@@ -1,0 +1,7 @@
+name	description	cost	vegan	vegetarian_option	gluten_free	signature_dish	spice_level	pieces	dish_course
+Vegetarian		10	True	False	False	False	0	4	Pan Fried Dumplings
+Pork and Chives		10	False	False	False	False	0	4	Pan Fried Dumplings
+Chicken and Mushroom		10	False	False	False	False	0	4	Pan Fried Dumplings
+Prawn and Vegetable		10	False	False	False	False	0	4	Pan Fried Dumplings
+Angus Beef		12	False	False	False	False	0	4	Pan Fried Dumplings
+Assorted Dumplings	Includes chicken and mushroom, pork and chives, and vegetable dumplings	15	False	False	False	False	0	6	Pan Fried Dumplings
