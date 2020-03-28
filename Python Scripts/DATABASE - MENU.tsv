@@ -1,4 +1,57 @@
 name	description	cost	vegan	vegetarian_option	gluten_free	signature_dish	spice_level	pieces	dish_course
+Blanched Edamame	Light sprinkling of organic sea salt	5	True	False	False	False	0	0	Snacks
+Vegetarian Spring Rolls	(min. of 2 per order)	2.5	True	False	False	False	0	1	Snacks
+Fried Prawn Parcel	(min. of 2 per order)	3.5	False	False	False	True	0	1	Snacks
+Duck Cigar Roll		7	False	False	False	False	0	1	Snacks
+Prawn Toast	(min. of 2 per order)	4.5	False	False	False	False	0	1	Snacks
+Fried Baby Squid	With garli mayo and 7 spice chilli pepper	14	False	False	True	False	0	0	Snacks
+Lemongrass Chicken on Skewers	With sesame mayo dressing (min. of 3 per order)	3	False	False	False	False	0	1	Snacks
+Sang Choy Bao - Tofu and Vegetables	Lettuce cups with filling	14	True	False	False	False	0	0	Snacks
+Sang Choy Bao - Chicken and Vegetables	Lettuce cups with filling	16	False	False	False	False	0	0	Snacks
+Sang Choy Bao - Duck and Vegetables	Lettuce cups with filling	20	False	False	False	False	0	0	Snacks
+Spicy Chicken Wonton	With spicy Szechuan dressing	15	False	False	False	False	2	5	Snacks
+Spicy Prawn Wonton	With spicy Szechuan dressing	17	False	False	False	False	2	5	Snacks
+Roast Duck Mini Bao	Served with pickles cucumber and house made duck sauce	24	False	False	False	True	0	4	Snacks
+Honey Glazed Roast Pork Mini Bao	Served with pickles and char siew sauce	24	False	False	False	False	0	4	Snacks
+Steamed Jasmine Rice (Small)	(Large $5)	3	False	False	True	False	0	0	Rice
+Special Fried Rice	With char siew, shrimp and eggs	18	False	True	True	False	0	0	Rice
+Salted Fish Fried Rice	With chicken mince, salted fish, eggs and spring onion	18	False	False	True	True	0	0	Rice
+Cabbage and Mushroom Bun		7	True	False	False	False	0	2	Dumplings
+BBQ Pork Bun		8	False	False	False	True	0	2	Dumplings
+Siu Mai	pork and prawn dumpling topped with fish roe	8	False	False	False	False	0	4	Dumplings
+Vegetarian		8	True	False	False	False	0	4	Dumplings
+Pork and Chives		8	False	False	False	False	0	4	Dumplings
+Chicken and Mushroom		8	False	False	False	False	0	4	Dumplings
+Prawn and Vegetable		9	False	False	False	False	0	4	Dumplings
+Pork Shanghainese		10	False	False	False	True	0	5	Dumplings
+Crystal Prawn "Hargow"		10	False	False	False	False	0	4	Dumplings
+Chives Seafood		10	False	False	False	False	0	4	Dumplings
+Angus Beef		11	False	False	False	True	0	4	Dumplings
+Assorted Dumplings	Includes chicken and mushroom, pork and vegetable, and vegetarian dumplings	15	False	False	False	False	0	6	Dumplings
+Chicken and Sweet Corn Soup		8	False	False	True	False	0	0	Soup
+Hot and Sour Soup		8	True	False	True	False	1	0	Soup
+Chicken Wonton Soup	Served with bok choy and mushrooms in a slow cooked chicken broth	15	False	False	False	False	0	5	Soup
+Prawn Wonton Soup	Served with bok choy and mushrooms in a slow cooked chicken broth	17	False	False	False	False	0	5	Soup
+Wok Fried Raindrop Noodles	With char siew and vegetables	18	False	True	False	False	0	0	Noodles
+Curry Spiced Vermicelli	Stir fried with curry spices, eggs, onion, cabbage, carrot and wood fungus	18	True	False	False	False	1	0	Noodles
+Honey Glazed Char Siew Wonton Noodles (Dry/Soup)	Served with bok choy and mushrooms and thin egg noodles	18	False	False	False	False	0	0	Noodles
+Mee Goreng	With chicken, prawn and tofu bean curd	22	False	True	False	False	2	0	Noodles
+Stir Fried Beef Kway Teow		22	False	True	False	False	0	0	Noodles
+Asian Green	Dressed with house made mushroom oyster sauce	15	False	True	True	False	0	0	Vegetables
+Stir Fried Broccoli with Garlic		17	False	False	False	False	0	0	Vegetables
+Thick Cut Honey Glazed Roast Pork "Char Siew"		22	False	False	False	False	0	0	Mains
+Sweet and Sour Chicken		25	False	False	False	False	0	0	Mains
+Bang Bang Chicken		26	False	False	False	True	2	0	Mains
+Sticky Ribs Galzed in Mandarin Sauce		29	False	False	False	False	0	0	Mains
+Roast Lovers Board	Roast duck, roast pork and honey glazed char siew	29	False	False	False	False	0	0	Mains
+Steamed Barramundi	With tumeric and kaffir lime sauce	35	False	False	True	True	1	0	Mains
+Tamarino Sambal Prawns	Shark Bay prawns wok fried with fresh lemongrass, kaffir lime, tamarind and sambal	35	False	False	False	False	1	0	Mains
+Slow Cooked Beef Cheek Curry	Curry of sweet potato puree, onions, dried sambal, ground tumeric and coconut cream	35	False	False	True	True	2	0	Mains
+Steamed Lava Bun		8	True	False	False	False	0	2	Dessert
+Mango Pudding	With ice cream	10	False	False	False	False	0	0	Dessert
+Sago Pudding	Drizzled with coconut milk and pandan infused palm ugar	10	False	False	False	False	0	0	Dessert
+Pandan Creme Brulee		12	False	False	False	False	0	0	Dessert
+Affogato		14	False	False	False	False	0	0	Dessert
 Vegetarian		10	True	False	False	False	0	4	Pan Fried Dumplings
 Pork and Chives		10	False	False	False	False	0	4	Pan Fried Dumplings
 Chicken and Mushroom		10	False	False	False	False	0	4	Pan Fried Dumplings

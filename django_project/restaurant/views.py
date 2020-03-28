@@ -88,8 +88,11 @@ def spreadsheet_example(request):
 def spreadsheet(request):
 	import json
 	allDishes = DishSerializer(Dish.objects.all(), many=True).data
+	allCourses = CourseSerializer(Course.objects.all(), many=True).data
+
 	context = {
-		"data": json.dumps(allDishes)
+		"data": json.dumps(allDishes),
+		"courses": json.dumps(allCourses)
 	}
 	# print(context)
 	return render(request, "restaurant/spreadsheet.html", {"context": context})
@@ -101,6 +104,8 @@ def updateDishes(request):
 
 	if request.method == "POST":
 
+		print("TEST")
+
 		# data = '[{"id":1,"name":"Blanched Edamame","description":"Light sprinkling of organic sea salt","cost":100,"vegan":true,"vegetarian_option":false,"gluten_free":false,"signature_dish":false,"spice_level":0,"pieces":0}]'
 
 		try:
@@ -110,7 +115,7 @@ def updateDishes(request):
 			data = request.POST['data']
 			jd = json.loads(data)
 
-			# print(jd)
+			print(jd)
 
 			for d in jd:
 				# print(d["dish_course"]["course_name"])
@@ -120,6 +125,7 @@ def updateDishes(request):
 					try:
 						d["dish_course"] = get_object_or_404(Course, course_name=d["dish_course"]["course_name"])
 					except:
+						log.append("Couldn't find course")
 						d["dish_course"] = get_object_or_404(Course, course_name="N/A")
 
 					mod, created = Dish.objects.update_or_create(id=d["id"], defaults=d)
@@ -130,6 +136,7 @@ def updateDishes(request):
 					try:
 						d["dish_course"] = get_object_or_404(Course, course_name=d["dish_course"]["course_name"])
 					except:
+						log.append("Couldn't find course")
 						d["dish_course"] = get_object_or_404(Course, course_name="N/A")
 
 					mod, created = Dish.objects.update_or_create(id=d["id"], defaults=d)

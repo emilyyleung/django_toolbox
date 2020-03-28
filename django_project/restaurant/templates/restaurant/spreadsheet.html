@@ -18,6 +18,7 @@
 
 		<!-- Bootstrap -->
 		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 		<!-- Google Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
@@ -29,8 +30,50 @@
 				padding: 10px;
 			}
 
-			.make-me-red{
-				color: red;
+			.btn.nohover:hover {
+				cursor:default !important;
+			}
+
+			.saving{
+				font-weight: bold;
+				font-style: italic;
+				background: #f48fb1;
+			}
+
+			.counting {
+				font-weight: bold;
+				background: #4dd0e1;
+			}
+
+			button {
+				margin-left: 0.5em;
+			}
+
+			.dropdown-item:active {
+				background-color: #5bc0de;
+			}
+
+			/*.currentRow {
+				font-weight: bold;
+				color: white;
+				background: grey !important;
+			}
+
+			.currentCol {
+				font-weight: bold;
+				color: grey;
+				background: #ADD8E6 !important;
+			}*/
+
+			.currentRow {
+				font-weight: bold;
+				color: white;
+				background-color: #7A918D !important;
+			}
+			.currentCol {
+				font-weight: bold;
+				color: white;
+				background-color: #99C2A2 !important;
 			}
 
 		</style>
@@ -38,58 +81,136 @@
 	</head>
 	<body>
 
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="#">Restaurant Database - Dishes</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    			<span class="navbar-toggler-icon"></span>
+  			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Link</a>
+					</li>
+					<li class="nav-item">
+						<div class="dropdown">
+							<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Download Table
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								<a id="downloadTSV" class="dropdown-item" href="#">TSV</a>
+								<a id="downloadCSV" class="dropdown-item" href="#">CSV</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#">Something else here</a>
+							</div>
+						</div>
+					</li>
 
-		<nav class="nav">
-			<h1 class="nav-link">Restaurant Database - Dishes</h1>
-			<div style="width:50%; text-align: right;" class="input-group">	
-				<input type="search" id="search_field" placeholder="Search" aria-label="Search" class="form-control">
+					<li class="nav-item">
+
+						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Parameters</button>
+
+						<div class="modal bd-example-modal-lg" tabindex="-1" role="dialog" id="myModal">
+							<div class="modal-dialog modal-lg" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Room Parameters</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body noselect">
+
+										<p>Hello this is a modal</p>
+
+									</div>
+									<div class="modal-footer">
+										<button id="filter_param" type="button" class="btn btn-info">Save changes</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</li>
+
+					<li class="nav-item">
+						<button id="downloadCSV" type="button" class="downloadCSV btn btn-info" data-toggle="modal">Download TSV</button>
+					</li>
+
+				</ul>
+
+				<form class="form-inline">
+					<button type="button" class="saving btn btn-success nohover" data-dismiss="modal" disabled>saved</button><span></span>
+					<button type="button" class="counting btn btn-info nohover" data-dismiss="modal" disabled>#</button>
+				</form>
+
+
 			</div>
 		</nav>
 
-		<br/><br/>
-
-		<div style="width:100%" id="example"></div>
+		<div style="padding-top: 10px;">
+			<div id="example" style=" height: 90vh; overflow: hidden; width: 100%;"></div>
+		</div>
 
 
 		<script>
 
-			var txtSearch = document.getElementById('search_field');
-
 			var data = {{context.data|safe}}
+
+			var data_ct = {{context.courses|safe}}
+
+			var courses = function(course_types) {
+				var course_names = []
+				for (var course in course_types) {
+					var obj = course_types[course]
+					course_names.push(obj["course_name"])
+				}
+
+				return course_names
+			}
+
+			var trueOrFalse = ["vegan", "vegetarian_option", "gluten_free", "signature_dish"]
+
+			var lut = {"id": "ID", "name": "Name", "description": "Description", "dish_course.course_name": "Course", "cost": "Cost", "vegan": "Vegan", "vegetarian_option":"Vegetarian Option", "gluten_free": "Gluten Free", "signature_dish": "Signature Dish", "spice_level": "Spice Level", "pieces": "Pieces"}
 
 			var columns = [
 				{
-					data: 'id', readOnly: true
+					renderer: idRenderer, data: 'id', readOnly: true
 				},
 				{
-					data: 'name'
+					renderer: idRenderer, data: 'name'
 				},
 				{
-					data: 'description'
+					renderer: idRenderer, data: 'description'
 				},
 				{
-					data: 'dish_course.course_name'
+					renderer: idRenderer, data: 'dish_course.course_name', type: 'autocomplete', source: courses(data_ct)
 				},
 				{
-					data: 'cost', type: 'numeric', numericFormat: {pattern: '0,0.00 $'}
+					renderer: idRenderer, data: 'cost', type: 'numeric', numericFormat: {pattern: '0,0.00 $'}
 				},
 				{
-					data: 'vegan', type: 'checkbox'
+					renderer: idRenderer, data: 'vegan'
 				},
 				{
-					data: 'vegetarian_option', type: 'checkbox'
+					renderer: idRenderer, data: 'vegetarian_option'
 				},
 				{
-					data: 'gluten_free', type: 'checkbox'
+					renderer: idRenderer, data: 'gluten_free'
 				},
 				{
-					data: 'signature_dish', type: 'checkbox'
+					renderer: idRenderer, data: 'signature_dish'
 				},
 				{
-					data: 'spice_level', type: 'numeric'
+					renderer: idRenderer, data: 'spice_level', type: 'numeric'
 				},
 				{
-					data: 'pieces', type: 'numeric'
+					renderer: idRenderer, data: 'pieces', type: 'numeric'
 				},
 				
 			]
@@ -139,79 +260,213 @@
 
 
 			var recordChanges = function(modifications, actions) {
+
+				console.log("READ TO RECORD CHANGES")
+
 				if (actions != 'loadData') {
+
+					var editheaders = this.getColHeader();
+					
+					var payload = {}
 
 					var out = []
 
-					// console.log(modifications)
+					// var id_col = editheaders.indexOf("ID")
 
-					modifications.forEach(function(item, index) {
-						var row = table.getSourceData()[item[0]]
+					// var course_col = editheaders.indexOf("Course")
 
+					var data_rows = table.getSourceData()
+
+					var ids = []
+
+					for (var row in data_rows) {
+						var id = data_rows[row]["id"]
+
+						console.log(id)
+
+						ids.push(id)
+					}
+
+					// var ids = table.getDataAtCol(id_col)
+
+					console.log(ids)
+
+					for ( var i = 0; i < modifications.length; i ++ ) {
+
+						// var row_data = table.getSourceData()
+						// console.log(row_data)
+
+						var apob = {}
+
+
+						console.log(editheaders)
+						
+						var dataHead = modifications[i][1]
+
+						var actualHead = lut[dataHead]
+
+						var dataValue = modifications[i][3]
+
+						var col = editheaders.indexOf(actualHead)
+
+						var row = modifications[i][0];
+
+
+						console.log(dataHead)
+						console.log(actualHead)
+						console.log(dataValue)
+						console.log(col)
 						console.log(row)
 
-						// console.log(item)
-						// console.log(index)
-						// console.log(item[index])
-						
-						// console.log(table.getSourceData())
-						// console.log(table.getSourceData()[item[index]])
+						var val_id = this.getCell(row,col).id;
 
-						// console.log(table.getSourceData()[item[index]][modifications[index][1]])
-						// console.log(modifications[index][1])
+						console.log(val_id)
 
-						// var dict = {}
-						// dict["id"] = row["id"]
+						var row_by_id = ids.indexOf(Number(val_id))
 
-						// dict[modifications[index][1]] = table.getSourceData()[index + 1][modifications[index][1]]
-
-						// console.log(dict)
-
-						out.push(row)
-						
-					})
-
-					setTimeout(function(){
-						$.ajax({
-							url: '/restaurant/updateDishes/',
-							data: {data: JSON.stringify(out)},
-							dataType: 'json',
-							method: 'POST',
-							success: function(response) {
-								console.log(response)
-							},
-							failure: function(response) {
-								console.log(response)
+						if (dataHead.indexOf("course_name") != -1) {
+							if (courses(data_ct).indexOf(dataValue) != -1) {
+								var success_ct = true
+							} else {
+								var success_ct = false
+								$(".saving").html("failed saving")
+								try {
+									$(".saving").removeClass("btn-success")
+									$(".saving").addClass("btn-danger")
+								} catch(e) {
+									console.log(e)
+								}
 							}
-						})
-					},200)
+						} else {
+							var success_ct = true
+						}
+
+						console.log("success: " + success_ct)
+
+						try {
+
+							if (success_ct == true) {
+
+								var continue_run = true
+
+								var course = table.getSourceData()[row_by_id]["dish_course"]["course_name"]
+								console.log(course)
+								apob["id"] = val_id
+
+								if (dataHead.indexOf("course_name") != -1) {
+									apob["dish_course"] = {}
+									apob["dish_course"]["course_name"] = ""
+									apob["dish_course"]["course_name"] = course
+								} else {
+									apob["dish_course"] = {}
+									apob["dish_course"]["course_name"] = ""
+									apob["dish_course"]["course_name"] = course
+
+									console.log("Hello")
+
+									if (trueOrFalse.indexOf(dataHead) != -1) {
+										apob[dataHead] = dataValue.charAt(0).toUpperCase() + dataValue.substring(1);
+										console.log(dataValue.charAt(0).toUpperCase() + dataValue.substring(1));
+									} else {
+										apob[dataHead] = dataValue
+									}
+								}
+
+								console.log(apob)
+
+								out.push(apob)
+							}
+
+						} catch(e) {
+							var continue_run = false
+
+							console.log("Cannot edit: " + dataHead)
+
+							$(".saving").html("failed saving")
+							try {
+								$(".saving").removeClass("btn-success")
+								$(".saving").addClass("btn-danger")
+							} catch(e) {
+								console.log(e)
+							}
+						}
+					}
+
+					console.log("PAYLOAD")
+					console.log(out)
+
+					if (continue_run == true) {
+
+						$(".saving").html("saving...")
+						try {
+							$(".saving").removeClass("btn-success")
+							$(".saving").addClass("btn-danger")
+						} catch(e) {
+							console.log(e)
+						}
+
+						setTimeout(function(){
+							$.ajax({
+								url: '/restaurant/updateDishes/',
+								data: {data: JSON.stringify(out)},
+								dataType: 'json',
+								method: 'POST',
+								success: function(response) {
+									console.log(response)
+
+									try {
+										var result = response["unsuccessful"]
+										if (result == "True") {
+											$(".saving").html("failed saving")
+											try {
+												$(".saving").removeClass("btn-success")
+												$(".saving").addClass("btn-danger")
+											} catch(e) {
+												console.log(e)
+											}
+										} else {
+											$(".saving").html("saved")
+											try {
+												$(".saving").removeClass("btn-danger")
+												$(".saving").addClass("btn-success")
+											} catch(e) {
+												console.log(e)
+											}
+										}
+									} catch(e) {
+										console.log(e)
+									}
+
+									
+
+								},
+								failure: function(response) {
+									console.log(response)
+
+									$(".saving").html("failed saving")
+									try {
+										$(".saving").removeClass("btn-success")
+										$(".saving").addClass("btn-danger")
+									} catch(e) {
+										console.log(e)
+									}
+
+								}
+							})
+						},200)
+					}
 				}
-			}
-
-			function negativeValueRenderer(instance, td, row, col, prop, value, cellProperties) {
-				Handsontable.renderers.TextRenderer.apply(this, arguments);
-				// if row contains negative number
-				if (parseInt(value, 10) < 10) {
-					// add class "negative"
-					td.className = 'make-me-red';
-				}
-				
-			}
-
-			// maps function to lookup string
-			Handsontable.renderers.registerRenderer('negativeValueRenderer', negativeValueRenderer);
-
-			var colourMe = function(row, col) {
-				var cellProperties = {};
-    			var data = this.instance.getData();
-				cellProperties.renderer = "negativeValueRenderer"; // uses lookup map
-				return cellProperties;
 			}
 
 			function idRenderer(instance, td, row, col, prop, value, cellProperties) {
 				td.innerHTML = value;
-				td.id = data[row]["id"];
+				// td.id = data[row]["id"];
+				td.id = data[cellProperties["row"]]["id"];
 				return td
+			}
+
+			var updateDeets = function() {
+				$('.counting').html(this.countRows())
 			}
 
 			var configurations = {
@@ -225,27 +480,68 @@
 				colWidths: [30,300,500,170,100,60,150,100,120,100,80],
 				columns: columns,
 				undo: true,
+				currentRowClassName: 'currentRow',
+				currentColClassName: 'currentCol',
+
+				hiddenColumns: {
+					indicators: true
+				},
+				dropdownMenu: true,
+				filters: true,
+
+				multiColumnSorting: true,
+				sortIndicator: true,
+				renderAllRows: true,
+
 				// Functions
 				afterGetColHeader: addInput,
 				beforeOnCellMouseDown: doNotSelectColumn,
 				afterChange: recordChanges,
-				// cells: colourMe
+				afterRender: updateDeets,
 			}
 
 			var table = new Handsontable(document.getElementById('example'), configurations);
 
+			var exportPlugin1 = table.getPlugin('exportFile');
+
+			var downloadTSVButton = document.getElementById('downloadTSV');
+
+			downloadTSVButton.addEventListener('click', function() {
+				exportPlugin1.downloadFile('csv', {
+					bom: false,
+					columnDelimiter: '\t',
+					columnHeaders: true,
+					exportHiddenColumns: false,
+					exportHiddenRows: false,
+					fileExtension: 'tsv',
+					filename: 'TSV-file_[YYYY]-[MM]-[DD]',
+					mimeType: 'text/csv',
+					rowDelimiter: '\r\n',
+					rowHeaders: true
+				});
+			});
+
+			var downloadCSVButton = document.getElementById('downloadCSV');
+
+			downloadCSVButton.addEventListener('click', function() {
+				exportPlugin1.downloadFile('csv', {
+					bom: false,
+					columnDelimiter: ',',
+					columnHeaders: true,
+					exportHiddenColumns: false,
+					exportHiddenRows: false,
+					fileExtension: 'csv',
+					filename: 'CSV-file_[YYYY]-[MM]-[DD]',
+					mimeType: 'text/csv',
+					rowDelimiter: '\r\n',
+					rowHeaders: true
+				});
+			});
+
+			
+
+
 			table.render();
-
-
-			Handsontable.dom.addEvent(txtSearch, 'keyup', function(event){
-				
-				var search = table.getPlugin('search');
-				var queryResult = search.query(this.value);
-
-				console.log(queryResult)
-
-				table.render();
-			})
 
 		</script>
 	</body>
