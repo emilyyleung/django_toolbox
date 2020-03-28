@@ -53,27 +53,18 @@
 				background-color: #5bc0de;
 			}
 
-			/*.currentRow {
-				font-weight: bold;
+			.currentRow {
+				font-style: italic;
+				/*font-weight: bold;*/
 				color: white;
 				background: grey !important;
 			}
 
 			.currentCol {
-				font-weight: bold;
-				color: grey;
-				background: #ADD8E6 !important;
-			}*/
-
-			.currentRow {
-				font-weight: bold;
+				/*font-weight: bold;*/
+				font-style: italic;
 				color: white;
-				background-color: #7A918D !important;
-			}
-			.currentCol {
-				font-weight: bold;
-				color: white;
-				background-color: #99C2A2 !important;
+				background: #17A2B8 !important;
 			}
 
 		</style>
@@ -139,7 +130,7 @@
 					</li>
 
 					<li class="nav-item">
-						<button id="downloadCSV" type="button" class="downloadCSV btn btn-info" data-toggle="modal">Download TSV</button>
+						<button id="printMe" type="button" class="downloadCSV btn btn-info" data-toggle="modal">Print</button>
 					</li>
 
 				</ul>
@@ -471,13 +462,15 @@
 
 			var configurations = {
 				licenseKey: 'non-commercial-and-evaluation',
+				// comments: true, // Doesn't work properly
 				data: data,
 				colHeaders: ['ID', 'Name', 'Description', 'Course', 'Cost', 'Vegan', 'Vegetarian Option', 'Gluten Free', 'Signature Dish', 'Spice Level', 'Pieces'],
 				contextMenu: true,
 				search: true,
 				formulas: true,
 				filters: true,
-				colWidths: [30,300,500,170,100,60,150,100,120,100,80],
+				// autoColumnSize: {syncLimit: 300},
+				colWidths: [50,300,500,170,100,80,170,120,140,120,80],
 				columns: columns,
 				undo: true,
 				currentRowClassName: 'currentRow',
@@ -537,9 +530,6 @@
 					rowHeaders: true
 				});
 			});
-
-			
-
 
 			table.render();
 
