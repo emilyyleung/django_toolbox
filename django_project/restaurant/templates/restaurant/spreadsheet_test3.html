@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<!-- AJAX -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- Handsontable -->
+	<script src="https://cdn.jsdelivr.net/npm/handsontable@7.4.2/dist/handsontable.full.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/handsontable@7.4.2/dist/handsontable.full.min.css" rel="stylesheet" media="screen">
+
+	<!-- pikaday calendar -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+	<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+
+	<!-- moment js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+
+	<style type="text/css">
+		.htTextEditor {
+			width: 500px;
+			height: 500px;
+		}
+	</style>
+
+</head>
+<body>
+
+	<div id="example1" class="hot handsontable htColumnHeaders"></div>
+
+	<div class="modal bd-example-modal-lg" tabindex="-1" role="dialog" id="myModal">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Code Editor</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body noselect">
+					<div>
+						<textarea id="codeEditor" style="width: 100%; height: 500px;"></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="saveBtn" type="button" class="btn btn-info" onclick="submitChanges()">Save changes</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+
+	<script type="text/javascript">
+
+		var submitChanges = function() {
+
+			var submitBtn = document.getElementById('saveBtn');
+
+			submitBtn.addEventListener('click', function() {
+				// $('#codeEditor').
+				// var val = textArea.innerHTML
+				$.each($("#codeEditor"), function() {
+					console.log($(this).val())
+				});
+				// console.log(val)
+			});
+
+		}
+
+	  	var data = [{
+			name: "Java",
+			code: "//some Java code here"
+	  	},
+		{
+			name: "C++",
+			code: "//some C++ code here"
+		},
+		{
+			name: "JavaScript",
+			code: "//some JS code here"
+		}]
+
+	    container = document.getElementById('example1')
+	    
+	    // STEP 1 - CREATE NEW CLASS FROM EXISTING EDITOR
+		var ScriptEditor = Handsontable.editors.TextEditor.prototype.extend();
+
+		var scriptRenderer = function (instance, td, row, col, prop, value, cellProperties) {
+
+			var scriptMaxLength = 18;
+			var scriptLength = (value && value.length) ? value.length : 0;
+			var decodedValue = decodeURI(value);
+
+			if (scriptLength > scriptMaxLength) {
+				decodedValue = decodedValue.slice(0, scriptMaxLength) + "...";
+			}
+			arguments[5] = decodedValue;
+			
+			Handsontable.renderers.TextRenderer.apply(this, arguments);
+
+			return td;
+		};
+
+		// ScriptEditor.prototype.init = function() {
+		// 	console.log("hello world")
+		// };
+	  
+	  
+		ScriptEditor.prototype.open = function () {
+
+			console.log("OPEN")
+		
+			var self = this;
+
+			self.textArea = self.hot.rootDocument.createElement('TEXTAREA');
+
+			Handsontable.dom.addClass(this.textArea, 'htTextEditor');
+
+			self.hot.rootElement.appendChild(self.textArea);
+
+			// console.log(self)
+			
+			// this.instance.deselectCell();
+			
+			var value = self.instance.getDataAtCell(self.row, self.col);
+
+			self.textArea.innerHTML = value;
+
+			// var decodedCode = decodeURI(value);
+
+			// console.log(decodedCode)
+
+			// var success = function (resultCode) {
+			// 	var encodedCode = encodeURI(resultCode);
+			// 	self.instance.setDataAtCell(self.row, self.col, encodedCode, 'edit');
+			// 	self.instance.selectCell(self.row, self.col);
+			// };
+
+			// // openEditor(decodedCode).then(success);
+			// openEditor(decodedCode)
+		};
+
+		ScriptEditor.prototype.getValue = function (value) {
+			console.log(value)
+			return this.TEXTAREA.value;
+		};
+	  
+		ScriptEditor.prototype.setValue = function (value) {
+			console.log(value)
+			this.TEXTAREA.value = value;
+		};
+		// ScriptEditor.prototype.prepare = function(row, col, prop, td, originalValue, cellProperties) {
+		// 	super.prepare(row, col, prop, td, originalValue, cellProperties);
+		// 	console.log("hello world")
+		// }
+
+		ScriptEditor.prototype.focus = function () {
+			this.TEXTAREA.focus();
+		}
+		ScriptEditor.prototype.close = function () {
+			this._opened = false;
+			this.TEXTAREA.style.display = 'none';
+		}
+	    
+		// ScriptEditor.prototype.focus = function () {
+		// 	Handsontable.editors.TextEditor.prototype.focus.apply(this, arguments);
+		// };
+
+		
+	  
+		// var openEditor = function (codeToEdit) {
+		
+		// 	// var textArea = document.getElementById('codeEditor')
+		// 	// textArea.innerHTML = codeToEdit
+
+		// 	document.getElementById("codeEditor").innerHTML = codeToEdit
+
+		// 	$('#myModal').modal('show');
+
+		// 	// var deferred = $q.defer();
+			
+		// 	// var dialog = ngDialog.open({
+		// 	// 	template: 'editor-template.htm',
+		// 	// 	className: 'ngdialog-theme-default',
+		// 	// 	controllerAs: "editor",
+		// 	// 	controller: function () {
+		// 	// 		var vm = this;
+					
+		// 	// 		vm.inputCode = codeToEdit;
+					
+		// 	// 		vm.submitChanges = function () {
+		// 	// 		dialog.close();
+		// 	// 		deferred.resolve(vm.inputCode);
+		// 	// 		};
+		// 	// 	}
+		// 	// });
+			
+		// 	// return deferred.promise;
+
+		// };
+
+		Handsontable.editors.registerEditor('text', ScriptEditor);
+
+		Handsontable.cellTypes.registerCellType('my.custom', {
+			editor: ScriptEditor,
+			renderer: scriptRenderer,
+			// validator: customValidator,
+			// You can add additional options to the cell type based on Handsontable settings
+			className: 'my-cell',
+			allowInvalid: true,
+			// Or you can add custom properties which will be accessible in `cellProperties`
+			myCustomCellState: 'complete',
+		});
+	  
+		/////////////////////////////////////////////////////////////////////
+	  
+		hot1 = new Handsontable(container, {
+			licenseKey: 'non-commercial-and-evaluation',
+			data: data,
+			colHeaders: ["Name", "Code"],
+			columns: [{
+				data: 'name'
+			},{
+				data: 'code',
+				type: 'my.custom'
+				// editor: ScriptEditor,
+				// renderer: scriptRenderer,
+			}]
+		});
+
+	</script>
+
+
+</body>
+</html>

@@ -86,7 +86,7 @@ def spreadsheet_example(request):
 	return render(request, "restaurant/spreadsheet_4.html")
 
 def spreadsheet_test(request):
-	return render(request, "restaurant/spreadsheet_test.html")
+	return render(request, "restaurant/spreadsheet_test3.html")
 
 def spreadsheet(request):
 	import json
