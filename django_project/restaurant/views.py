@@ -85,6 +85,9 @@ def menu(request):
 def spreadsheet_example(request):
 	return render(request, "restaurant/spreadsheet_4.html")
 
+def spreadsheet_test(request):
+	return render(request, "restaurant/spreadsheet_test.html")
+
 def spreadsheet(request):
 	import json
 	allDishes = DishSerializer(Dish.objects.all(), many=True).data

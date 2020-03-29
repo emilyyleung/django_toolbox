@@ -19,6 +19,7 @@ urlpatterns = [
 
 	path('spreadsheet_example/', views.spreadsheet_example, name='restaurant-spreadsheet_example'),
 	path('spreadsheet/', views.spreadsheet, name='restaurant-spreadsheet'),
+	path('spreadsheet_test/', views.spreadsheet_test, name='restaurant-spreadsheet_test'),
 
 	url(r'^', include(router.urls)),
 	url(r'^api-auth/', include('rest_framework.urls')),

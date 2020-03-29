@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<!-- AJAX -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- Handsontable -->
+	<script src="https://cdn.jsdelivr.net/npm/handsontable@7.4.2/dist/handsontable.full.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/handsontable@7.4.2/dist/handsontable.full.min.css" rel="stylesheet" media="screen">
+
+	<!-- pikaday calendar -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+	<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+
+	<!-- moment js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+	
+	<style>
+		body {
+		  background: #ffffff;
+		  padding: 0;
+		  margin: 0;
+		}
+
+		th,
+		td {
+		  font: 12px sans-serif
+		}
+
+		.handsontable th,
+		.handsontable td {
+		  -webkit-border-radius: 0;
+		  -moz-border-radius: 0;
+		  border-radius: 0;
+		}
+
+		.handsontable THEAD TH.color {
+		  background: #00B8D4;
+		  color: #ffffff;
+		  padding: 10px 0 0 0;
+		  font-size: 15px;
+		}
+
+		.photo {
+		  height: 30px;
+		  border-radius: 50%;
+		}
+
+		.owner {
+		  font-weight: bold;
+		  display: block;
+		  float: right;
+		  padding: 5px 20px 0 0;
+		}
+
+		.pdf,
+		.swift,
+		.java,
+		.ruby,
+		.go {
+		  padding: 3px 3px;
+		  color: #222222;
+		  font: 10px;
+		  float: left;
+		  width: 131px;
+		  line-height: 45px;
+		}
+
+		.pdf {
+		  background: #FFCC80;
+		  border: 2px solid #FF9800;
+		}
+
+		.swift {
+		  background: #FFE082;
+		  border: 2px solid #FFC107;
+		}
+
+		.java {
+		  background: #FFF59D;
+		  border: 2px solid #FFEB3B;
+		  width: 80px;
+		}
+
+		.ruby {
+		  background: #F4FF81;
+		  border: 2px solid #C6FF00;
+		  width: 41px;
+		}
+
+		.go {
+		  background: #E6EE9C;
+		  border: 2px solid #CDDC39;
+		}
+
+		.handsontable td.starColumn {
+		  font-size: 17px;
+		  text-align: center;
+		  padding-top: 2%;
+		  color: #777777;
+		}
+
+	</style>
+</head>
+<body>
+
+	<div id="example" class="hot1 hot handsontable"></div>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+
+  var data = [{
+        name: '<img src="https://avatars1.githubusercontent.com/u/3771963?v=3&s=460" class="photo"><span class="owner"><a href="https://github.com/jwasham" target="_blank">John Washam</a></span>',
+        project: '<a href="https://github.com/jwasham/google-interview-university" target="_blank">Google Interview University</a>',
+        technology: '<div class="pdf">PDF</div>',
+        stars: '23095'
+      },
+
+      {
+        name: '<img src="https://avatars1.githubusercontent.com/u/120676?v=3&s=200" class="photo"><span class="owner"><a href="https://github.com/kickstarter" target="_blank">Kickstarter</a></span>',
+        project: '<a href="https://github.com/kickstarter/ios-oss" target="_blank">Kickstarter for iOS</a>',
+        technology: '<div class="swift">Swift</div>',
+        stars: '2285'
+      },
+
+      {
+        name: '<img src="https://avatars1.githubusercontent.com/u/120676?v=3&s=200" class="photo"><span class="owner"><a href="https://github.com/kickstarter" target="_blank">Kickstarter</a></span>',
+        project: '<a href="https://github.com/kickstarter/android-oss" target="_blank">Kickstarter for Android</a>',
+        technology: '<div class="java">Java</div><div class="ruby">Ruby</div>',
+        stars: '1955'
+      },
+
+      {
+        name: '<img src="https://avatars1.githubusercontent.com/u/94096?v=3&s=460" class="photo"><span class="owner"><a href="https://github.com/cloudson" target="_blank">Claudson Oliveira</a></span>',
+        project: '<a href="https://github.com/cloudson/gitql" target="_blank">Gitql</a>',
+        technology: '<div class="go">Go</div>',
+        stars: '3346'
+      },
+    ],
+    container,
+    hot;
+
+  container = document.getElementById('example');
+  hot = new Handsontable(container, {
+    data: data,
+    rowHeights: 50,
+    colWidths: [300, 140, 150, 150],
+    licenseKey: 'non-commercial-and-evaluation',
+    colHeaders: ['Owner', 'Project', 'Github stars', 'Technology'],
+    columns: [{
+      data: 'name',
+      renderer: 'html'
+    }, {
+      data: 'project',
+      renderer: 'html'
+    }, {
+      data: 'stars',
+      renderer: starRenderer
+    }, {
+      data: 'technology',
+      renderer: 'html'
+    }],
+    cells: function(row, col) {
+      var cellProp = {};
+      if (col !== 0) {
+        cellProp.className = "htCenter htMiddle"
+      } else {
+        cellProp.className = "htMiddle"
+      }
+      return cellProp;
+    },
+    afterGetColHeader: function(col, TH) {
+      TH.className = 'color';
+    }
+  });
+
+  function starRenderer(instance, td, row, col, prop, value, cellProperties) {
+    td.innerHTML = '&#x2605;' + value;
+    td.className = 'starColumn';
+    return td;
+  }
+
+
+
+});
+
+	</script>
+</body>
+</html>
