@@ -99,6 +99,23 @@
 				background: navy;
 			}
 
+			.handsontable td.red {
+				/*font-weight: bold;*/
+				color: #F44336;
+			}
+			
+			.handsontable td.green {
+				/*font-weight: bold;*/
+				color: #8BC34A;
+			}
+
+			.handsontable td.error {
+				font-weight: bold;
+				background: #F44336;
+				color: white;
+			}
+
+
 /*			.noncurrentRow {
 				color: black;
 				background: orange !important;
@@ -230,22 +247,22 @@
 					renderer: idRenderer, data: 'dish_course.course_name', type: 'autocomplete', source: courses(data_ct)
 				},
 				{
-					renderer: starRenderer, data: 'cost', type: 'numeric'
+					renderer: costRenderer, data: 'cost', type: 'numeric'
 				},
 				{
-					renderer: idRenderer, data: 'vegan'
+					renderer: booleanRenderer, data: 'vegan'
 				},
 				{
-					renderer: idRenderer, data: 'vegetarian_option'
+					renderer: booleanRenderer, data: 'vegetarian_option'
 				},
 				{
-					renderer: idRenderer, data: 'gluten_free'
+					renderer: booleanRenderer, data: 'gluten_free'
 				},
 				{
-					renderer: idRenderer, data: 'signature_dish'
+					renderer: booleanRenderer, data: 'signature_dish'
 				},
 				{
-					renderer: idRenderer, data: 'spice_level', type: 'numeric'
+					renderer: spiceRenderer, data: 'spice_level', type: 'numeric'
 				},
 				{
 					renderer: idRenderer, data: 'pieces', type: 'numeric'
@@ -257,11 +274,43 @@
 				return Number.parseFloat(x).toFixed(2);
 			}
 
-			function starRenderer(instance, td, row, col, prop, value, cellProperties) {
+			function costRenderer(instance, td, row, col, prop, value, cellProperties) {
 				// td.innerHTML = '&#x2605;' + value;
 				td.innerHTML = roundTo(value)
 				td.className = 'starColumn';
 				td.id = data[cellProperties["row"]]["id"];
+				return td;
+			}
+
+			function booleanRenderer(instance, td, row, col, prop, value, cellProperties) {
+				
+				td.innerHTML = value
+
+				if (value == 'True' || value == true || value == 'TRUE' || value == 'true') {
+					td.className = 'green';
+				} else if (value == 'False' || value == false || value == 'FALSE' || value == 'false') {
+					td.className = 'red'
+				} else {
+					td.className = 'error'
+				}
+
+				td.id = data[cellProperties["row"]]["id"];
+
+				return td;
+			}
+
+			function spiceRenderer(instance, td, row, col, prop, value, cellProperties) {
+				
+				td.innerHTML = value
+
+				if (typeof(value) == "number" && value < 4) {
+					td.className = 'green';
+				} else {
+					td.className = 'red'
+				}
+
+				td.id = data[cellProperties["row"]]["id"];
+
 				return td;
 			}
 
