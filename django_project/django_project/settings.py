@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'polls.apps.PollsConfig',
     'jsonmaker.apps.JsonmakerConfig',
+    'boards.apps.BoardsConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',

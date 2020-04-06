@@ -1,0 +1,970 @@
+{% extends "boards/muuri_example/base.html" %}
+
+{% block content %}
+
+<style type="text/css">
+	/* Base */
+	
+	* {
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	html {
+		overflow-y: scroll;
+		overflow-x: hidden;
+		background: #fff;
+	}
+	html.dragging body {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+	body {
+		position: relative;
+		font-family: 'Fira Sans', Helvetica, Arial, sans-serif;
+		font-size: 18px;
+		line-height: 1.5;
+		margin: 0 20px;
+		color: #6e6e6e;
+	}
+	a {
+		color: #3396FF;
+		text-decoration: none;
+		-webkit-transition: all 0.2s ease-out;
+		-moz-transition: all 0.2s ease-out;
+		-ms-transition: all 0.2s ease-out;
+		-o-transition: all 0.2s ease-out;
+		transition: all 0.2s ease-out;
+	}
+	a:hover {
+		color: #FF4BD8;
+	}
+	
+	/* Clearfix */
+	
+	.cf:before,
+	.cf:after {
+		content: " ";
+		display: table;
+	}
+	.cf:after {
+		clear: both;
+	}
+	
+	/* Material icons */
+	
+	.material-icons {
+		display: inline-block;
+		vertical-align: top;
+		line-height: inherit;
+		font-size: inherit;
+	}
+	
+	/* Buttons */
+	
+	.btn {
+		display: inline-block;
+		position: relative;
+		vertical-align: top;
+		margin: 0;
+		border: 0;
+		outline: 0;
+		padding: 0px 15px;
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 40px;
+		height: 40px;
+		text-align: center;
+		white-space: nowrap;
+		background: #4a9ff9;
+		color: #fff;
+		-ms-touch-action: manipulation;
+		touch-action: manipulation;
+		cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		border-radius: 3px;
+	}
+	.btn:focus,
+	.btn:hover,
+	.btn:active {
+		outline: 0;
+	}
+	.btn:hover {
+		background: #3989de;
+	}
+	.btn:active {
+		background: #3075bf;
+	}
+	.btn.active {
+		background: #60ca47;
+	}
+	.btn.active:hover {
+		background: #40b325;
+	}
+	.btn.active:active {
+		background: #309818;
+	}
+	
+	/* Forms */
+	
+	.form-control {
+		display: block;
+		width: 100%;
+		height: 40px;
+		padding: 5px 15px;
+		font-size: 16px;
+		line-height: 26px;
+		color: inherit;
+		background: #fff;
+		border: 2px solid #e5e5e5;
+		border-radius: 4px;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		-o-appearance: none;
+		appearance: none;
+	}
+	select.form-control {
+		padding-right: 40px;
+		cursor: pointer;
+	}
+	select.form-control::-ms-expand {
+		display: none;
+	}
+	.select-arrow {
+		position: absolute;
+		right: 10px;
+		top: 0;
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		z-index: 2;
+		pointer-events: none;
+	}
+	.form-control:focus {
+		outline: 0;
+		border-color: #4a9ff9;
+	}
+	
+	/* Header */
+	
+	header {
+		margin: 30px auto;
+		max-width: 940px;
+	}
+	header .logo {
+		max-width: 240px;
+		margin: 60px auto 60px auto;
+	}
+	header .logo svg {
+		width: 100%;
+		height: 100%;
+	}
+	header h1 {
+		display: none;
+	}
+	header h2 {
+		text-align: center;
+		font-size: 24px;
+		line-height: 1.5;
+		font-weight: 400;
+		max-width: 940px;
+		margin: 0 auto;
+		color: #6e6e6e;
+	}
+	header h2 > span {
+		display: block;
+		font-size: 18px;
+		color: #aaa;
+		margin-top: 3px;
+	}
+	header h2 > span > i {
+		margin: 0 10px;
+		color: #ccc;
+	}
+	header aside {
+		color: #bbb;
+		font-size: 15px;
+		margin-top: 5px;
+		font-style: italic;
+		text-align: center;
+	}
+	header nav {
+		text-align: center;
+	}
+	header nav a {
+		position: relative;
+		display: inline-block;
+		vertical-align: top;
+		position: relative;
+		padding: 20px;
+		font-size: 20px;
+		font-weight: 400;
+	}
+	header nav a i {
+		display: block;
+		position: absolute;
+		height: 2px;
+		bottom: 20px;
+		left: 20px;
+		right: 20px;
+		background-color: #FF4BD8;
+		opacity: 0;
+		z-index: 2;
+		-moz-transform: scale(0, 1);
+		-webkit-transform: scale(0, 1);
+		-o-transform: scale(0, 1);
+		-ms-transform: scale(0, 1);
+		transform: scale(0, 1);
+		-webkit-transition: -webkit-transform 0.2s ease-out, opacity 0s ease 0.2s;
+		-moz-transition: -moz-transform 0.2s ease-out, opacity 0s ease 0.2s;
+		-ms-transition: -ms-transform 0.2s ease-out, opacity 0s ease 0.2s;
+		-o-transition: -o-transform 0.2s ease-out, opacity 0s ease 0.2s;
+		transition: transform 0.2s ease-out, opacity 0s ease 0.2s;
+	}
+	header nav a:hover i {
+		opacity: 1;
+		-moz-transform: scale(1, 1);
+		-webkit-transform: scale(1, 1);
+		-o-transform: scale(1, 1);
+		-ms-transform: scale(1, 1);
+		transform: scale(1, 1);
+		-webkit-transition: -webkit-transform 0.2s ease-out, opacity 0s ease 0s;
+		-moz-transition: -moz-transform 0.2s ease-out, opacity 0s ease 0s;
+		-ms-transition: -ms-transform 0.2s ease-out, opacity 0s ease 0s;
+		-o-transition: -o-transform 0.2s ease-out, opacity 0s ease 0s;
+		transition: transform 0.2s ease-out, opacity 0s ease 0s;
+	}
+	@media (max-width: 600px) {
+		header {
+			margin-bottom: 0;
+		}
+		header h2 {
+			font-size: 21px;
+		}
+		header h2 > span {
+			margin-top: 20px;
+		}
+		header h2 > span > i {
+			display: none;
+		}
+		header h2 > span > span {
+			display: block;
+		}
+		header nav {
+			margin-top: 20px;
+			border-bottom: 0;
+			border-top: 1px solid #e5e5e5;
+		}
+		header nav a {
+			display: block;
+			vertical-align: top;
+			padding: 10px 20px;
+			border-bottom: 1px solid #e5e5e5;
+		}
+		header nav a i {
+			bottom: -1px;
+			left: 0;
+			right: 0;
+		}
+	}
+	
+	/* Footer */
+	
+	footer {
+		margin: 0 auto;
+		max-width: 940px;
+		text-align: center;
+		border-top: 2px solid #e5e5e5;
+		padding-top: 30px;
+		padding-bottom: 30px;
+	}
+	footer p {
+		margin: 0;
+	}
+	footer .credits {
+		color: #aaa;
+		margin-bottom: 5px;
+		font-style: italic;
+	}
+	footer .copyright i {
+		font-size: 24px;
+		height: 27px;
+		line-height: 32px;
+		display: inline-block;
+		vertical-align: top;
+	}
+	
+	/* Sections */
+	
+	section {
+		margin: 60px auto;
+		padding-top: 0;
+		max-width: 940px;
+		border-top: 2px solid #e5e5e5;
+		text-align: left;
+	}
+	section.demo {
+		margin-top: 30px;
+	}
+	section h4 {
+		margin: 30px 0 15px 0;
+		font-weight: 500;
+		font-size: 20px;
+		color: #3e3e3e;
+	}
+	@media (max-width: 600px) {
+		section.demo {
+			border-top: 0;
+		}
+	}
+	
+	/* Section titles */
+	
+	.section-title {
+		color: #3e3e3e;
+		font-size: 26px;
+		font-weight: 700;
+		margin: 40px 0;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+		text-align: center;
+	}
+	.section-title > span {
+		position: relative;
+		display: inline-block;
+		vertical-align: top;
+	}
+	.section-title > span:after {
+		content: "";
+		display: block;
+		position: absolute;
+		left: 10px;
+		bottom: 0;
+		right: 10px;
+		height: 2px;
+		background: #3e3e3e;
+	}
+	
+	/* Feature list */
+	
+	.feature-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.feature-list-item {
+		position: relative;
+		padding-left: 80px;
+		margin: 30px 0;
+		overflow: hidden;
+	}
+	.feature-list-icon {
+		display: block;
+		float: left;
+		margin-left: -80px;
+		width: 80px;
+		font-size: 48px;
+		line-height: 48px;
+		text-align: left;
+		color: #3396FF;
+	}
+	.feature-list-text h4 {
+		margin: 0 0 15px 0;
+		font-weight: 500;
+		font-size: 20px;
+	}
+	@media (max-width: 600px) {
+		.feature-list-item {
+			padding-left: 0;
+		}
+		.feature-list-icon {
+			margin: -4px 10px 0 0;
+			width: 24px;
+			font-size: 24px;
+			line-height: inherit;
+		}
+	}
+	
+	/* Author */
+	
+	.author {
+		margin: 60px 0;
+		font-weight: 500;
+		font-size: 20px;
+		color: #3e3e3e;
+		font-style: italic;
+		text-align: center;
+	}
+	
+	/* Controls */
+	
+	.controls {
+		margin: 30px -10px;
+	}
+	.control {
+		position: relative;
+		float: left;
+		width: 25%;
+		padding: 0 10px;
+	}
+	@media (max-width: 600px) {
+		.control {
+			float: none;
+			width: auto;
+			margin: 0 0 15px 0;
+		}
+		.control.layout {
+			margin: 0;
+		}
+	}
+	.control-icon {
+		position: absolute;
+		left: 10px;
+		top: 0;
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		z-index: 2;
+		pointer-events: none;
+	}
+	.control-field {
+		position: relative;
+		padding-left: 40px;
+		z-index: 1;
+	}
+	
+	/* Grid */
+	
+	.grid {
+		position: relative;
+		max-width: 960px;
+		margin: 0 -10px;
+		-moz-box-sizing: content-box;
+		-webkit-box-sizing: content-box;
+		box-sizing: content-box;
+	}
+	.item {
+		position: absolute;
+		width: 100px;
+		height: 100px;
+		line-height: 100px;
+		margin: 10px;
+		z-index: 1;
+	}
+	.item.muuri-item-positioning {
+		z-index: 2;
+	}
+	.item.muuri-item-placeholder {
+		z-index: 2;
+		margin: 0;
+		opacity: 0.5;
+	}
+	.item.muuri-item-dragging,
+	.item.muuri-item-releasing {
+		z-index: 9999;
+	}
+	.item.muuri-item-dragging {
+		cursor: move;
+	}
+	.item.muuri-item-hidden {
+		z-index: 0;
+	}
+	.item.h2 {
+		height: 220px;
+		line-height: 220px;
+	}
+	.item.w2 {
+		width: 220px;
+	}
+	.item-content {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+	.card {
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		text-align: center;
+		font-size: 24px;
+		font-weight: 300;
+		background-color: rgba(255,255,255,0.9);
+		border: 2px solid;
+		color: #333;
+		border-radius: 4px;
+		-webkit-transition: all 0.2s ease-out;
+		-moz-transition: all 0.2s ease-out;
+		-ms-transition: all 0.2s ease-out;
+		-o-transition: all 0.2s ease-out;
+		transition: all 0.2s ease-out;
+	}
+	.item.muuri-item-placeholder .card {
+		border-style: dashed;
+	}
+	.item.red .card {
+		color: #f94a7a;
+	}
+	.item.green .card {
+		color: #2ac06d;
+	}
+	.item.blue .card {
+		color: #4A9FF9;
+	}
+	.card-id {
+		position: absolute;
+		left: 7px;
+		top: 0;
+		height: 30px;
+		line-height: 30px;
+		text-align: left;
+		font-size: 16px;
+		font-weight: 400;
+	}
+	.card-remove {
+		display: none;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 30px;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		font-size: 20px;
+		font-weight: 400;
+		cursor: pointer;
+	}
+	.card:hover > .card-remove {
+		display: block;
+	}
+	.item.muuri-item-dragging .card-remove,
+	.item.muuri-item-positioning .card-remove,
+	.item.muuri-item-releasing .card-remove,
+	.item.muuri-item-placeholder .card-remove {
+		display: none;
+	}
+	
+	/* Grid Footer */
+	
+	.grid-footer {
+		margin: 60px 0;
+		text-align: center;
+	}
+	.grid-footer .btn .material-icons {
+		margin-right: 10px;
+		font-size: 24px;
+	}
+</style>
+
+<section class="grid-demo">
+
+<h2 class="section-title"><span>Grid Demo</span></h2>
+
+<div class="controls cf">
+	<div class="control search">
+		<div class="control-icon">
+			<i class="material-icons">&#xE8B6;</i>
+		</div>
+		<input class="control-field search-field form-control " type="text" name="search" placeholder="Search..." />
+	</div>
+	<div class="control filter">
+		<div class="control-icon">
+			<i class="material-icons">&#xE152;</i>
+		</div>
+		<div class="select-arrow">
+			<i class="material-icons">&#xE313;</i>
+		</div>
+		<select class="control-field filter-field form-control">
+			<option value="" selected>All</option>
+			<option value="red">Red</option>
+			<option value="blue">Blue</option>
+			<option value="green">Green</option>
+		</select>
+	</div>
+	<div class="control sort">
+		<div class="control-icon">
+			<i class="material-icons">&#xE164;</i>
+		</div>
+		<div class="select-arrow">
+			<i class="material-icons">&#xE313;</i>
+		</div>
+		<select class="control-field sort-field form-control">
+			<option value="order" selected>Drag</option>
+			<option value="title">Title (drag disabled)</option>
+			<option value="color">Color (drag disabled)</option>
+		</select>
+	</div>
+	<div class="control layout">
+		<div class="control-icon">
+			<i class="material-icons">&#xE871;</i>
+		</div>
+		<div class="select-arrow">
+			<i class="material-icons">&#xE313;</i>
+		</div>
+		<select class="control-field layout-field form-control">
+			<option value="left-top" selected>Left Top</option>
+			<option value="left-top-fillgaps">Left Top (fill gaps)</option>
+			<option value="right-top">Right Top</option>
+			<option value="right-top-fillgaps">Right Top (fill gaps)</option>
+			<option value="left-bottom">Left Bottom</option>
+			<option value="left-bottom-fillgaps">Left Bottom (fill gaps)</option>
+			<option value="right-bottom">Right Bottom</option>
+			<option value="right-bottom-fillgaps">Right Bottom (fill gaps)</option>
+		</select>
+	</div>
+</div>
+
+<div class="grid"></div>
+
+<div class="grid-footer">
+<button class="add-more-items btn btn-primary"><i class="material-icons">&#xE145;</i>Add more items</button>
+</div>
+
+</section>
+
+<script type="text/javascript">
+	
+	document.addEventListener('DOMContentLoaded', function () {
+	
+	//
+	// Initialize stuff
+	//
+	
+	var grid = null;
+	var docElem = document.documentElement;
+	var demo = document.querySelector('.grid-demo');
+	var gridElement = demo.querySelector('.grid');
+	var filterField = demo.querySelector('.filter-field');
+	var searchField = demo.querySelector('.search-field');
+	var sortField = demo.querySelector('.sort-field');
+	var layoutField = demo.querySelector('.layout-field');
+	var addItemsElement = demo.querySelector('.add-more-items');
+	var characters = 'abcdefghijklmnopqrstuvwxyz';
+	var filterOptions = ['red', 'blue', 'green'];
+	var dragOrder = [];
+	var uuid = 0;
+	var filterFieldValue;
+	var sortFieldValue;
+	var layoutFieldValue;
+	var searchFieldValue;
+	
+	//
+	// Grid helper functions
+	//
+	
+	function initDemo() {
+	
+		initGrid();
+		
+		// Reset field values.
+		searchField.value = '';
+		[sortField, filterField, layoutField].forEach(function (field) {
+			field.value = field.querySelectorAll('option')[0].value;
+		});
+		
+		// Set inital search query, active filter, active sort value and active layout.
+		searchFieldValue = searchField.value.toLowerCase();
+		filterFieldValue = filterField.value;
+		sortFieldValue = sortField.value;
+		layoutFieldValue = layoutField.value;
+		
+		// Search field binding.
+		searchField.addEventListener('keyup', function () {
+			var newSearch = searchField.value.toLowerCase();
+			if (searchFieldValue !== newSearch) {
+				searchFieldValue = newSearch;
+				filter();
+			}
+		});
+		
+		// Filter, sort and layout bindings.
+		filterField.addEventListener('change', filter);
+		sortField.addEventListener('change', sort);
+		layoutField.addEventListener('change', changeLayout);
+		
+		// Add/remove items bindings.
+		addItemsElement.addEventListener('click', addItems);
+		gridElement.addEventListener('click', function (e) {
+			if (elementMatches(e.target, '.card-remove, .card-remove i')) {
+				removeItem(e);
+			}
+		});
+	
+	}
+	
+	function initGrid() {
+	
+	var dragCounter = 0;
+	
+		grid = new Muuri(gridElement, {
+			items: generateElements(20),
+			layoutDuration: 400,
+			layoutEasing: 'ease',
+			dragEnabled: true,
+			dragSortHeuristics: {
+			sortInterval: 50,
+			minDragDistance: 10,
+			minBounceBackAngle: 1
+		},
+		dragContainer: document.body,
+		dragStartPredicate: function (item, event) {
+			var isDraggable = sortFieldValue === 'order';
+			var isRemoveAction = elementMatches(event.target, '.card-remove, .card-remove i');
+			return isDraggable && !isRemoveAction ? Muuri.ItemDrag.defaultStartPredicate(item, event) : false;
+		},
+		dragPlaceholder: {
+			enabled: true,
+			duration: 400,
+			createElement: function (item) {
+				return item.getElement().cloneNode(true);
+			}
+		},
+		dragReleaseDuration: 400,
+		dragReleseEasing: 'ease'
+		})
+		.on('dragStart', function () {
+			++dragCounter;
+			docElem.classList.add('dragging');
+		})
+		.on('dragEnd', function () {
+			if (--dragCounter < 1) {
+				docElem.classList.remove('dragging');
+			}
+		})
+		.on('move', updateIndices)
+		.on('sort', updateIndices);
+	
+	}
+	
+	function filter() {
+	
+		filterFieldValue = filterField.value;
+		grid.filter(function (item) {
+			var element = item.getElement();
+			var isSearchMatch = !searchFieldValue ? true : (element.getAttribute('data-title') || '').toLowerCase().indexOf(searchFieldValue) > -1;
+			var isFilterMatch = !filterFieldValue ? true : (element.getAttribute('data-color') || '') === filterFieldValue;
+			return isSearchMatch && isFilterMatch;
+		});
+	
+	}
+	
+	function sort() {
+	
+		// Do nothing if sort value did not change.
+		var currentSort = sortField.value;
+		if (sortFieldValue === currentSort) {
+			return;
+		}
+		
+		// If we are changing from "order" sorting to something else
+		// let's store the drag order.
+		if (sortFieldValue === 'order') {
+			dragOrder = grid.getItems();
+		}
+		
+		// Sort the items.
+		grid.sort(
+			currentSort === 'title' ? compareItemTitle :
+			currentSort === 'color' ? compareItemColor :
+			dragOrder
+		);
+		
+		// Update indices and active sort value.
+		updateIndices();
+		sortFieldValue = currentSort;
+	
+	}
+	
+	function addItems() {
+	
+		// Generate new elements.
+		var newElems = generateElements(5);
+		
+		// Set the display of the new elements to "none" so it will be hidden by
+		// default.
+		newElems.forEach(function (item) {
+			item.style.display = 'none';
+		});
+		
+		// Add the elements to the grid.
+		var newItems = grid.add(newElems);
+		
+		// Update UI indices.
+		updateIndices();
+		
+		// Sort the items only if the drag sorting is not active.
+		if (sortFieldValue !== 'order') {
+			grid.sort(sortFieldValue === 'title' ? compareItemTitle : compareItemColor);
+			dragOrder = dragOrder.concat(newItems);
+		}
+		
+		// Finally filter the items.
+		filter();
+	
+	}
+	
+	function removeItem(e) {
+	
+		var elem = elementClosest(e.target, '.item');
+		grid.hide(elem, {onFinish: function (items) {
+			var item = items[0];
+			grid.remove(item, {removeElements: true});
+			if (sortFieldValue !== 'order') {
+				var itemIndex = dragOrder.indexOf(item);
+				if (itemIndex > -1) {
+					dragOrder.splice(itemIndex, 1);
+				}
+			}
+		}});
+		updateIndices();
+	
+	}
+	
+	function changeLayout() {
+	
+		layoutFieldValue = layoutField.value;
+		grid._settings.layout = {
+			horizontal: false,
+			alignRight: layoutFieldValue.indexOf('right') > -1,
+			alignBottom: layoutFieldValue.indexOf('bottom') > -1,
+			fillGaps: layoutFieldValue.indexOf('fillgaps') > -1
+		};
+		grid.layout();
+		
+	}
+	
+	//
+	// Generic helper functions
+	//
+	
+	function generateElements(amount) {
+	
+		var ret = [];
+		
+		for (var i = 0; i < amount; i++) {
+			ret.push(generateElement(
+				++uuid,
+				generateRandomWord(2),
+				getRandomItem(filterOptions),
+				getRandomInt(1, 2),
+				getRandomInt(1, 2)
+			));
+		}
+		
+		return ret;
+	
+	}
+	
+	function generateElement(id, title, color, width, height) {
+	
+		var itemElem = document.createElement('div');
+		var classNames = 'item h' + height + ' w' + width + ' ' + color;
+		var itemTemplate = '' +
+		'<div class="' + classNames + '" data-id="' + id + '" data-color="' + color + '" data-title="' + title + '">' +
+		'<div class="item-content">' +
+		'<div class="card">' +
+		'<div class="card-id">' + id + '</div>' +
+		'<div class="card-title">' + title + '</div>' +
+		'<div class="card-remove"><i class="material-icons">&#xE5CD;</i></div>' +
+		'</div>' +
+		'</div>' +
+		'</div>';
+		
+		itemElem.innerHTML = itemTemplate;
+		return itemElem.firstChild;
+	
+	}
+	
+	function getRandomItem(collection) {
+	
+		return collection[Math.floor(Math.random() * collection.length)];
+	
+	}
+	
+	// https://stackoverflow.com/a/7228322
+	function getRandomInt(min,max) {
+	
+		return Math.floor(Math.random() * (max - min + 1) + min);
+	
+	}
+	
+	function generateRandomWord(length) {
+	
+		var ret = '';
+		for (var i = 0; i < length; i++) {
+			ret += getRandomItem(characters);
+		}
+		return ret;
+		
+	}
+	
+	function compareItemTitle(a, b) {
+	
+		var aVal = a.getElement().getAttribute('data-title') || '';
+		var bVal = b.getElement().getAttribute('data-title') || '';
+		return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+	
+	}
+	
+	function compareItemColor(a, b) {
+	
+		var aVal = a.getElement().getAttribute('data-color') || '';
+		var bVal = b.getElement().getAttribute('data-color') || '';
+		return aVal < bVal ? -1 : aVal > bVal ? 1 : compareItemTitle(a, b);
+	
+	}
+	
+	function updateIndices() {
+	
+		grid.getItems().forEach(function (item, i) {
+			var newId = i + 1;
+			item.getElement().setAttribute('data-id', newId);
+			item.getElement().querySelector('.card-id').innerHTML = newId;
+			if (item._dragPlaceholder.isActive()) {
+				item._dragPlaceholder._element.querySelector('.card-id').innerHTML = newId;
+			}
+		});
+	
+	}
+	
+	function elementMatches(element, selector) {
+	
+		var p = Element.prototype;
+		(element, selector);
+	
+	}
+	
+	function elementClosest(element, selector) {
+	
+		if (window.Element && !Element.prototype.closest) {
+			var isMatch = elementMatches(element, selector);
+			while (!isMatch && element && element !== document) {
+				element = element.parentNode;
+				isMatch = element && element !== document && elementMatches(element, selector);
+			}
+			return element && element !== document ? element : null;
+		}
+		else {
+			return element.closest(selector);
+		}
+	
+	}
+	
+	//
+	// Fire it up!
+	//
+	
+	initDemo();
+	
+	});
+
+</script>
+{% endblock %}

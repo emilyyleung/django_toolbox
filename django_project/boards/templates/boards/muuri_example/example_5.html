@@ -1,0 +1,609 @@
+{% extends "boards/muuri_example/base.html" %}
+
+{% block content %}
+
+<style type="text/css">
+	/* Base */
+	
+	* {
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	html {
+		overflow-y: scroll;
+		overflow-x: hidden;
+		background: #fff;
+	}
+	html.dragging body {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+	body {
+		position: relative;
+		font-family: 'Fira Sans', Helvetica, Arial, sans-serif;
+		font-size: 18px;
+		line-height: 1.5;
+		margin: 0 20px;
+		color: #6e6e6e;
+	}
+	a {
+		color: #3396FF;
+		text-decoration: none;
+		-webkit-transition: all 0.2s ease-out;
+		-moz-transition: all 0.2s ease-out;
+		-ms-transition: all 0.2s ease-out;
+		-o-transition: all 0.2s ease-out;
+		transition: all 0.2s ease-out;
+	}
+	a:hover {
+		color: #FF4BD8;
+	}
+	
+	/* Clearfix */
+	
+	.cf:before,
+	.cf:after {
+		content: " ";
+		display: table;
+	}
+	.cf:after {
+		clear: both;
+	}
+	
+	/* Material icons */
+	
+	.material-icons {
+		display: inline-block;
+		vertical-align: top;
+		line-height: inherit;
+		font-size: inherit;
+	}
+	
+	/* Buttons */
+	
+	.btn {
+		display: inline-block;
+		position: relative;
+		vertical-align: top;
+		margin: 0;
+		border: 0;
+		outline: 0;
+		padding: 0px 15px;
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 40px;
+		height: 40px;
+		text-align: center;
+		white-space: nowrap;
+		background: #4a9ff9;
+		color: #fff;
+		-ms-touch-action: manipulation;
+		touch-action: manipulation;
+		cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		border-radius: 3px;
+	}
+	.btn:focus,
+	.btn:hover,
+	.btn:active {
+		outline: 0;
+	}
+	.btn:hover {
+		background: #3989de;
+	}
+	.btn:active {
+		background: #3075bf;
+	}
+	.btn.active {
+		background: #60ca47;
+	}
+	.btn.active:hover {
+		background: #40b325;
+	}
+	.btn.active:active {
+		background: #309818;
+	}
+	
+	/* Forms */
+	
+	.form-control {
+		display: block;
+		width: 100%;
+		height: 40px;
+		padding: 5px 15px;
+		font-size: 16px;
+		line-height: 26px;
+		color: inherit;
+		background: #fff;
+		border: 2px solid #e5e5e5;
+		border-radius: 4px;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		-o-appearance: none;
+		appearance: none;
+	}
+	select.form-control {
+		padding-right: 40px;
+		cursor: pointer;
+	}
+	select.form-control::-ms-expand {
+		display: none;
+	}
+	.select-arrow {
+		position: absolute;
+		right: 10px;
+		top: 0;
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		z-index: 2;
+		pointer-events: none;
+	}
+	.form-control:focus {
+		outline: 0;
+		border-color: #4a9ff9;
+	}
+	
+	/* Header */
+	
+	header {
+		margin: 30px auto;
+		max-width: 940px;
+	}
+	header .logo {
+		max-width: 240px;
+		margin: 60px auto 60px auto;
+	}
+	header .logo svg {
+		width: 100%;
+		height: 100%;
+	}
+	header h1 {
+		display: none;
+	}
+	header h2 {
+		text-align: center;
+		font-size: 24px;
+		line-height: 1.5;
+		font-weight: 400;
+		max-width: 940px;
+		margin: 0 auto;
+		color: #6e6e6e;
+	}
+	header h2 > span {
+		display: block;
+		font-size: 18px;
+		color: #aaa;
+		margin-top: 3px;
+	}
+	header h2 > span > i {
+		margin: 0 10px;
+		color: #ccc;
+	}
+	header aside {
+		color: #bbb;
+		font-size: 15px;
+		margin-top: 5px;
+		font-style: italic;
+		text-align: center;
+	}
+	header nav {
+		text-align: center;
+	}
+	header nav a {
+		position: relative;
+		display: inline-block;
+		vertical-align: top;
+		position: relative;
+		padding: 20px;
+		font-size: 20px;
+		font-weight: 400;
+	}
+	header nav a i {
+		display: block;
+		position: absolute;
+		height: 2px;
+		bottom: 20px;
+		left: 20px;
+		right: 20px;
+		background-color: #FF4BD8;
+		opacity: 0;
+		z-index: 2;
+		-moz-transform: scale(0, 1);
+		-webkit-transform: scale(0, 1);
+		-o-transform: scale(0, 1);
+		-ms-transform: scale(0, 1);
+		transform: scale(0, 1);
+		-webkit-transition: -webkit-transform 0.2s ease-out, opacity 0s ease 0.2s;
+		-moz-transition: -moz-transform 0.2s ease-out, opacity 0s ease 0.2s;
+		-ms-transition: -ms-transform 0.2s ease-out, opacity 0s ease 0.2s;
+		-o-transition: -o-transform 0.2s ease-out, opacity 0s ease 0.2s;
+		transition: transform 0.2s ease-out, opacity 0s ease 0.2s;
+	}
+	header nav a:hover i {
+		opacity: 1;
+		-moz-transform: scale(1, 1);
+		-webkit-transform: scale(1, 1);
+		-o-transform: scale(1, 1);
+		-ms-transform: scale(1, 1);
+		transform: scale(1, 1);
+		-webkit-transition: -webkit-transform 0.2s ease-out, opacity 0s ease 0s;
+		-moz-transition: -moz-transform 0.2s ease-out, opacity 0s ease 0s;
+		-ms-transition: -ms-transform 0.2s ease-out, opacity 0s ease 0s;
+		-o-transition: -o-transform 0.2s ease-out, opacity 0s ease 0s;
+		transition: transform 0.2s ease-out, opacity 0s ease 0s;
+	}
+	@media (max-width: 600px) {
+		header {
+			margin-bottom: 0;
+		}
+		header h2 {
+			font-size: 21px;
+		}
+		header h2 > span {
+			margin-top: 20px;
+		}
+		header h2 > span > i {
+			display: none;
+		}
+		header h2 > span > span {
+			display: block;
+		}
+		header nav {
+			margin-top: 20px;
+			border-bottom: 0;
+			border-top: 1px solid #e5e5e5;
+		}
+		header nav a {
+			display: block;
+			vertical-align: top;
+			padding: 10px 20px;
+			border-bottom: 1px solid #e5e5e5;
+		}
+		header nav a i {
+			bottom: -1px;
+			left: 0;
+			right: 0;
+		}
+	}
+	
+	/* Footer */
+	
+	footer {
+		margin: 0 auto;
+		max-width: 940px;
+		text-align: center;
+		border-top: 2px solid #e5e5e5;
+		padding-top: 30px;
+		padding-bottom: 30px;
+	}
+	footer p {
+		margin: 0;
+	}
+	footer .credits {
+		color: #aaa;
+		margin-bottom: 5px;
+		font-style: italic;
+	}
+	footer .copyright i {
+		font-size: 24px;
+		height: 27px;
+		line-height: 32px;
+		display: inline-block;
+		vertical-align: top;
+	}
+	
+	/* Sections */
+	
+	section {
+		margin: 60px auto;
+		padding-top: 0;
+		max-width: 940px;
+		border-top: 2px solid #e5e5e5;
+		text-align: left;
+	}
+	section.demo {
+		margin-top: 30px;
+	}
+	section h4 {
+		margin: 30px 0 15px 0;
+		font-weight: 500;
+		font-size: 20px;
+		color: #3e3e3e;
+	}
+	@media (max-width: 600px) {
+		section.demo {
+			border-top: 0;
+		}
+	}
+	
+	/* Section titles */
+	
+	.section-title {
+		color: #3e3e3e;
+		font-size: 26px;
+		font-weight: 700;
+		margin: 40px 0;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+		text-align: center;
+	}
+	.section-title > span {
+		position: relative;
+		display: inline-block;
+		vertical-align: top;
+	}
+	.section-title > span:after {
+		content: "";
+		display: block;
+		position: absolute;
+		left: 10px;
+		bottom: 0;
+		right: 10px;
+		height: 2px;
+		background: #3e3e3e;
+	}
+	
+	/* Feature list */
+	
+	.feature-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.feature-list-item {
+		position: relative;
+		padding-left: 80px;
+		margin: 30px 0;
+		overflow: hidden;
+	}
+	.feature-list-icon {
+		display: block;
+		float: left;
+		margin-left: -80px;
+		width: 80px;
+		font-size: 48px;
+		line-height: 48px;
+		text-align: left;
+		color: #3396FF;
+	}
+	.feature-list-text h4 {
+		margin: 0 0 15px 0;
+		font-weight: 500;
+		font-size: 20px;
+	}
+	@media (max-width: 600px) {
+		.feature-list-item {
+			padding-left: 0;
+		}
+		.feature-list-icon {
+			margin: -4px 10px 0 0;
+			width: 24px;
+			font-size: 24px;
+			line-height: inherit;
+		}
+	}
+	
+	/* Author */
+	
+	.author {
+		margin: 60px 0;
+		font-weight: 500;
+		font-size: 20px;
+		color: #3e3e3e;
+		font-style: italic;
+		text-align: center;
+	}
+
+
+	/* Board */
+	
+	.board {
+		position: relative;
+		margin-left: 1%;
+	}
+	.board-column {
+		position: absolute;
+		left: 0;
+		right: 0;
+		width: 30%;
+		margin: 0 1.5%;
+		background: #f0f0f0;
+		border-radius: 3px;
+		z-index: 1;
+	}
+	.board-column.muuri-item-releasing {
+		z-index: 2;
+	}
+	.board-column.muuri-item-dragging {
+		z-index: 3;
+		cursor: move;
+	}
+	.board-column-header {
+		position: relative;
+		height: 50px;
+		line-height: 50px;
+		overflow: hidden;
+		padding: 0 20px;
+		text-align: center;
+		background: #333;
+		color: #fff;
+		border-radius: 3px 3px 0 0;
+	}
+	@media (max-width: 600px) {
+		.board-column-header {
+			text-indent: -1000px;
+		}
+	}
+	.board-column.todo .board-column-header {
+		background: #4A9FF9;
+	}
+	.board-column.working .board-column-header {
+		background: #f9944a;
+	}
+	.board-column.done .board-column-header {
+		background: #2ac06d;
+	}
+	.board-column-content {
+		position: relative;
+		border: 10px solid transparent;
+		min-height: 95px;
+	}
+	.board-item {
+		position: absolute;
+		width: 100%;
+		margin: 5px 0;
+	}
+	.board-item.muuri-item-releasing {
+		z-index: 9998;
+	}
+	.board-item.muuri-item-dragging {
+		z-index: 9999;
+		cursor: move;
+	}
+	.board-item.muuri-item-hidden {
+		z-index: 0;
+	}
+	.board-item-content {
+		position: relative;
+		padding: 20px;
+		background: #fff;
+		border-radius: 4px;
+		font-size: 17px;
+		cursor: pointer;
+		-webkit-box-shadow: 0px 1px 3px 0 rgba(0,0,0,0.2);
+		box-shadow: 0px 1px 3px 0 rgba(0,0,0,0.2);
+	}
+	@media (max-width: 600px) {
+		.board-item-content {
+			text-align: center;
+		}
+		.board-item-content span {
+			display: none;
+		}
+	}
+
+</style>
+
+<section class="kanban-demo">
+
+	<h2 class="section-title"><span>Kanban Demo</span></h2>
+
+	<div class="board">
+		<div class="board-column todo">
+			<div class="board-column-header">To do</div>
+			<div class="board-column-content">
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>1</div></div>
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>2</div></div>
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>3</div></div>
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>4</div></div>
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>5</div></div>
+			</div>
+		</div>
+		<div class="board-column working">
+			<div class="board-column-header">Working</div>
+			<div class="board-column-content">
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>6</div></div>
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>7</div></div>
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>8</div></div>
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>9</div></div>
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>10</div></div>
+			</div>
+		</div>
+		<div class="board-column done">
+			<div class="board-column-header">Done</div>
+			<div class="board-column-content">
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>11</div></div>
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>12</div></div>
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>13</div></div>
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>14</div></div>
+				<div class="board-item"><div class="board-item-content"><span>Item #</span>15</div></div>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
+	
+		var docElem = document.documentElement;
+		var kanban = document.querySelector('.kanban-demo');
+		var board = kanban.querySelector('.board');
+		var itemContainers = Array.prototype.slice.call(kanban.querySelectorAll('.board-column-content'));
+		var columnGrids = [];
+		var dragCounter = 0;
+		var boardGrid;
+		
+		itemContainers.forEach(function (container) {
+		
+			var muuri = new Muuri(container, {
+				items: '.board-item',
+				layoutDuration: 400,
+				layoutEasing: 'ease',
+				dragEnabled: true,
+				dragSort: function () {
+					return columnGrids;
+				},
+				dragSortHeuristics: {
+					sortInterval: 0,
+					minDragDistance: 0,
+					minBounceBackAngle: 0
+				},
+				dragContainer: document.body,
+				dragReleaseDuration: 400,
+				dragReleaseEasing: 'ease'
+			})
+			.on('dragStart', function (item) {
+				++dragCounter;
+				docElem.classList.add('dragging');
+				item.getElement().style.width = item.getWidth() + 'px';
+				item.getElement().style.height = item.getHeight() + 'px';
+			})
+			.on('dragEnd', function (item) {
+				if (--dragCounter < 1) {
+					docElem.classList.remove('dragging');
+				}
+			})
+			.on('dragReleaseEnd', function (item) {
+				item.getElement().style.width = '';
+				item.getElement().style.height = '';
+				columnGrids.forEach(function (muuri) {
+					muuri.refreshItems();
+				});
+			})
+			.on('layoutStart', function () {
+				boardGrid.refreshItems().layout();
+			});
+			
+			columnGrids.push(muuri);
+		
+		});
+		
+		boardGrid = new Muuri(board, {
+			layoutDuration: 400,
+			layoutEasing: 'ease',
+			dragEnabled: true,
+			dragSortHeuristics: {
+				sortInterval: 0,
+				minDragDistance: 0,
+				minBounceBackAngle: 0
+			},
+			dragStartPredicate: {
+				handle: '.board-column-header'
+			},
+			dragReleaseDuration: 400,
+			dragReleaseEasing: 'ease'
+		});
+	
+	});
+</script>
+
+{% endblock %}

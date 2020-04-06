@@ -29,4 +29,5 @@ urlpatterns = [
     path('jsonmaker/', include('jsonmaker.urls')),
     path('countdown/', include('countdown.urls')),
     path('restaurant/', include('restaurant.urls')),
+    path('boards/', include('boards.urls')),
 ]

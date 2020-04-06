@@ -1,0 +1,90 @@
+{% load custom_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+	<link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+	<style type="text/css">
+		
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+			/*grid-template-columns: repeat(3, 1fr);*/
+			grid-gap: 1rem;
+		}
+
+		.grid > div {
+			background: #ededed;
+			padding: 1rem;
+			height: 70rem;
+			max-height: 50vh;
+			position: relative;
+			border-radius: 6px;
+		}
+
+		.grid > div > img {
+			object-fit: cover;
+			width: 100%;
+			height: 80%;
+			padding-bottom: 1em;
+		}
+
+		p {
+			position: relative;
+			font-size: 1.5em;
+			font-weight: 400;
+			/*-webkit-text-stroke: 1px black;*/
+			text-align: center;
+			padding: 0.5em;
+			/*white-space: nowrap;*/
+			word-wrap: break-word;
+			overflow: hidden;
+			/*max-height: 3.6em;*/
+			/*line-height: 2em;*/
+			/*text-overflow: ellipsis;*/
+			/*color: white;*/
+		}
+
+		body {
+			margin: 2rem;
+			/*font-family: 'Cutive Mono', monospace;*/
+			font-family: 'Courier Prime', monospace;
+		}
+
+		.square {
+			height: 50px;
+			width: 50px;
+		}
+
+	</style>
+
+</head>
+<body>
+
+	<div class="grid">
+
+		{% for unsplash in unsplash_data %}
+			<div>			
+				<img src={{ unsplash.urls.regular }}>
+				{% for colour in colour_palettes %}
+					{{colour}}	
+				{% endfor %}
+			</div>
+		{% endfor %}
+
+	</div>
+
+</body>
+</html>
+
+<!-- {% if unsplash.color %}
+	<div class="square" style="background-color: {{unsplash.color}}"></div>
+	{{unsplash.color}}
+{% endif %} -->

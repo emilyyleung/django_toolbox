@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<style type="text/css">
+		
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+			grid-gap: 1rem;
+		}
+
+		.grid > div {
+			/*background: black;*/
+			padding: 1rem;
+			position: relative;
+		}
+
+		.grid > div::before {
+			content: "";
+			padding-top: 100%;
+			display: block;
+		}
+
+		.grid > div > img {
+			position: absolute;
+			top: 0;
+			right: 0;
+			left: 0;
+			max-width: 100%;
+			margin: auto;
+			bottom: 0;
+		}
+
+		img {
+			object-fit: cover;
+			width:100%;
+			height:100%;
+			border-radius: 6px;
+		}
+
+		body {
+			margin: 2rem;
+		}
+
+	</style>
+
+</head>
+<body>
+
+	<div class="grid">
+
+		{% for unsplash in unsplash_data %}
+			<div>			
+				<img src={{ unsplash.urls.small }}>
+			</div>
+		{% endfor %}
+
+	</div>
+
+</body>
+</html>
