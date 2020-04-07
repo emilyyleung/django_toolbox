@@ -12,7 +12,18 @@
 	<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
 	<style type="text/css">
-		
+
+		body {
+			margin: 2rem;
+			/*font-family: 'Cutive Mono', monospace;*/
+			font-family: 'Courier Prime', monospace;
+
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+
 		.grid {
 			display: grid;
 			grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -52,15 +63,30 @@
 			/*color: white;*/
 		}
 
-		body {
-			margin: 2rem;
-			/*font-family: 'Cutive Mono', monospace;*/
-			font-family: 'Courier Prime', monospace;
+		.square {
+			height: 2rem;
+			width: 2rem;
 		}
 
-		.square {
-			height: 50px;
-			width: 50px;
+		.loading {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: fixed;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			text-transform: uppercase;
+			transition: opacity 0.6s linear 0.4s;
+		}
+
+		.images-loaded .loading {
+			opacity: 0;
+		}
+
+		.images-loaded .grid {
+			opacity: 1;
 		}
 
 	</style>
@@ -68,18 +94,34 @@
 </head>
 <body>
 
+	<div class="loading">
+		Loading images...
+	</div>
+
 	<div class="grid">
 
 		{% for unsplash in unsplash_data %}
-			<div>			
-				<img src={{ unsplash.urls.regular }}>
-				{% for colour in colour_palettes %}
-					{{colour}}	
+			<div>
+				<img src={{ unsplash.photo }}>
+				{% for colour in unsplash.colours %}
+
+					<div style="display: inline-grid;" data-toggle="tooltip" data-placement="bottom" title={{ colour }}>
+						<div class="square" style="background-color: {{ colour }}"></div>
+					</div>
+
 				{% endfor %}
 			</div>
 		{% endfor %}
 
 	</div>
+
+	<script type="text/javascript">
+		// When all items have loaded refresh their
+		// dimensions and layout the grid.
+		window.addEventListener('load', function () {
+			document.body.classList.add('images-loaded');
+		});
+	</script>
 
 </body>
 </html>
@@ -88,3 +130,5 @@
 	<div class="square" style="background-color: {{unsplash.color}}"></div>
 	{{unsplash.color}}
 {% endif %} -->
+
+<!-- <div class="square" style="position: relative; background-color: {{color}}"></div> -->

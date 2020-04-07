@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+
+	<style>
+		html, body {
+			background: #eceff1;
+			width: 100%;
+			height: 100%;
+			padding: 0;
+			margin: 0;
+		}
+		
+		.container {
+			widht: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.main {
+			width: 500px;
+			height: 300px;
+			padding: 15px;
+			border: 1px solid #000;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		
+		.image-body {
+			width: 400px;
+			height: 200px;
+			overflow: hidden;
+		}
+		
+		img {
+			width: 100%;
+			height: auto;
+			min-height: 200px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="main">
+			<div class="image-body">
+				<img class="image" src="https://source.unsplash.com/random/again" alt="The Image">
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var colorThief = new ColorThief();
+		
+		var image = $(".image");
+		
+		$(image).load(function() {
+			var color = colorThief.getPalette(image, 8);
+			
+			var color1 = 'rgb(' + color[0] + ')';
+			var color2 = 'rgb(' + color[1] + ')';
+			
+			$('.main').css('background', 'linear-gradient(to right,' + color1 + ',' + color2 + ')');
+			
+			$('a').css('color', color1);
+		});
+	</script>
+
+</body>
+</html>
