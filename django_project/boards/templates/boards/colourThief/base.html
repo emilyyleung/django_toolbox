@@ -49,26 +49,50 @@
 	<div class="container">
 		<div class="main">
 			<div class="image-body">
-				<img class="image" src="https://source.unsplash.com/random/again" alt="The Image">
+				<img class="image" src="https://source.unsplash.com/random/" alt="The Image" crossorigin="anonymous">
 			</div>
 		</div>
 	</div>
 
 	<script>
-		var colorThief = new ColorThief();
-		
-		var image = $(".image");
-		
-		$(image).load(function() {
-			var color = colorThief.getPalette(image, 8);
+
+		$(window).on("load", function() {
+
+			const colorThief = new ColorThief();
+			console.log("x")
+			// var img = new Image;
+			const img = document.querySelector('img');
+			// img.src = strDataURI;
+
+			console.log("x")
 			
-			var color1 = 'rgb(' + color[0] + ')';
-			var color2 = 'rgb(' + color[1] + ')';
+			if (img.complete) {
+				console.log("x")
+				colorThief.getColor(img);
+				// console.log(colorThief.getColor(img))
+				// console.log(colorThief.getPalette(img, 8))
+
+				var color = colorThief.getPalette(img, 8);
 			
-			$('.main').css('background', 'linear-gradient(to right,' + color1 + ',' + color2 + ')');
-			
-			$('a').css('color', color1);
-		});
+				var color1 = 'rgb(' + color[0] + ')';
+				var color2 = 'rgb(' + color[1] + ')';
+				
+				$('.main').css('background', 'linear-gradient(to right,' + color1 + ',' + color2 + ')');
+				
+				$('a').css('color', color1);
+
+			} else {
+				console.log("x")
+				image.addEventListener('load', function() {
+					console.log("x")
+					colorThief.getColor(img);
+					console.log("x")
+				});
+			}
+
+		})
+
+
 	</script>
 
 </body>
