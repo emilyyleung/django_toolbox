@@ -1,3 +1,5 @@
+{% load custom_tags %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +20,6 @@
 			background: #ededed;
 			padding: 1rem;
 			display: grid;
-			/*padding-bottom: 25%;*/
 			border-radius: 6px;
 		}
 
@@ -44,9 +45,13 @@
 		}
 
 		.colour-palette {
-			position: relative;
 			display: grid;
 			grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+		}
+
+		.spacer {
+			content: "";
+			padding-top: 1rem;
 		}
 
 		.square {
@@ -74,13 +79,14 @@
 
 			<div class="polaroid" id=0>
 				<div class="polaroid-square">
-					<img src={{ unsplash.urls.small }}>
+					<img src={{ unsplash.urls.small }} crossorigin="anonymous">
+					<div class="spacer"></div>
 					<div class="colour-palette">
-						<div class="square" id=10></div>
-						<div class="square" id=11></div>
-						<div class="square" id=12></div>
-						<div class="square" id=13></div>
-						<div class="square" id=14></div>
+						<div class="square" id='{{ forloop.counter0 }}0'+ style="background: #ededed;"></div>
+						<div class="square" id='{{ forloop.counter0 }}1'+ style="background: #ededed;"></div>
+						<div class="square" id='{{ forloop.counter0 }}2'+ style="background: #ededed;"></div>
+						<div class="square" id='{{ forloop.counter0 }}3'+ style="background: #ededed;"></div>
+						<div class="square" id='{{ forloop.counter0 }}4'+ style="background: #ededed;"></div>
 					</div>
 				</div>
 			</div>
@@ -92,6 +98,7 @@
 			<div class="polaroid">
 				<div class="polaroid-square">
 					<img src="https://source.unsplash.com/random" crossorigin="anonymous">
+					<div class="spacer"></div>
 					<div class="colour-palette">
 						<div class="square" id=00 style="background: #ededed;"></div>
 						<div class="square" id=01 style="background: #ededed;"></div>
@@ -104,6 +111,7 @@
 			<div class="polaroid" id=1>
 				<div class="polaroid-square">
 					<img src="https://source.unsplash.com/random/test" crossorigin="anonymous">
+					<div class="spacer"></div>
 					<div class="colour-palette">
 						<div class="square" id=10 style="background: #ededed;"></div>
 						<div class="square" id=11 style="background: #ededed;"></div>
@@ -115,7 +123,8 @@
 			</div>
 			<div class="polaroid" id=2>
 				<div class="polaroid-square">
-					<img src="https://source.unsplash.com/random/123" crossorigin="anonymous">					
+					<img src="https://source.unsplash.com/random/123" crossorigin="anonymous">
+					<div class="spacer"></div>					
 					<div class="colour-palette">
 						<div class="square" id=20 style="background: #ededed;"></div>
 						<div class="square" id=21 style="background: #ededed;"></div>
@@ -127,7 +136,8 @@
 			</div>
 			<div class="polaroid" id=3>
 				<div class="polaroid-square">
-					<img src="https://source.unsplash.com/random/hello" crossorigin="anonymous">					
+					<img src="https://source.unsplash.com/random/hello" crossorigin="anonymous">
+					<div class="spacer"></div>					
 					<div class="colour-palette">
 						<div class="square" id=30 style="background: #ededed;"></div>
 						<div class="square" id=31 style="background: #ededed;"></div>
@@ -140,6 +150,7 @@
 			<div class="polaroid" id=4>
 				<div class="polaroid-square">
 					<img src="https://source.unsplash.com/random/key" crossorigin="anonymous">
+					<div class="spacer"></div>
 					<div class="colour-palette">
 						<div class="square" id=40 style="background: #ededed;"></div>
 						<div class="square" id=41 style="background: #ededed;"></div>
@@ -152,6 +163,7 @@
 			<div class="polaroid" id=4>
 				<div class="polaroid-square">
 					<img src="https://source.unsplash.com/random/orange" crossorigin="anonymous">
+					<div class="spacer"></div>
 					<div class="colour-palette">
 						<div class="square" id=50 style="background: #ededed;"></div>
 						<div class="square" id=51 style="background: #ededed;"></div>
@@ -164,6 +176,7 @@
 			<div class="polaroid" id=4>
 				<div class="polaroid-square">
 					<img src="https://source.unsplash.com/random/play" crossorigin="anonymous">
+					<div class="spacer"></div>
 					<div class="colour-palette">
 						<div class="square" id=60 style="background: #ededed;"></div>
 						<div class="square" id=61 style="background: #ededed;"></div>
@@ -176,6 +189,7 @@
 			<div class="polaroid" id=4>
 				<div class="polaroid-square">
 					<img src="https://source.unsplash.com/random/tred" crossorigin="anonymous">
+					<div class="spacer"></div>
 					<div class="colour-palette">
 						<div class="square" id=70 style="background: #ededed;"></div>
 						<div class="square" id=71 style="background: #ededed;"></div>
@@ -188,6 +202,7 @@
 			<div class="polaroid" id=4>
 				<div class="polaroid-square">
 					<img src="https://source.unsplash.com/random/plo" crossorigin="anonymous">
+					<div class="spacer"></div>
 					<div class="colour-palette">
 						<div class="square" id=80 style="background: #ededed;"></div>
 						<div class="square" id=81 style="background: #ededed;"></div>
@@ -200,6 +215,7 @@
 			<div class="polaroid" id=4>
 				<div class="polaroid-square">
 					<img src="https://source.unsplash.com/random/lol" crossorigin="anonymous">
+					<div class="spacer"></div>
 					<div class="colour-palette">
 						<div class="square" id=90 style="background: #ededed;"></div>
 						<div class="square" id=91 style="background: #ededed;"></div>
