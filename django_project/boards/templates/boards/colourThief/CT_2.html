@@ -40,6 +40,7 @@
 			height: 100%;
 			object-fit: cover;
 			grid-area: 1 / 1 / 2 / 2;
+			border-radius: 3px 3px 0px 0px;
 		}
 
 		.colour-palette {
@@ -219,75 +220,24 @@
 
 			const colorThief = new ColorThief();
 
-
 			const img1 = document.querySelector('img');
-			console.log(img1)
 
 			const img = document.querySelectorAll('img');
-			console.log(img)
-			console.log(img[0])
-
-			console.log("x")
 
 			for (var i = 0; i < img.length; i ++) {
 
-				// $(img[i]).on('load', function() {
+				colorThief.getColor(img[i]);
 
-					console.log(i)
-					colorThief.getColor(img[i]);
+				var color = colorThief.getPalette(img[i], 5);
 
-					var color = colorThief.getPalette(img[i], 5);
-					console.log(color)
-				
-					var color1 = 'rgb(' + color[0] + ')';
-					var color2 = 'rgb(' + color[1] + ')';
-					var color3 = 'rgb(' + color[2] + ')';
-					var color4 = 'rgb(' + color[3] + ')';
-					var color5 = 'rgb(' + color[4] + ')';
-					
-					$('#' + i + 0).css('background', color1);
-					$('#' + i + 1).css('background', color2);
-					$('#' + i + 2).css('background', color3);
-					$('#' + i + 3).css('background', color4);
-					$('#' + i + 4).css('background', color5);
-					// $('#' + i).css('background', 'linear-gradient(to right,' + color1 + ',' + color2 + ')');
-				// })
+				for (var col in color) {
+					var palette_col = 'rgb(' + color[col] + ')'
+					$('#' + i + col).css('background', palette_col);
+				}
 
 			}
-			
-			
+
 		}
-		
-		$(window).on("load", function() {
-			
-			// if (img.complete) {
-
-
-			// 	// console.log("x")
-			// 	// colorThief.getColor(img);
-			// 	// // console.log(colorThief.getColor(img))
-			// 	// // console.log(colorThief.getPalette(img, 8))
-
-			// 	// var color = colorThief.getPalette(img, 8);
-			// 	// console.log(color)
-			
-			// 	// var color1 = 'rgb(' + color[0] + ')';
-			// 	// var color2 = 'rgb(' + color[1] + ')';
-				
-			// 	// $('.polaroid').css('background', 'linear-gradient(to right,' + color1 + ',' + color2 + ')');
-				
-			// 	$('a').css('color', color1);
-
-			// } else {
-			// 	console.log("x")
-			// 	image.addEventListener('load', function() {
-			// 		console.log("x")
-			// 		colorThief.getColor(img);
-			// 		console.log("x")
-			// 	});
-			// }
-
-		})
 
 	</script>
 </body>
