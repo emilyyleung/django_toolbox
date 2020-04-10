@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+
+	<style type="text/css">
+		
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+			grid-gap: 1rem;
+		}
+
+		.polaroid {
+			background: #ededed;
+			padding: 1rem;
+			display: grid;
+			/*padding-bottom: 25%;*/
+			border-radius: 6px;
+		}
+
+		.polaroid-square {
+			display: grid;
+			text-align: center;
+		}
+
+		.polaroid-square::before {
+			content: "";
+			padding-top: 100%;
+			display: block;
+			grid-area: 1 / 1 / 2 / 2;
+			display: inline;
+		}
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			grid-area: 1 / 1 / 2 / 2;
+		}
+
+		.colour-palette {
+			position: relative;
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+		}
+
+		.square {
+			display: grid;
+		}
+
+		.square::before {
+			content: "";
+			padding-top: 100%;
+			display: block;
+		}
+
+		body {
+			margin: 2rem;
+		}
+	</style>
+</head>
+<body onload="checkImageLoad();">
+
+	<div class="grid">
+
+		{% if unsplash_data %}
+
+			{% for unsplash in unsplash_data %}
+
+			<div class="polaroid" id=0>
+				<div class="polaroid-square">
+					<img src={{ unsplash.urls.small }}>
+					<div class="colour-palette">
+						<div class="square" id=10></div>
+						<div class="square" id=11></div>
+						<div class="square" id=12></div>
+						<div class="square" id=13></div>
+						<div class="square" id=14></div>
+					</div>
+				</div>
+			</div>
+
+			{% endfor %}
+
+		{% else %}
+
+			<div class="polaroid">
+				<div class="polaroid-square">
+					<img src="https://source.unsplash.com/random" crossorigin="anonymous">
+					<div class="colour-palette">
+						<div class="square" id=00 style="background: #ededed;"></div>
+						<div class="square" id=01 style="background: #ededed;"></div>
+						<div class="square" id=02 style="background: #ededed;"></div>
+						<div class="square" id=03 style="background: #ededed;"></div>
+						<div class="square" id=04 style="background: #ededed;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="polaroid" id=1>
+				<div class="polaroid-square">
+					<img src="https://source.unsplash.com/random/test" crossorigin="anonymous">
+					<div class="colour-palette">
+						<div class="square" id=10 style="background: #ededed;"></div>
+						<div class="square" id=11 style="background: #ededed;"></div>
+						<div class="square" id=12 style="background: #ededed;"></div>
+						<div class="square" id=13 style="background: #ededed;"></div>
+						<div class="square" id=14 style="background: #ededed;"></div>
+					</div>				
+				</div>
+			</div>
+			<div class="polaroid" id=2>
+				<div class="polaroid-square">
+					<img src="https://source.unsplash.com/random/123" crossorigin="anonymous">					
+					<div class="colour-palette">
+						<div class="square" id=20 style="background: #ededed;"></div>
+						<div class="square" id=21 style="background: #ededed;"></div>
+						<div class="square" id=22 style="background: #ededed;"></div>
+						<div class="square" id=23 style="background: #ededed;"></div>
+						<div class="square" id=24 style="background: #ededed;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="polaroid" id=3>
+				<div class="polaroid-square">
+					<img src="https://source.unsplash.com/random/hello" crossorigin="anonymous">					
+					<div class="colour-palette">
+						<div class="square" id=30 style="background: #ededed;"></div>
+						<div class="square" id=31 style="background: #ededed;"></div>
+						<div class="square" id=32 style="background: #ededed;"></div>
+						<div class="square" id=33 style="background: #ededed;"></div>
+						<div class="square" id=34 style="background: #ededed;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="polaroid" id=4>
+				<div class="polaroid-square">
+					<img src="https://source.unsplash.com/random/key" crossorigin="anonymous">
+					<div class="colour-palette">
+						<div class="square" id=40 style="background: #ededed;"></div>
+						<div class="square" id=41 style="background: #ededed;"></div>
+						<div class="square" id=42 style="background: #ededed;"></div>
+						<div class="square" id=43 style="background: #ededed;"></div>
+						<div class="square" id=44 style="background: #ededed;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="polaroid" id=4>
+				<div class="polaroid-square">
+					<img src="https://source.unsplash.com/random/orange" crossorigin="anonymous">
+					<div class="colour-palette">
+						<div class="square" id=50 style="background: #ededed;"></div>
+						<div class="square" id=51 style="background: #ededed;"></div>
+						<div class="square" id=52 style="background: #ededed;"></div>
+						<div class="square" id=53 style="background: #ededed;"></div>
+						<div class="square" id=54 style="background: #ededed;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="polaroid" id=4>
+				<div class="polaroid-square">
+					<img src="https://source.unsplash.com/random/play" crossorigin="anonymous">
+					<div class="colour-palette">
+						<div class="square" id=60 style="background: #ededed;"></div>
+						<div class="square" id=61 style="background: #ededed;"></div>
+						<div class="square" id=62 style="background: #ededed;"></div>
+						<div class="square" id=63 style="background: #ededed;"></div>
+						<div class="square" id=64 style="background: #ededed;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="polaroid" id=4>
+				<div class="polaroid-square">
+					<img src="https://source.unsplash.com/random/tred" crossorigin="anonymous">
+					<div class="colour-palette">
+						<div class="square" id=70 style="background: #ededed;"></div>
+						<div class="square" id=71 style="background: #ededed;"></div>
+						<div class="square" id=72 style="background: #ededed;"></div>
+						<div class="square" id=73 style="background: #ededed;"></div>
+						<div class="square" id=74 style="background: #ededed;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="polaroid" id=4>
+				<div class="polaroid-square">
+					<img src="https://source.unsplash.com/random/plo" crossorigin="anonymous">
+					<div class="colour-palette">
+						<div class="square" id=80 style="background: #ededed;"></div>
+						<div class="square" id=81 style="background: #ededed;"></div>
+						<div class="square" id=82 style="background: #ededed;"></div>
+						<div class="square" id=83 style="background: #ededed;"></div>
+						<div class="square" id=84 style="background: #ededed;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="polaroid" id=4>
+				<div class="polaroid-square">
+					<img src="https://source.unsplash.com/random/lol" crossorigin="anonymous">
+					<div class="colour-palette">
+						<div class="square" id=90 style="background: #ededed;"></div>
+						<div class="square" id=91 style="background: #ededed;"></div>
+						<div class="square" id=92 style="background: #ededed;"></div>
+						<div class="square" id=93 style="background: #ededed;"></div>
+						<div class="square" id=94 style="background: #ededed;"></div>
+					</div>
+				</div>
+			</div>
+
+		{% endif %}
+
+	</div>
+
+	<script type="text/javascript">
+
+		function checkImageLoad() {
+
+			const colorThief = new ColorThief();
+
+
+			const img1 = document.querySelector('img');
+			console.log(img1)
+
+			const img = document.querySelectorAll('img');
+			console.log(img)
+			console.log(img[0])
+
+			console.log("x")
+
+			for (var i = 0; i < img.length; i ++) {
+
+				// $(img[i]).on('load', function() {
+
+					console.log(i)
+					colorThief.getColor(img[i]);
+
+					var color = colorThief.getPalette(img[i], 5);
+					console.log(color)
+				
+					var color1 = 'rgb(' + color[0] + ')';
+					var color2 = 'rgb(' + color[1] + ')';
+					var color3 = 'rgb(' + color[2] + ')';
+					var color4 = 'rgb(' + color[3] + ')';
+					var color5 = 'rgb(' + color[4] + ')';
+					
+					$('#' + i + 0).css('background', color1);
+					$('#' + i + 1).css('background', color2);
+					$('#' + i + 2).css('background', color3);
+					$('#' + i + 3).css('background', color4);
+					$('#' + i + 4).css('background', color5);
+					// $('#' + i).css('background', 'linear-gradient(to right,' + color1 + ',' + color2 + ')');
+				// })
+
+			}
+			
+			
+		}
+		
+		$(window).on("load", function() {
+			
+			// if (img.complete) {
+
+
+			// 	// console.log("x")
+			// 	// colorThief.getColor(img);
+			// 	// // console.log(colorThief.getColor(img))
+			// 	// // console.log(colorThief.getPalette(img, 8))
+
+			// 	// var color = colorThief.getPalette(img, 8);
+			// 	// console.log(color)
+			
+			// 	// var color1 = 'rgb(' + color[0] + ')';
+			// 	// var color2 = 'rgb(' + color[1] + ')';
+				
+			// 	// $('.polaroid').css('background', 'linear-gradient(to right,' + color1 + ',' + color2 + ')');
+				
+			// 	$('a').css('color', color1);
+
+			// } else {
+			// 	console.log("x")
+			// 	image.addEventListener('load', function() {
+			// 		console.log("x")
+			// 		colorThief.getColor(img);
+			// 		console.log("x")
+			// 	});
+			// }
+
+		})
+
+	</script>
+</body>
+</html>

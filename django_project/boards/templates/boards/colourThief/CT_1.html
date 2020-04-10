@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+			grid-gap: 1rem;
+		}
+
+		.polaroid {
+			background: #ededed;
+			padding: 1rem;
+			display: grid;
+			padding-bottom: 25%;
+			border-radius: 6px;
+		}
+
+		.polaroid-square {
+			display: grid;
+			text-align: center;
+		}
+
+		.polaroid-square::before {
+			content: "";
+			padding-top: 100%;
+			display: block;
+			grid-area: 1 / 1 / 2 / 2;
+		}
+
+		img {
+			/*display: none;*/
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			/*height: 100%;*/
+			grid-area: 1 / 1 / 2 / 2;
+		}
+
+		.square {
+			height: 2rem;
+			width: 2rem;
+			background: red;
+		}
+
+		body {
+			margin: 2rem;
+		}
+	</style>
+</head>
+<body>
+	<div class="grid">
+		<div class="polaroid">
+			<div class="polaroid-square">
+				<img src="https://source.unsplash.com/random">
+			</div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+		</div>
+		<div class="polaroid">
+			<div class="polaroid-square">
+				<img src="https://source.unsplash.com/random">
+			</div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+		</div>
+		<div class="polaroid">
+			<div class="polaroid-square">
+				<img src="https://source.unsplash.com/random">
+			</div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+		</div>
+		<div class="polaroid">
+			<div class="polaroid-square">
+				<img src="https://source.unsplash.com/random">
+			</div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+		</div>
+		<div class="polaroid">
+			<div class="polaroid-square">
+				<img src="https://source.unsplash.com/random">
+			</div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+		</div>
+		<div class="polaroid">
+			<div class="polaroid-square">
+				<img src="https://source.unsplash.com/random">
+			</div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+		</div>
+		<div class="polaroid">
+			<div class="polaroid-square">
+				<img src="https://source.unsplash.com/random">
+			</div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+		</div>
+		<div class="polaroid">
+			<div class="polaroid-square">
+				<img src="https://source.unsplash.com/random">
+			</div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+			<div class="square"></div>
+		</div>
+	</div>
+</body>
+</html>
