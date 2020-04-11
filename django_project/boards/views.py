@@ -203,3 +203,34 @@ def test(request, version, query="", howMany=10):
 
 	# return JsonResponse({"unsplash_data": unsplash_photos})
 	return render(request, url, {"unsplash_data": unsplash_photos})
+
+def searchImages(request, version=2, query="", howMany=50):
+
+	url = "boards/colourThief/CT_" + str(version) + ".html"
+
+	context = {}
+
+	print(request.GET["query"])
+
+	if query:
+		unsplash_query = query
+	else:
+		unsplash_query = "query=" + request.GET["query"]
+		# unsplash_query = "query=random"
+		
+	unsplash_url = "https://api.unsplash.com/search/photos?page=1&per_page=" + str(howMany) + "&" + unsplash_query + "&client_id=" + CLIENT_ID
+
+	print(unsplash_query)
+
+	r = requests.get(unsplash_url)
+	job = r.json()
+
+	unsplash_photos = []
+
+	for img in job["results"]:
+		unsplash_photos.append(img)
+
+	# return JsonResponse({"unsplash_data": unsplash_photos})
+	return render(request, url, {"unsplash_data": unsplash_photos})
+
+	# return JsonResponse({"unsplash_data": unsplash_url})

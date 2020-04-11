@@ -2,6 +2,8 @@ from django.urls import path
 from django.conf.urls import url
 from . import views
 
+app_name = 'boards'
+
 urlpatterns = [
 	path('', views.home, name='boards-home'),
 	path('muuri_example/<str:version>/', views.muuri_example, name='boards-muuri_example'),
@@ -22,4 +24,6 @@ urlpatterns = [
 	path('colourThief/test/<str:version>/', views.test, name='boards-test'),
 	path('colourThief/test/<str:version>/<str:query>/', views.test, name='boards-test'),
 	path('colourThief/test/<str:version>/<str:query>/<str:howMany>/', views.test, name='boards-test'),
+
+	url('colourThief/search/', views.searchImages, name='boards-searchImages'),
 ]
