@@ -40,6 +40,7 @@
 		}
 
 		.square {
+			display: none;
 			height: 2rem;
 			width: 2rem;
 			background: red;
@@ -49,12 +50,44 @@
 			margin: 2rem;
 		}
 	</style>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
+	<script src="https://code.iconify.design/1/1.0.5/iconify.min.js"></script>
 </head>
 <body>
+
+	<!-- Target -->
+	<input id="foo" value="https://github.com/zenorocha/clipboard.js.git">
+	
+	<!-- Trigger -->
+	<button class="btn" data-clipboard-target="#foo">
+		<span class="iconify" data-icon="octicon-clippy" data-inline="false"></span>
+	</button>
+
+	<script type="text/javascript">
+		var clipboard = new ClipboardJS('.btn');
+
+		console.log(clipboard)
+		
+		clipboard.on('success', function(e) {
+			console.info('Action:', e.action);
+			console.info('Text:', e.text);
+			console.info('Trigger:', e.trigger);
+			
+			e.clearSelection();
+		});
+		
+		clipboard.on('error', function(e) {
+			console.error('Action:', e.action);
+			console.error('Trigger:', e.trigger);
+		});
+	</script>
+
+
 	<div class="grid">
 		<div class="polaroid">
 			<div class="polaroid-square">
-				<img src="https://source.unsplash.com/random">
+				<img src="https://source.unsplash.com/random/0">
 			</div>
 			<div class="square"></div>
 			<div class="square"></div>
@@ -66,7 +99,7 @@
 		</div>
 		<div class="polaroid">
 			<div class="polaroid-square">
-				<img src="https://source.unsplash.com/random">
+				<img src="https://source.unsplash.com/random/1">
 			</div>
 			<div class="square"></div>
 			<div class="square"></div>
@@ -78,7 +111,7 @@
 		</div>
 		<div class="polaroid">
 			<div class="polaroid-square">
-				<img src="https://source.unsplash.com/random">
+				<img src="https://source.unsplash.com/random/2">
 			</div>
 			<div class="square"></div>
 			<div class="square"></div>
@@ -90,7 +123,7 @@
 		</div>
 		<div class="polaroid">
 			<div class="polaroid-square">
-				<img src="https://source.unsplash.com/random">
+				<img src="https://source.unsplash.com/random/">
 			</div>
 			<div class="square"></div>
 			<div class="square"></div>
@@ -102,7 +135,7 @@
 		</div>
 		<div class="polaroid">
 			<div class="polaroid-square">
-				<img src="https://source.unsplash.com/random">
+				<img src="https://source.unsplash.com/random/3">
 			</div>
 			<div class="square"></div>
 			<div class="square"></div>
@@ -114,7 +147,7 @@
 		</div>
 		<div class="polaroid">
 			<div class="polaroid-square">
-				<img src="https://source.unsplash.com/random">
+				<img src="https://source.unsplash.com/random/4">
 			</div>
 			<div class="square"></div>
 			<div class="square"></div>
@@ -126,7 +159,7 @@
 		</div>
 		<div class="polaroid">
 			<div class="polaroid-square">
-				<img src="https://source.unsplash.com/random">
+				<img src="https://source.unsplash.com/random/5">
 			</div>
 			<div class="square"></div>
 			<div class="square"></div>
@@ -138,7 +171,7 @@
 		</div>
 		<div class="polaroid">
 			<div class="polaroid-square">
-				<img src="https://source.unsplash.com/random">
+				<img src="https://source.unsplash.com/random/6">
 			</div>
 			<div class="square"></div>
 			<div class="square"></div>

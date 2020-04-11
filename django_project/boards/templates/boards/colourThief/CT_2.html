@@ -12,6 +12,9 @@
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
 	<style type="text/css">
 		
 		.grid {
@@ -84,22 +87,22 @@
 
 			<div class="polaroid" id=0>
 				<div class="polaroid-square">
-					<img src={{ unsplash.urls.small }} crossorigin="anonymous">
+					<img src={{ unsplash.urls.regular }} crossorigin="anonymous">
 					<div class="spacer"></div>
 					<div class="colour-palette">
-						<a href="#" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}0'>
-							<div class="square" id='{{ forloop.counter0 }}0'+ style="background: #ededed; border-radius: 0px 0px 0px 3px;"></div>
+						<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}0'>
+							<div class="square" id='{{ forloop.counter0 }}0'+ style="background: #ededed; border-radius: 0px 0px 0px 3px;" ></div>
 						</a>
-						<a href="#" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}1'>
+						<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}1'>
 							<div class="square" id='{{ forloop.counter0 }}1'+ style="background: #ededed;"></div>
 						</a>
-						<a href="#" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}2'>
+						<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}2'>
 							<div class="square" id='{{ forloop.counter0 }}2'+ style="background: #ededed;"></div>
 						</a>
-						<a href="#" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}3'>
+						<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}3'>
 							<div class="square" id='{{ forloop.counter0 }}3'+ style="background: #ededed;"></div>
 						</a>
-						<a href="#" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}4'>
+						<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}4'>
 							<div class="square" id='{{ forloop.counter0 }}4'+ style="background: #ededed; border-radius: 0px 0px 3px 0px;"></div>
 						</a>
 					</div>
@@ -247,18 +250,41 @@
 
 	<script type="text/javascript">
 
+		function getTooltipVal(a) {
+			var value = $(a).tooltip().attr('data-clipboard-text')
+			return value
+		}
 
-		$(document).click(function(event) {
-			// console.log(event.target)
-			// console.log(event.target.parentElement.id)
-			try {
-				var selectedColour = $("#" + event.target.parentElement.id).attr('data-original-title')
-				alert(selectedColour)
-			} catch(e) {
+		function setTooltip(a, message, prev) {
+			
 
-			}
+			$(a).tooltip('hide')
+			.attr('data-original-title', message)
+			.tooltip('show');
 
 
+			setTimeout(function(){ 
+				$(a).tooltip().attr('data-original-title', prev)
+			}, 1000);
+		}
+		
+		function hideTooltip(a) {
+			setTimeout(function() {
+			$(a).tooltip('hide');
+			}, 1000);
+		}
+
+		var clipboard = new Clipboard('a')
+
+		clipboard.on('success', function(e) {
+			var val = getTooltipVal(e.trigger)
+			setTooltip(e.trigger, 'Copied!', val);
+			hideTooltip(e.trigger);
+		});
+
+		clipboard.on('error', function(e) {
+			setTooltip(e.trigger, 'Failed!');
+			hideTooltip(e.trigger);
 		});
 
 		var rgbToHex = function (rgb) { 
@@ -280,28 +306,55 @@
 
 			const colorThief = new ColorThief();
 
-			const img1 = document.querySelector('img');
+			// const img1 = document.querySelector('img');
 
 			const img = document.querySelectorAll('img');
 
+			img_palette_arr = []
+
 			for (var i = 0; i < img.length; i ++) {
+
+				var palette_arr = []
 
 				colorThief.getColor(img[i]);
 
 				var color = colorThief.getPalette(img[i], 5);
 
-				for (var col in color) {
+				for (var col = 0; col < color.length; col ++) {
 					var palette_col = 'rgb(' + color[col] + ')'
 					$('#' + i + col).css('background', palette_col);
 					$('#tooltip-' + i + col).attr('data-original-title', "#" + fullColorHex(color[col][0], color[col][1], color[col][2]))
+					$('#tooltip-' + i + col).attr('data-clipboard-text', "#" + fullColorHex(color[col][0], color[col][1], color[col][2]))
+					// createClipboard('#' + i + col)
 				}
 
 			}
 
 		}
 
+		// var clipboard = new ClipboardJS('.ttip');
+
 		$(document).ready(function(){
 			$('[data-toggle="tooltip"]').tooltip();   
+
+
+			// var clipboard = new ClipboardJS('.ttip');
+
+			// console.log(clipboard)
+
+			// clipboard.on('success', function(e) {
+			// 	console.log(e)
+			// 	console.info('Action:', e.action);
+			// 	console.info('Text:', e.text);
+			// 	console.info('Trigger:', e.trigger);
+				
+			// 	e.clearSelection();
+			// });
+
+			// clipboard.on('error', function(e) {
+			// 	console.error('Action:', e.action);
+			// 	console.error('Trigger:', e.trigger);
+			// });
 		});
 
 	</script>
