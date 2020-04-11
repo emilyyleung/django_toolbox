@@ -99,45 +99,33 @@
 
 		.polaroid-square {
 			display: grid;
-			text-align: center;
 		}
 
 		.polaroid-square::before {
-			content: "";
-			padding-top: 100%;
+			content: '';
 			display: block;
+			padding-top: 100%;
 			grid-area: 1 / 1 / 2 / 2;
-			display: inline;
-			background: black;
-			border-radius: 3px 3px 0px 0px;
 		}
 
-		/*.photo {*/
-			/*color: black;*/
-			/*background: black;*/
-			/*width: 100%;*/
-			/*height: 100%;*/
-			/*object-fit: cover;*/
-			/*grid-area: 1 / 1 / 2 / 2;*/
-			/*border-radius: 3px 3px 0px 0px;*/
-		/*}*/
+		.contain {
+			position: relative;
+			height: 100%;
+			width: 100%;
+			object-fit: cover;
+			grid-area: 1 / 1 / 2 / 2;
+		}
+
+		.contain::before {
+			grid-area: 1 / 1 / 2 / 2;
+		}
 
 		.photo {
-			/*display: none;*/
 			width: 100%;
 			height: 100%;
+			max-height: 100%;
 			object-fit: cover;
 			grid-area: 1 / 1 / 2 / 2;
-		}
-
-		.contain .photo {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			grid-area: 1 / 1 / 2 / 2;
-			color: black;
-			background: black;
-			border-radius: 3px 3px 0px 0px;
 		}
 
 		.photo:hover {
@@ -175,17 +163,13 @@
 			display: block;
 		}
 
-		body {
-			/*margin: 2rem;*/
-		}
-
 		.img-rounded {
-			width: 3rem;
-			height: 3rem;
-			clip-path: circle(60px at center);
-			border-radius: 100px;
-			-webkit-border-radius: 100px;
-			-moz-border-radius: 100px;
+			width: 2.5rem;
+			height: 2.5rem;
+			/*clip-path: circle(60px at center);*/
+			border-radius: 3px;
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
 		}
 
 		.top-left {
@@ -194,23 +178,17 @@
 			left: 10px;
 		}
 
+		.middle > * {
+			vertical-align: middle;
+			display: inline-block;
+		}
+
 		.bottom-right {
 			position: absolute;
 			bottom: 10px;
 			right: 10px;
 		}
 
-		/*.contain {*/
-			/*display: block;*/
-			/*position: relative;*/
-			/*text-align: center;*/
-			/*color: white;*/
-
-			/*grid-area: 1 / 1 / 2 / 2;*/
-			/*object-fit: cover;*/
-			/*width: 100%;*/
-			/*height: 100%;*/
-		/*}*/
 
 		.contain .hoverOnly{
 			opacity: 0;
@@ -224,15 +202,16 @@
 			visibility: visible;
 			opacity: 1;
 
-			/*-webkit-filter: brightness(50%);*/
-			/*-webkit-transition	: all 0.5s ease;*/
-			/*-moz-transition: all 0.5s ease;*/
-			/*-o-transition: all 0.5s ease;*/
-			/*-ms-transition: all 0.5s ease;*/
-			/*transition: all 0.5s ease;*/
+		}
 
-			/*display: inline;*/
-			/*opacity: 1;*/
+		.noselect {
+			-moz-user-select: none;
+			-khtml-user-select: none;
+			-webkit-user-select: none;
+		}
+
+		.disabled {
+			pointer-events: none;
 		}
 
 	</style>
@@ -292,17 +271,15 @@
 
 			{% for unsplash in unsplash_data %}
 
-			<div class="polaroid" id=0>
+			<div class="polaroid">
 				<div class="polaroid-square">
-						<!-- <div class="contain"> -->
+						<div class="contain">
 							<img class="photo" src={{ unsplash.urls.regular }} crossorigin="anonymous">
-							<!-- <div class="top-left hoverOnly">
+							<div class="top-left hoverOnly noselect disabled">
 								<img src={{ unsplash.user.profile_image.medium }} class="img-rounded" alt={{ unsplash.user.username }} crossorigin="anonymous">
+								<a href={{ unsplash.user.links.self }} style="position: relative; color: white;">{{ unsplash.user.first_name }} {{ unsplash.user.last_name }}</a>
 							</div>
-							<div class="bottom-right hoverOnly">
-								<div style="position: relative;">{{ unsplash.user.first_name }} {{ unsplash.user.last_name }}</div>
-							</div> -->
-						<!-- </div> -->
+						</div>
 					<div class="spacer"></div>
 					<div class="colour-palette">
 						<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}0'>
@@ -529,7 +506,7 @@
 
 			const colorThief = new ColorThief();
 
-			const img = document.querySelectorAll('img');
+			const img = document.querySelectorAll('.photo');
 
 			img_palette_arr = []
 

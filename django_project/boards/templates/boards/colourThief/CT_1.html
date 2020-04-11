@@ -25,11 +25,11 @@
 
 		.polaroid-square::before {
 			content: "";
-			padding-top: 100%;
 			display: block;
+			padding-top: 100%;
 			grid-area: 1 / 1 / 2 / 2;
 		}
-
+		
 		img {
 			/*display: none;*/
 			width: 100%;
@@ -57,30 +57,30 @@
 <body>
 
 	<!-- Target -->
-	<input id="foo" value="https://github.com/zenorocha/clipboard.js.git">
+	<!-- <input id="foo" value="https://github.com/zenorocha/clipboard.js.git"> -->
 	
 	<!-- Trigger -->
-	<button class="btn" data-clipboard-target="#foo">
+	<!-- <button class="btn" data-clipboard-target="#foo">
 		<span class="iconify" data-icon="octicon-clippy" data-inline="false"></span>
-	</button>
+	</button> -->
 
 	<script type="text/javascript">
-		var clipboard = new ClipboardJS('.btn');
+		// var clipboard = new ClipboardJS('.btn');
 
-		console.log(clipboard)
+		// console.log(clipboard)
 		
-		clipboard.on('success', function(e) {
-			console.info('Action:', e.action);
-			console.info('Text:', e.text);
-			console.info('Trigger:', e.trigger);
+		// clipboard.on('success', function(e) {
+		// 	console.info('Action:', e.action);
+		// 	console.info('Text:', e.text);
+		// 	console.info('Trigger:', e.trigger);
 			
-			e.clearSelection();
-		});
+		// 	e.clearSelection();
+		// });
 		
-		clipboard.on('error', function(e) {
-			console.error('Action:', e.action);
-			console.error('Trigger:', e.trigger);
-		});
+		// clipboard.on('error', function(e) {
+		// 	console.error('Action:', e.action);
+		// 	console.error('Trigger:', e.trigger);
+		// });
 	</script>
 
 

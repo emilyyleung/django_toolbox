@@ -204,7 +204,7 @@ def test(request, version, query="", howMany=10):
 	# return JsonResponse({"unsplash_data": unsplash_photos})
 	return render(request, url, {"unsplash_data": unsplash_photos})
 
-def searchImages(request, version=2, query="", howMany=50):
+def searchImages(request, version=4, query="", howMany=50):
 
 	url = "boards/colourThief/CT_" + str(version) + ".html"
 
