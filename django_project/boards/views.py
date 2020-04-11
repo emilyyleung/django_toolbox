@@ -210,13 +210,15 @@ def searchImages(request, version=2, query="", howMany=50):
 
 	context = {}
 
-	print(request.GET["query"])
+	# print(request.GET["query"])
 
 	if query:
 		unsplash_query = query
 	else:
-		unsplash_query = "query=" + request.GET["query"]
-		# unsplash_query = "query=random"
+		try:
+			unsplash_query = "query=" + request.GET["query"]
+		except:
+			unsplash_query = "query=random"
 		
 	unsplash_url = "https://api.unsplash.com/search/photos?page=1&per_page=" + str(howMany) + "&" + unsplash_query + "&client_id=" + CLIENT_ID
 
