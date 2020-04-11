@@ -232,7 +232,7 @@ def searchImages(request, version=2, query="", howMany=50):
 	for img in job["results"]:
 		unsplash_photos.append(img)
 
-	# return JsonResponse({"unsplash_data": unsplash_photos})
+	# return JsonResponse({"api_data": job})
 	return render(request, url, {"unsplash_data": unsplash_photos})
 
 	# return JsonResponse({"unsplash_data": unsplash_url})

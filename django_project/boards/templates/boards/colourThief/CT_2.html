@@ -42,11 +42,6 @@
 			background-blend-mode: multiply;
 		}
 
-		.jumbotron > img {
-			/*width: 100%;*/
-			/*object-fit: cover;*/
-		}
-
 		.btn.nohover:hover {
 			cursor:default !important;
 		}
@@ -107,20 +102,40 @@
 			text-align: center;
 		}
 
+		/*.polaroid-square::before {*/
 		.polaroid-square::before {
 			content: "";
 			padding-top: 100%;
 			display: block;
 			grid-area: 1 / 1 / 2 / 2;
 			display: inline;
+			background: black;
+			border-radius: 3px 3px 0px 0px;
 		}
 
-		img {
+		.photo {
+			color: black;
+			background: black;
 			width: 100%;
 			height: 100%;
 			object-fit: cover;
 			grid-area: 1 / 1 / 2 / 2;
 			border-radius: 3px 3px 0px 0px;
+		}
+
+		.photo:hover {
+			/*color: black;*/
+			/*background: black;*/
+			/*opacity: 0.2;*/
+			/*position: relative;*/
+			/*background-blend-mode: multiply;*/
+
+			-webkit-filter: brightness(50%);
+			-webkit-transition: all 0.5s ease;
+			-moz-transition: all 0.5s ease;
+			-o-transition: all 0.5s ease;
+			-ms-transition: all 0.5s ease;
+			transition: all 0.5s ease;
 		}
 
 		.colour-palette {
@@ -147,6 +162,17 @@
 			/*margin: 2rem;*/
 		}
 
+		.img-rounded {
+			width: 3rem;
+			height: 3rem;
+		}
+
+		.bottom-left {
+			position: absolute;
+			bottom: 8px;
+			left: 16px;
+		}
+
 	</style>
 </head>
 <body onload="checkImageLoad();">
@@ -154,7 +180,7 @@
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
-			</button>
+		</button>
 		
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		
@@ -206,7 +232,11 @@
 
 			<div class="polaroid" id=0>
 				<div class="polaroid-square">
-					<img src={{ unsplash.urls.regular }} crossorigin="anonymous">
+						<img class="photo" src={{ unsplash.urls.regular }} crossorigin="anonymous">
+					<!-- <div class="contain">
+						<img src={{ unsplash.user.profile_image.small }} class="img-rounded bottom-left" alt={{ unsplash.user.username }} crossorigin="anonymous">
+						<div>{{ unsplash.user.first_name }} {{ unsplash.user.last_name }}</div>
+					</div> -->
 					<div class="spacer"></div>
 					<div class="colour-palette">
 						<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}0'>
