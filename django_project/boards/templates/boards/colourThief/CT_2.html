@@ -12,7 +12,6 @@
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
 
 	<style type="text/css">
@@ -250,18 +249,18 @@
 
 	<script type="text/javascript">
 
+		// Tooltip copy to clipboard
+
 		function getTooltipVal(a) {
 			var value = $(a).tooltip().attr('data-clipboard-text')
 			return value
 		}
 
 		function setTooltip(a, message, prev) {
-			
 
 			$(a).tooltip('hide')
 			.attr('data-original-title', message)
 			.tooltip('show');
-
 
 			setTimeout(function(){ 
 				$(a).tooltip().attr('data-original-title', prev)
@@ -287,6 +286,8 @@
 			hideTooltip(e.trigger);
 		});
 
+		// Create colour palette
+
 		var rgbToHex = function (rgb) { 
 			var hex = Number(rgb).toString(16);
 			if (hex.length < 2) {
@@ -306,8 +307,6 @@
 
 			const colorThief = new ColorThief();
 
-			// const img1 = document.querySelector('img');
-
 			const img = document.querySelectorAll('img');
 
 			img_palette_arr = []
@@ -325,36 +324,14 @@
 					$('#' + i + col).css('background', palette_col);
 					$('#tooltip-' + i + col).attr('data-original-title', "#" + fullColorHex(color[col][0], color[col][1], color[col][2]))
 					$('#tooltip-' + i + col).attr('data-clipboard-text', "#" + fullColorHex(color[col][0], color[col][1], color[col][2]))
-					// createClipboard('#' + i + col)
 				}
 
 			}
 
 		}
 
-		// var clipboard = new ClipboardJS('.ttip');
-
 		$(document).ready(function(){
-			$('[data-toggle="tooltip"]').tooltip();   
-
-
-			// var clipboard = new ClipboardJS('.ttip');
-
-			// console.log(clipboard)
-
-			// clipboard.on('success', function(e) {
-			// 	console.log(e)
-			// 	console.info('Action:', e.action);
-			// 	console.info('Text:', e.text);
-			// 	console.info('Trigger:', e.trigger);
-				
-			// 	e.clearSelection();
-			// });
-
-			// clipboard.on('error', function(e) {
-			// 	console.error('Action:', e.action);
-			// 	console.error('Trigger:', e.trigger);
-			// });
+			$('[data-toggle="tooltip"]').tooltip();
 		});
 
 	</script>
