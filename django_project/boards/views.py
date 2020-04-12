@@ -172,13 +172,13 @@ def colour_palette(request, version, query="", howMany=10):
 
 		
 	return render(request, url, {"unsplash_data": unsplash_photos})
-
 	# return JsonResponse({"out": job, "unsplash_data": unsplash_photos})
+
 
 def colourThief(request):
 	return render(request, "boards/colourThief/base.html")
 
-def test(request, version, query="", howMany=10):
+def test(request, version, query="", howMany=50):
 
 	url = "boards/colourThief/CT_" + version + ".html"
 
@@ -201,26 +201,137 @@ def test(request, version, query="", howMany=10):
 	for img in job["results"]:
 		unsplash_photos.append(img)
 
+	context = {
+
+		"unsplash_data": unsplash_photos,
+		"tab_headers": ["Wallpapers", "Textures & Patterns", "Nature", "Current Events", "Architecture", "Business & Work", "Film", "Animals", "Travel", "Fashion", "Food & Drinks", "Spirituality", "Experimental", "People", "Health", "Arts & Culture"],
+		"Error": False
+	}
+
 	# return JsonResponse({"unsplash_data": unsplash_photos})
-	return render(request, url, {"unsplash_data": unsplash_photos})
+	# return render(request, url, {"unsplash_data": unsplash_photos})
+	return render(request, url, {"context": context})
 
 def searchImages(request, version=4, query="", howMany=50):
 
-	url = "boards/colourThief/CT_" + str(version) + ".html"
+	url = "boards/colourThief/CT_4.html"
 
 	context = {}
+	context = {
+		"tab_headers": ["Wallpapers", "Textures & Patterns", "Nature", "Current Events", "Architecture", "Business & Work", "Film", "Animals", "Travel", "Fashion", "Food & Drinks", "Spirituality", "Experimental", "People", "Health", "Arts & Culture"]
+	}
 
-	# print(request.GET["query"])
+	try:
+		unsplash_query = "query=" + request.GET["query"]
+		context.update({"query": request.GET["query"]})
+	except:
+		if query != "":
+			unsplash_query = "query=" + query
+		else:
+			unsplash_query = "query=random"
+		context.update({"query": unsplash_query.replace("query=", "")})
+		
+	unsplash_url = "https://api.unsplash.com/search/photos?page=1&per_page=" + str(howMany) + "&" + unsplash_query + "&client_id=" + CLIENT_ID
+
+	print("unsplash_query: " + unsplash_query)
+
+	try:
+
+		r = requests.get(unsplash_url)
+		job = r.json()
+
+		unsplash_photos = []
+
+		for img in job["results"]:
+			unsplash_photos.append(img)
+
+		if len(unsplash_photos) > 0:
+			context.update({"Error": False, "unsplash_data": unsplash_photos})
+		else:
+			context.update({"Error": True})
+
+		print("GET REQUEST")
+
+		# return JsonResponse({"api_data": job})
+		# return render(request, url, {"unsplash_data": unsplash_photos})
+
+		return render(request, url, {"context": context})
+		# return JsonResponse({"unsplash_data": unsplash_url, "job": job})
+
+	except Exception as e:
+		print("NO REQUEST")
+
+		context.update({"Error": True, "unsplash_data": [], "unsplash_query": request.GET["query"]})
+
+		return render(request, url, {"context": context})
+		# return JsonResponse({"unsplash_data": unsplash_url, "job": job})
+
+def searchTabImages(request, query, howMany=50):
+	url = "boards/colourThief/CT_4.html"
+
+	context = {}
+	context = {
+		"tab_headers": ["Wallpapers", "Textures & Patterns", "Nature", "Current Events", "Architecture", "Business & Work", "Film", "Animals", "Travel", "Fashion", "Food & Drinks", "Spirituality", "Experimental", "People", "Health", "Arts & Culture"]
+	}
+
+	try:
+		unsplash_query = "query=" + request.GET["query"]
+		context.update({"query": request.GET["query"]})
+	except:
+		if query != "":
+			unsplash_query = "query=" + query
+		else:
+			unsplash_query = "query=random"
+		context.update({"query": unsplash_query.replace("query=", "")})
+
+	unsplash_url = "https://api.unsplash.com/search/photos?page=1&per_page=" + str(howMany) + "&" + unsplash_query + "&client_id=" + CLIENT_ID
+
+	print("unsplash_query: " + unsplash_query)
+
+	try:
+
+		r = requests.get(unsplash_url)
+		job = r.json()
+
+		unsplash_photos = []
+
+		for img in job["results"]:
+			unsplash_photos.append(img)
+
+		if len(unsplash_photos) > 0:
+			context.update({"Error": False, "unsplash_data": unsplash_photos})
+		else:
+			context.update({"Error": True})
+
+		print("GET REQUEST")
+
+		# return JsonResponse({"api_data": job})
+		# return render(request, url, {"unsplash_data": unsplash_photos})
+
+		return render(request, url, {"context": context})
+		# return JsonResponse({"unsplash_data": unsplash_url, "job": job})
+
+	except Exception as e:
+		print("NO REQUEST")
+
+		context.update({"Error": True, "unsplash_data": [], "unsplash_query": request.GET["query"]})
+
+		return render(request, url, {"context": context})
+		# return JsonResponse({"unsplash_data": unsplash_url, "job": job})
+
+
+def homepage(request, query="", howMany=50):
+
+	url = "boards/colourThief/CT_4.html"
+
+	context = {}
 
 	if query:
 		unsplash_query = query
 	else:
-		try:
-			unsplash_query = "query=" + request.GET["query"]
-		except:
-			unsplash_query = "query=random"
+		unsplash_query = "random"
 		
-	unsplash_url = "https://api.unsplash.com/search/photos?page=1&per_page=" + str(howMany) + "&" + unsplash_query + "&client_id=" + CLIENT_ID
+	unsplash_url = "https://api.unsplash.com/search/photos?page=1&per_page=" + str(howMany) + "&query=" + unsplash_query + "&client_id=" + CLIENT_ID
 
 	print(unsplash_query)
 
@@ -232,7 +343,13 @@ def searchImages(request, version=4, query="", howMany=50):
 	for img in job["results"]:
 		unsplash_photos.append(img)
 
-	# return JsonResponse({"api_data": job})
-	return render(request, url, {"unsplash_data": unsplash_photos})
+	context = {
 
-	# return JsonResponse({"unsplash_data": unsplash_url})
+		"unsplash_data": unsplash_photos,
+		"tab_headers": ["Wallpapers", "Textures & Patterns", "Nature", "Current Events", "Architecture", "Business & Work", "Film", "Animals", "Travel", "Fashion", "Food & Drinks", "Spirituality", "Experimental", "People", "Health", "Arts & Culture"],
+		"Error": False
+	}
+
+	# return JsonResponse({"unsplash_data": unsplash_photos})
+	# return render(request, url, {"unsplash_data": unsplash_photos})
+	return render(request, url, {"context": context})

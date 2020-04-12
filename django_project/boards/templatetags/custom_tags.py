@@ -27,3 +27,7 @@ def createList(value):
 		counter = counter + 1
 
 	return arr
+
+@register.filter
+def objToString(value):
+	return str(value)

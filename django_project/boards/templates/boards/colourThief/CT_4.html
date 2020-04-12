@@ -5,6 +5,8 @@
 <head>
 	<title></title>
 
+	<meta charset="UTF-8">
+
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -17,6 +19,9 @@
 	<link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600,700&display=swap" rel="stylesheet">
 
 	<script src="https://code.iconify.design/1/1.0.5/iconify.min.js"></script>
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
 	<style type="text/css">
 		body{
@@ -183,12 +188,11 @@
 			display: inline-block;
 		}
 
-		.bottom-right {
+		.bottom-left {
 			position: absolute;
 			bottom: 10px;
-			right: 10px;
+			left: 10px;
 		}
-
 
 		.contain .hoverOnly{
 			opacity: 0;
@@ -198,10 +202,8 @@
 		}
 
 		.contain:hover .hoverOnly{
-
 			visibility: visible;
 			opacity: 1;
-
 		}
 
 		.noselect {
@@ -214,6 +216,13 @@
 			pointer-events: none;
 		}
 
+		.navbar {
+			position:fixed;
+			width:100%;
+			z-index: 1000000;
+			top:0;
+		}
+
 	</style>
 </head>
 <body onload="checkImageLoad();">
@@ -223,26 +232,24 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<div class="collapse navbar-collapse noselect" id="navbarSupportedContent">
 		
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active">
-					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Link</a>
-				</li>
+
+				{% for header in context.tab_headers %}
 
 				<li class="nav-item">
-					<button onclick="myToggle()" id="focusToggle" type="button" class="btn btn-dark" data-toggle="modal">Toggle On</button>
+					<a class="nav-link" href="{% url 'boards:boards-searchTabImages' header %}">{{ header }}</a>
 				</li>
+
+				{% endfor %}
 
 			</ul>
 
 		</div>
 	</nav>
 
-	<div class="jumbotron jumbotron-fluid bg-dark">
+	<div class="jumbotron jumbotron-fluid bg-dark noselect">
 		<div class="container">
 			<h1 class="display-4 text-white">Pal<span>&#233;</span>tte</h1>
 			<p class="lead">Moodboard tool to help you search for your next vibe.</p>
@@ -251,7 +258,6 @@
 				<div class="form-row">
 
 					<div class="col-12">
-						<!-- <label class="sr-only" for="inlineFormInputGroup">Search..</label> -->
 						<div class="input-group mb-2">
 							<div class="input-group-prepend">
 								<div class="input-group-text"><span class="iconify" data-icon="ion:search" data-inline="false"></span></div>
@@ -265,180 +271,225 @@
 		</div>
 	</div>
 
-	<div class="grid">
+	{% if context.Error == False %}
 
-		{% if unsplash_data %}
+		<div class="grid">
 
-			{% for unsplash in unsplash_data %}
+			{% for unsplash in context.unsplash_data %}
 
-			<div class="polaroid">
-				<div class="polaroid-square">
-						<div class="contain">
-							<img class="photo" src={{ unsplash.urls.regular }} crossorigin="anonymous">
-							<div class="top-left hoverOnly noselect disabled">
-								<img src={{ unsplash.user.profile_image.medium }} class="img-rounded" alt={{ unsplash.user.username }} crossorigin="anonymous">
-								<a href={{ unsplash.user.links.self }} style="position: relative; color: white;">{{ unsplash.user.first_name }} {{ unsplash.user.last_name }}</a>
+				<div class="polaroid">
+					<div class="polaroid-square">
+							<div class="contain">
+								<img class="photo" src={{ unsplash.urls.regular }} crossorigin="anonymous">
+								<div class="top-left hoverOnly noselect disabled">
+									<img src={{ unsplash.user.profile_image.medium }} class="img-rounded" alt={{ unsplash.user.username }} crossorigin="anonymous">
+									<a href={{ unsplash.user.links.self }} style="color: white;">{{ unsplash.user.first_name }} {{ unsplash.user.last_name }}</a>
+								</div>
+								<div class="bottom-left hoverOnly noselect disabled">
+									{% if unsplash.user.location != None %}
+										<i style="color: white;" class="fas fa-map-marker-alt"></i>
+										<div style="color: white;">{{ unsplash.user.location }}</div>
+									{% endif %}
+								</div>
 							</div>
+						<div class="spacer"></div>
+						<div class="colour-palette">
+							<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}0'>
+								<div class="square" id='{{ forloop.counter0 }}0'+ style="background: #ededed; border-radius: 0px 0px 0px 3px;" ></div>
+							</a>
+							<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}1'>
+								<div class="square" id='{{ forloop.counter0 }}1'+ style="background: #ededed;"></div>
+							</a>
+							<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}2'>
+								<div class="square" id='{{ forloop.counter0 }}2'+ style="background: #ededed;"></div>
+							</a>
+							<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}3'>
+								<div class="square" id='{{ forloop.counter0 }}3'+ style="background: #ededed;"></div>
+							</a>
+							<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}4'>
+								<div class="square" id='{{ forloop.counter0 }}4'+ style="background: #ededed; border-radius: 0px 0px 3px 0px;"></div>
+							</a>
 						</div>
-					<div class="spacer"></div>
-					<div class="colour-palette">
-						<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}0'>
-							<div class="square" id='{{ forloop.counter0 }}0'+ style="background: #ededed; border-radius: 0px 0px 0px 3px;" ></div>
-						</a>
-						<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}1'>
-							<div class="square" id='{{ forloop.counter0 }}1'+ style="background: #ededed;"></div>
-						</a>
-						<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}2'>
-							<div class="square" id='{{ forloop.counter0 }}2'+ style="background: #ededed;"></div>
-						</a>
-						<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}3'>
-							<div class="square" id='{{ forloop.counter0 }}3'+ style="background: #ededed;"></div>
-						</a>
-						<a class="ttip" data-toggle="tooltip" data-placement="bottom" title="Hooray!" id='tooltip-{{ forloop.counter0 }}4'>
-							<div class="square" id='{{ forloop.counter0 }}4'+ style="background: #ededed; border-radius: 0px 0px 3px 0px;"></div>
-						</a>
 					</div>
 				</div>
-			</div>
 
 			{% endfor %}
 
+		</div>
+
+	{% else %}
+
+		{% if context.query == "random" %}
+
+			<div class="grid">
+
+				<div class="polaroid">
+					<div class="polaroid-square">
+						<div class="contain">
+							<img class="photo" src="https://source.unsplash.com/random" crossorigin="anonymous">
+						</div>
+						<div class="spacer"></div>
+						<div class="colour-palette">
+							<div class="square" id=00 style="background: #ededed;"></div>
+							<div class="square" id=01 style="background: #ededed;"></div>
+							<div class="square" id=02 style="background: #ededed;"></div>
+							<div class="square" id=03 style="background: #ededed;"></div>
+							<div class="square" id=04 style="background: #ededed;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="polaroid" id=1>
+					<div class="polaroid-square">
+						<div class="contain">
+							<img class="photo" src="https://source.unsplash.com/random/test" crossorigin="anonymous">
+						</div>
+						<div class="spacer"></div>
+						<div class="colour-palette">
+							<div class="square" id=10 style="background: #ededed;"></div>
+							<div class="square" id=11 style="background: #ededed;"></div>
+							<div class="square" id=12 style="background: #ededed;"></div>
+							<div class="square" id=13 style="background: #ededed;"></div>
+							<div class="square" id=14 style="background: #ededed;"></div>
+						</div>				
+					</div>
+				</div>
+				<div class="polaroid" id=2>
+					<div class="polaroid-square">
+						<div class="contain">
+							<img class="photo" src="https://source.unsplash.com/random/123" crossorigin="anonymous">
+						</div>
+						<div class="spacer"></div>					
+						<div class="colour-palette">
+							<div class="square" id=20 style="background: #ededed;"></div>
+							<div class="square" id=21 style="background: #ededed;"></div>
+							<div class="square" id=22 style="background: #ededed;"></div>
+							<div class="square" id=23 style="background: #ededed;"></div>
+							<div class="square" id=24 style="background: #ededed;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="polaroid" id=3>
+					<div class="polaroid-square">
+						<div class="contain">
+							<img class="photo" src="https://source.unsplash.com/random/hello" crossorigin="anonymous">
+						</div>
+						<div class="spacer"></div>					
+						<div class="colour-palette">
+							<div class="square" id=30 style="background: #ededed;"></div>
+							<div class="square" id=31 style="background: #ededed;"></div>
+							<div class="square" id=32 style="background: #ededed;"></div>
+							<div class="square" id=33 style="background: #ededed;"></div>
+							<div class="square" id=34 style="background: #ededed;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="polaroid" id=4>
+					<div class="polaroid-square">
+						<div class="contain">
+							<img class="photo" src="https://source.unsplash.com/random/key" crossorigin="anonymous">
+						</div>
+						<div class="spacer"></div>
+						<div class="colour-palette">
+							<div class="square" id=40 style="background: #ededed;"></div>
+							<div class="square" id=41 style="background: #ededed;"></div>
+							<div class="square" id=42 style="background: #ededed;"></div>
+							<div class="square" id=43 style="background: #ededed;"></div>
+							<div class="square" id=44 style="background: #ededed;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="polaroid" id=4>
+					<div class="polaroid-square">
+						<div class="contain">
+							<img class="photo" src="https://source.unsplash.com/random/orange" crossorigin="anonymous">
+						</div>
+						<div class="spacer"></div>
+						<div class="colour-palette">
+							<div class="square" id=50 style="background: #ededed;"></div>
+							<div class="square" id=51 style="background: #ededed;"></div>
+							<div class="square" id=52 style="background: #ededed;"></div>
+							<div class="square" id=53 style="background: #ededed;"></div>
+							<div class="square" id=54 style="background: #ededed;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="polaroid" id=4>
+					<div class="polaroid-square">
+						<div class="contain">
+							<img class="photo" src="https://source.unsplash.com/random/play" crossorigin="anonymous">
+						</div>
+						<div class="spacer"></div>
+						<div class="colour-palette">
+							<div class="square" id=60 style="background: #ededed;"></div>
+							<div class="square" id=61 style="background: #ededed;"></div>
+							<div class="square" id=62 style="background: #ededed;"></div>
+							<div class="square" id=63 style="background: #ededed;"></div>
+							<div class="square" id=64 style="background: #ededed;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="polaroid" id=4>
+					<div class="polaroid-square">
+						<div class="contain">
+							<img class="photo" src="https://source.unsplash.com/random/tred" crossorigin="anonymous">
+						</div>
+						<div class="spacer"></div>
+						<div class="colour-palette">
+							<div class="square" id=70 style="background: #ededed;"></div>
+							<div class="square" id=71 style="background: #ededed;"></div>
+							<div class="square" id=72 style="background: #ededed;"></div>
+							<div class="square" id=73 style="background: #ededed;"></div>
+							<div class="square" id=74 style="background: #ededed;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="polaroid" id=4>
+					<div class="polaroid-square">
+						<div class="contain">
+							<img class="photo" src="https://source.unsplash.com/random/plo" crossorigin="anonymous">
+						</div>
+						<div class="spacer"></div>
+						<div class="colour-palette">
+							<div class="square" id=80 style="background: #ededed;"></div>
+							<div class="square" id=81 style="background: #ededed;"></div>
+							<div class="square" id=82 style="background: #ededed;"></div>
+							<div class="square" id=83 style="background: #ededed;"></div>
+							<div class="square" id=84 style="background: #ededed;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="polaroid" id=4>
+					<div class="polaroid-square">
+						<div class="contain">
+							<img class="photo" src="https://source.unsplash.com/random/lol" crossorigin="anonymous">
+						</div>
+						<div class="spacer"></div>
+						<div class="colour-palette">
+							<div class="square" id=90 style="background: #ededed;"></div>
+							<div class="square" id=91 style="background: #ededed;"></div>
+							<div class="square" id=92 style="background: #ededed;"></div>
+							<div class="square" id=93 style="background: #ededed;"></div>
+							<div class="square" id=94 style="background: #ededed;"></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
 		{% else %}
 
-			<div class="polaroid">
-				<div class="polaroid-square">
-					<img src="https://source.unsplash.com/random" crossorigin="anonymous">
-					<div class="spacer"></div>
-					<div class="colour-palette">
-						<div class="square" id=00 style="background: #ededed;"></div>
-						<div class="square" id=01 style="background: #ededed;"></div>
-						<div class="square" id=02 style="background: #ededed;"></div>
-						<div class="square" id=03 style="background: #ededed;"></div>
-						<div class="square" id=04 style="background: #ededed;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="polaroid" id=1>
-				<div class="polaroid-square">
-					<img src="https://source.unsplash.com/random/test" crossorigin="anonymous">
-					<div class="spacer"></div>
-					<div class="colour-palette">
-						<div class="square" id=10 style="background: #ededed;"></div>
-						<div class="square" id=11 style="background: #ededed;"></div>
-						<div class="square" id=12 style="background: #ededed;"></div>
-						<div class="square" id=13 style="background: #ededed;"></div>
-						<div class="square" id=14 style="background: #ededed;"></div>
-					</div>				
-				</div>
-			</div>
-			<div class="polaroid" id=2>
-				<div class="polaroid-square">
-					<img src="https://source.unsplash.com/random/123" crossorigin="anonymous">
-					<div class="spacer"></div>					
-					<div class="colour-palette">
-						<div class="square" id=20 style="background: #ededed;"></div>
-						<div class="square" id=21 style="background: #ededed;"></div>
-						<div class="square" id=22 style="background: #ededed;"></div>
-						<div class="square" id=23 style="background: #ededed;"></div>
-						<div class="square" id=24 style="background: #ededed;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="polaroid" id=3>
-				<div class="polaroid-square">
-					<img src="https://source.unsplash.com/random/hello" crossorigin="anonymous">
-					<div class="spacer"></div>					
-					<div class="colour-palette">
-						<div class="square" id=30 style="background: #ededed;"></div>
-						<div class="square" id=31 style="background: #ededed;"></div>
-						<div class="square" id=32 style="background: #ededed;"></div>
-						<div class="square" id=33 style="background: #ededed;"></div>
-						<div class="square" id=34 style="background: #ededed;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="polaroid" id=4>
-				<div class="polaroid-square">
-					<img src="https://source.unsplash.com/random/key" crossorigin="anonymous">
-					<div class="spacer"></div>
-					<div class="colour-palette">
-						<div class="square" id=40 style="background: #ededed;"></div>
-						<div class="square" id=41 style="background: #ededed;"></div>
-						<div class="square" id=42 style="background: #ededed;"></div>
-						<div class="square" id=43 style="background: #ededed;"></div>
-						<div class="square" id=44 style="background: #ededed;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="polaroid" id=4>
-				<div class="polaroid-square">
-					<img src="https://source.unsplash.com/random/orange" crossorigin="anonymous">
-					<div class="spacer"></div>
-					<div class="colour-palette">
-						<div class="square" id=50 style="background: #ededed;"></div>
-						<div class="square" id=51 style="background: #ededed;"></div>
-						<div class="square" id=52 style="background: #ededed;"></div>
-						<div class="square" id=53 style="background: #ededed;"></div>
-						<div class="square" id=54 style="background: #ededed;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="polaroid" id=4>
-				<div class="polaroid-square">
-					<img src="https://source.unsplash.com/random/play" crossorigin="anonymous">
-					<div class="spacer"></div>
-					<div class="colour-palette">
-						<div class="square" id=60 style="background: #ededed;"></div>
-						<div class="square" id=61 style="background: #ededed;"></div>
-						<div class="square" id=62 style="background: #ededed;"></div>
-						<div class="square" id=63 style="background: #ededed;"></div>
-						<div class="square" id=64 style="background: #ededed;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="polaroid" id=4>
-				<div class="polaroid-square">
-					<img src="https://source.unsplash.com/random/tred" crossorigin="anonymous">
-					<div class="spacer"></div>
-					<div class="colour-palette">
-						<div class="square" id=70 style="background: #ededed;"></div>
-						<div class="square" id=71 style="background: #ededed;"></div>
-						<div class="square" id=72 style="background: #ededed;"></div>
-						<div class="square" id=73 style="background: #ededed;"></div>
-						<div class="square" id=74 style="background: #ededed;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="polaroid" id=4>
-				<div class="polaroid-square">
-					<img src="https://source.unsplash.com/random/plo" crossorigin="anonymous">
-					<div class="spacer"></div>
-					<div class="colour-palette">
-						<div class="square" id=80 style="background: #ededed;"></div>
-						<div class="square" id=81 style="background: #ededed;"></div>
-						<div class="square" id=82 style="background: #ededed;"></div>
-						<div class="square" id=83 style="background: #ededed;"></div>
-						<div class="square" id=84 style="background: #ededed;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="polaroid" id=4>
-				<div class="polaroid-square">
-					<img src="https://source.unsplash.com/random/lol" crossorigin="anonymous">
-					<div class="spacer"></div>
-					<div class="colour-palette">
-						<div class="square" id=90 style="background: #ededed;"></div>
-						<div class="square" id=91 style="background: #ededed;"></div>
-						<div class="square" id=92 style="background: #ededed;"></div>
-						<div class="square" id=93 style="background: #ededed;"></div>
-						<div class="square" id=94 style="background: #ededed;"></div>
-					</div>
-				</div>
+
+
+			<div style="font-size: 2rem; text-align: center;"><b>Sorry!</b> We couldn't find any colour pal<span>&#233;</span>ttes for {{context.query}}
 			</div>
 
 		{% endif %}
 
-	</div>
+	{% endif %}
+
+
+
+	
 
 	<script type="text/javascript">
 
