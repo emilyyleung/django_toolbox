@@ -216,25 +216,47 @@
 			pointer-events: none;
 		}
 
-		.navbar {
-			position:fixed;
-			width:100%;
+		#navSearch {
+			position: fixed;
+			width: 100%;
 			z-index: 1000000;
-			top:0;
+			top: 0;
+		}
+
+		#navTags {
+			position: relative;
+			/*top: 0;*/
+			z-index: 1000000;
 		}
 
 	</style>
 </head>
 <body onload="checkImageLoad();">
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav id="navSearch" class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#">Pal<span>&#233;</span>tte</a>
+		<form action="{% url 'boards:boards-searchImages' %}" method="GET">
+			<div class="form-row">
+
+				<div class="col-12">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<div class="input-group-text"><span class="iconify" data-icon="ion:search" data-inline="false"></span></div>
+						</div>
+						<input name="query" type="text" class="form-control" id="navSearchInput" onkeyup="myHideFilter()" placeholder="Search.." value="{{request.GET.query}}">
+					</div>
+				</div>
+
+			</div>
+		</form>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		
 		<div class="collapse navbar-collapse noselect" id="navbarSupportedContent">
 		
 			<ul class="navbar-nav mr-auto">
+
+				<ul class="navbar-nav mr-auto">
 
 				{% for header in context.tab_headers %}
 
@@ -246,7 +268,14 @@
 
 			</ul>
 
+			</ul>
+
 		</div>
+		<!-- <div class="collapse navbar-collapse noselect" id="navbarSupportedContent" style="display: inline-block">
+		
+			
+
+		</div> -->
 	</nav>
 
 	<div class="jumbotron jumbotron-fluid bg-dark noselect">
@@ -585,6 +614,7 @@
 
 			// console.log($('#myHideInput')[0].value)
 			$('#myHideInput')[0].value = ""
+			$('#navSearchInput')[0].value = ""
 		});
 
 	</script>
