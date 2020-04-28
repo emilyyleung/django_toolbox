@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'polls.apps.PollsConfig',
     'jsonmaker.apps.JsonmakerConfig',
     'boards.apps.BoardsConfig',
+    'maketime.apps.MaketimeConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',

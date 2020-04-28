@@ -30,4 +30,5 @@ urlpatterns = [
     path('countdown/', include('countdown.urls')),
     path('restaurant/', include('restaurant.urls')),
     path('boards/', include('boards.urls', namespace="boards")),
+    path('maketime/', include('maketime.urls', namespace="maketime")),
 ]
