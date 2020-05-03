@@ -2,12 +2,20 @@ from django.contrib import admin
 from . models import *
 
 class eventAdmin(admin.ModelAdmin):
-	list_display = ["id", "name", "date"]
+	list_display = ["id", "name"]
 	fieldsets = [
 		("Name", {"fields": ["name", "notes"]}),
-		("Date and Time", {"fields": ["date", "start_time", "end_time"]})
 	]
+
+class recurrenceAdmin(admin.ModelAdmin):
+	list_display = ["id", "frequency", "dtstart", "until", "count"]
+	fieldsets = [
+		("Required", {"fields": ["frequency","dtstart","tzid","until","count","interval","wkst",]}),
+		("Optional", {"fields": ["byweekday","bymonth","bysetpos","bymonthday","byyearday","byweekno",]})
+	]
+
 
 # Register your models here.
 admin.site.register(Event, eventAdmin)
 admin.site.register(Calendar)
+admin.site.register(Recurrence, recurrenceAdmin)

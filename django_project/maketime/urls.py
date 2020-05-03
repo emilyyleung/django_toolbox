@@ -7,4 +7,5 @@ app_name = 'maketime'
 urlpatterns = [
 	path('', views.home, name='maketime-home'),
 	path('uploadEvents/', views.uploadEvents, name='maketime-uploadEvents'),
+	path('recurringEvents/', views.recurringEvents, name='maketime-recurringEvents'),
 ]
