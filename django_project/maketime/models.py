@@ -2,6 +2,8 @@ import django
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from multiselectfield import MultiSelectField
+from django.core.validators import int_list_validator
+from django.core.validators import validate_comma_separated_integer_list
 
 import datetime
 from dateutil.tz import *
@@ -74,6 +76,9 @@ class Recurrence(models.Model):
 	bymonthday = models.CharField(max_length=200, blank=True, null=True)
 	byyearday = models.CharField(max_length=200, blank=True, null=True)
 	byweekno = models.CharField(max_length=200, blank=True, null=True)
+
+	bysetpos = models.CharField(validators=[int_list_validator()], max_length=100, blank=True, null=True)
+	testbysetpos = models.CharField(validators=[validate_comma_separated_integer_list], max_length=100, blank=True, null=True)
 
 class Event(models.Model):
 	name = models.CharField(max_length=200, default="test")

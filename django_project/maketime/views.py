@@ -146,16 +146,16 @@ def recurringEvents(request):
 		r_frequency = frequency_lut[str(rule.frequency)]
 
 		r_dtstart = rule.dtstart
-		print(r_dtstart)
+		# print(r_dtstart)
 		con_r_dtstart = convert_datetime_timezone(str(r_dtstart), "UTC", rule.tzid)
 		datetime_dtstart = datetime.strptime(con_r_dtstart, '%Y-%m-%d %H:%M:%S')
-		print(datetime_dtstart)
+		# print(datetime_dtstart)
 
 		r_until = rule.until
-		print(r_until)
+		# print(r_until)
 		con_r_until = convert_datetime_timezone(str(r_until), "UTC", rule.tzid)
 		datetime_until = datetime.strptime(con_r_until, '%Y-%m-%d %H:%M:%S')
-		print(datetime_until)
+		# print(datetime_until)
 
 		r_wkst = day_lut[rule.wkst]
 
@@ -164,19 +164,10 @@ def recurringEvents(request):
 		else:
 			r_count = rule.count
 
-		# if rule.byweekday == None:
-		# 	r_byweekday = None
-		# else:
-		# 	r_byweekday = day_lut[rule.byweekday]
-
-		print(rule.byweekday)
-
 		try:
 			multibyweekday = str(rule.byweekday).split(', ')
 		except Exception as e:
 			multibyweekday = str(rule.byweekday)
-
-		print(type(multibyweekday[0]))
 
 		if len(multibyweekday) > 0 and multibyweekday[0] != "None":
 			r_byweekday = []
@@ -201,6 +192,20 @@ def recurringEvents(request):
 
 		r_interval = rule.interval
 
+		# r_bysetpos = rule.bysetpos
+		try:
+			multibysetpos = rule.bysetpos.split(',')
+			r_bysetpos = [int(x) for x in multibysetpos]
+		except:
+			multibysetpos = rule.bysetpos
+			print(multibysetpos)
+			if multibysetpos == None:
+				r_bysetpos = None
+			else:
+				r_bysetpos = [int(x) for x in multibysetpos]
+
+		print(r_bysetpos)
+
 		ruleset = list(rrule(
 			freq=r_frequency,
 			dtstart=datetime_dtstart,
@@ -210,12 +215,13 @@ def recurringEvents(request):
 			wkst=r_wkst,
 			byweekday=r_byweekday,
 			bymonth=r_bymonth,
+			bysetpos=r_bysetpos,
 		))
 
-		print(r_frequency, r_dtstart.astimezone(tz), r_until.astimezone(tz), r_count, r_interval, r_wkst, r_byweekday, r_bymonth)
+		# print(r_frequency, r_dtstart.astimezone(tz), r_until.astimezone(tz), r_count, r_interval, r_wkst, r_byweekday, r_bymonth)
 
 		for dt in ruleset:
-			print(dt)
+			# print(dt)
 			obj.append(dt)
 		out.append(obj)
 
