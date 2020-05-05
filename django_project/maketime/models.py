@@ -2,7 +2,7 @@ import django
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from multiselectfield import MultiSelectField
-from django.core.validators import int_list_validator
+from django.core.validators import int_list_validator, RegexValidator
 from django.core.validators import validate_comma_separated_integer_list
 
 import datetime
@@ -72,13 +72,17 @@ class Recurrence(models.Model):
 	# byweekday = models.CharField(max_length=200, choices=day_choices, blank=True, null=True)
 	# bymonth = models.CharField(max_length=200, choices=bymonth_choices, blank=True, null=True)
 	bymonth = MultiSelectField(choices=bymonth_choices, blank=True, null=True)
-	bysetpos = models.CharField(max_length=200, blank=True, null=True)
-	bymonthday = models.CharField(max_length=200, blank=True, null=True)
-	byyearday = models.CharField(max_length=200, blank=True, null=True)
-	byweekno = models.CharField(max_length=200, blank=True, null=True)
+	# bysetpos = models.CharField(max_length=200, blank=True, null=True)
+	# bymonthday = models.CharField(max_length=200, blank=True, null=True)
+	# byyearday = models.CharField(max_length=200, blank=True, null=True)
+	# byweekno = models.CharField(max_length=200, blank=True, null=True)
 
-	bysetpos = models.CharField(validators=[int_list_validator()], max_length=100, blank=True, null=True)
-	testbysetpos = models.CharField(validators=[validate_comma_separated_integer_list], max_length=100, blank=True, null=True)
+	# bysetpos = models.CharField(validators=[int_list_validator()], max_length=100, blank=True, null=True)
+	# testbysetpos = models.CharField(validators=[validate_comma_separated_integer_list], max_length=100, blank=True, null=True)
+	bysetpos = models.CharField(validators=[RegexValidator(regex='^-?[-?\d,]+$')], max_length=100, blank=True, null=True)
+	bymonthday = models.CharField(validators=[RegexValidator(regex='^-?[-?\d,]+$')], max_length=100, blank=True, null=True)
+	byyearday = models.CharField(validators=[RegexValidator(regex='^-?[-?\d,]+$')], max_length=100, blank=True, null=True)
+	byweekno = models.CharField(validators=[RegexValidator(regex='^-?[-?\d,]+$')], max_length=100, blank=True, null=True)
 
 class Event(models.Model):
 	name = models.CharField(max_length=200, default="test")

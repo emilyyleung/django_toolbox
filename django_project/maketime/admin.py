@@ -11,7 +11,7 @@ class recurrenceAdmin(admin.ModelAdmin):
 	list_display = ["id", "frequency", "dtstart", "until", "count"]
 	fieldsets = [
 		("Required", {"fields": ["frequency","dtstart","tzid","until","count","interval","wkst",]}),
-		("Optional", {"fields": ["byweekday","bymonth","bysetpos","testbysetpos","bymonthday","byyearday","byweekno",]})
+		("Optional", {"fields": ["byweekday","bymonth","bysetpos","bymonthday","byyearday","byweekno",]})
 	]
 
 

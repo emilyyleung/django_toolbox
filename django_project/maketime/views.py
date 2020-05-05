@@ -169,7 +169,9 @@ def recurringEvents(request):
 		except Exception as e:
 			multibyweekday = str(rule.byweekday)
 
-		if len(multibyweekday) > 0 and multibyweekday[0] != "None":
+		print(multibyweekday)
+
+		if len(multibyweekday) > 0 and multibyweekday[0] != "None" and multibyweekday[0] != "":
 			r_byweekday = []
 			for day in multibyweekday:
 				day_num = weekday_lut[day]
@@ -206,6 +208,16 @@ def recurringEvents(request):
 
 		print(r_bysetpos)
 
+		try:
+			multibymonthday = rule.bymonthday.split(',')
+			r_bymonthday = [int(x) for x in multibymonthday]
+		except:
+			multibymonthday = rule.bymonthday
+			if multibymonthday == None:
+				r_bymonthday = None
+			else:
+				r_bymonthday = [int(x) for x in multibymonthday]
+
 		ruleset = list(rrule(
 			freq=r_frequency,
 			dtstart=datetime_dtstart,
@@ -216,6 +228,7 @@ def recurringEvents(request):
 			byweekday=r_byweekday,
 			bymonth=r_bymonth,
 			bysetpos=r_bysetpos,
+			bymonthday=r_bymonthday,
 		))
 
 		# print(r_frequency, r_dtstart.astimezone(tz), r_until.astimezone(tz), r_count, r_interval, r_wkst, r_byweekday, r_bymonth)
