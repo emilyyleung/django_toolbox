@@ -2,8 +2,118 @@
 <html>
 <head>
 	<title></title>
+	<style type="text/css">
+
+		ul {list-style-type: none;}
+		body {font-family: Verdana, sans-serif;}
+
+		/* Month header */
+		.month {
+			width: 100%;
+			background: #1abc9c;
+			text-align: center;
+		}
+
+		/* Month list */
+		.month ul {
+			margin: 0;
+			padding: 0;
+		}
+
+		.month ul li {
+			padding: 70px 25px;
+			color: white;
+			font-size: 20px;
+			text-transform: uppercase;
+			letter-spacing: 3px;
+		}
+
+		/* Previous button inside month header */
+		.month .prev {
+			float: left;
+		}
+
+		/* Next button */
+		.month .next {
+			float: right;
+		}
+
+		/* Weekdays (Mon-Sun) */
+		.weekdays {
+			margin: 0;
+			padding: 10px 0;
+			background-color:#ddd;
+		}
+
+		.weekdays li {
+			display: inline-block;
+			width: 13.6%;
+			color: #666;
+			text-align: center;
+		}
+
+		/* Days (1-31) */
+		.days {
+			padding: 10px 0;
+			height: 100px;
+			background: #eee;
+			margin: 0;
+		}
+
+		.days li {
+			list-style-type: none;
+			display: inline-block;
+			width: 13.6%;
+			text-align: left;
+			margin-left: 5px;
+			margin-bottom: 5px;
+			font-size:12px;
+			color: #777;
+			height: 100%;
+		}
+
+		/* Highlight the "current" day */
+		.days li .active {
+			padding: 5px;
+			background: #1abc9c;
+			color: white !important
+		}
+	</style>
 </head>
 <body>
-	{{context}}
+	<!-- {{calendar|safe}} -->
+
+
+	<div class="month">
+		<ul>
+			<li class="prev">&#10094;</li>
+			<li class="next">&#10095;</li>
+		</ul>
+		<ul>
+			<li>May<br><span style="font-size:18px">2020</span></li>
+		</ul>
+	</div>
+
+	<ul class="weekdays">
+		<li>Mo</li>
+		<li>Tu</li>
+		<li>We</li>
+		<li>Th</li>
+		<li>Fr</li>
+		<li>Sa</li>
+		<li>Su</li>
+	</ul>
+
+	{% for week in calendar %}
+		<ul class="days">
+			{% for day in week %}
+				{% if day == 0 %}
+					<li style="visibility: hidden;">{{day}}</li>
+				{% else %}
+					<li>{{day}}</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	{% endfor %}
 </body>
 </html>

@@ -13,6 +13,11 @@ from dateutil.rrule import *
 import pytz
 import dateutil.parser
 
+import calendar
+from django.utils.safestring import mark_safe
+from . utils import Calendar, CustomHTMLCalendar
+from django.views import generic
+
 # Create your views here.
 def home(request):
 
@@ -22,6 +27,8 @@ def home(request):
 		"home": base_url,
 		"uploadEvents": base_url + "uploadEvents",
 		"recurringEvents": base_url + "recurringEvents",
+		"testEvents": base_url + "testEvents",
+		"calendarView": base_url + "calendarView",
 	}
 
 	return JsonResponse({"urls": urls})
@@ -77,15 +84,15 @@ def uploadEvents(request):
 		return JsonResponse({"successful": "False", "request": "POST"})
 
 def convert_datetime_timezone(dt, tz1, tz2):
-    tz1 = pytz.timezone(tz1)
-    tz2 = pytz.timezone(tz2)
+	tz1 = pytz.timezone(tz1)
+	tz2 = pytz.timezone(tz2)
 
-    dt = datetime.strptime(dt,"%Y-%m-%d %H:%M:%S")
-    dt = tz1.localize(dt)
-    dt = dt.astimezone(tz2)
-    dt = dt.strftime("%Y-%m-%d %H:%M:%S")
+	dt = datetime.strptime(dt,"%Y-%m-%d %H:%M:%S")
+	dt = tz1.localize(dt)
+	dt = dt.astimezone(tz2)
+	dt = dt.strftime("%Y-%m-%d %H:%M:%S")
 
-    return dt
+	return dt
 
 def recurringEvents(request):
 
@@ -143,13 +150,16 @@ def recurringEvents(request):
 
 		obj = []
 
-		r_frequency = frequency_lut[str(rule.frequency)]
+		# r_frequency = frequency_lut[str(rule.frequency)]
+		r_frequency = rule.r_frequency()
+		print("r_frequency")
+		print(r_frequency)
 
 		r_dtstart = rule.dtstart
-		# print(r_dtstart)
+		print(r_dtstart)
 		con_r_dtstart = convert_datetime_timezone(str(r_dtstart), "UTC", rule.tzid)
 		datetime_dtstart = datetime.strptime(con_r_dtstart, '%Y-%m-%d %H:%M:%S')
-		# print(datetime_dtstart)
+		print(datetime_dtstart)
 
 		r_until = rule.until
 		# print(r_until)
@@ -184,7 +194,7 @@ def recurringEvents(request):
 		except Exception as e:
 			multibymonth = str(rule.bymonth)
 
-		if len(multibymonth) > 0:
+		if len(multibymonth) > 0 and multibymonth[0] != "None" and multibymonth[0] != "":
 			r_bymonth = []
 			for month in multibymonth:
 				month_num = month_lut[month]
@@ -218,10 +228,32 @@ def recurringEvents(request):
 			else:
 				r_bymonthday = [int(x) for x in multibymonthday]
 
+		try:
+			multibyyearday = rule.byyearday.split(',')
+			r_byyearday = [int(x) for x in multibyyearday]
+		except:
+			multibyyearday = rule.byyearday
+			if multibyyearday == None:
+				r_byyearday = None
+			else:
+				r_byyearday = [int(x) for x in multibyyearday]
+
+		try:
+			multibyweekno = rule.byweekno.split(',')
+			r_byweekno = [int(x) for x in multibyweekno]
+		except:
+			multibyweekno = rule.byweekno
+			if multibyweekno == None:
+				r_byweekno = None
+			else:
+				r_byweekno = [int(x) for x in multibyweekno]
+
 		ruleset = list(rrule(
 			freq=r_frequency,
-			dtstart=datetime_dtstart,
-			until=datetime_until,
+			# dtstart=datetime_dtstart,
+			# until=datetime_until,
+			dtstart=r_dtstart,
+			until=r_until,
 			count=r_count,
 			interval=r_interval,
 			wkst=r_wkst,
@@ -229,6 +261,8 @@ def recurringEvents(request):
 			bymonth=r_bymonth,
 			bysetpos=r_bysetpos,
 			bymonthday=r_bymonthday,
+			byyearday=r_byyearday,
+			byweekno=r_byweekno,
 		))
 
 		# print(r_frequency, r_dtstart.astimezone(tz), r_until.astimezone(tz), r_count, r_interval, r_wkst, r_byweekday, r_bymonth)
@@ -266,3 +300,57 @@ def recurringEvents(request):
 		# obj.append(dt.astimezone(tz))
 
 	return JsonResponse({"out": out})
+
+def testEvents(request):
+
+	out = []
+
+	recurrences = Recurrence.objects.all()
+
+	for recurrence in recurrences:
+		arr = []
+		try:
+			ruleset = list(rrule(
+				freq=recurrence.r_frequency(),
+				dtstart=recurrence.dtstart,
+				until=recurrence.until,
+				count=recurrence.r_count(),
+				interval=recurrence.interval,
+				wkst=recurrence.r_wkst(),
+				byweekday=recurrence.r_byweekday(),
+				bymonth=recurrence.r_bymonth(),
+				bysetpos=recurrence.r_bysetpos(),
+				bymonthday=recurrence.r_bymonthday(),
+				byyearday=recurrence.r_byyearday(),
+				byweekno=recurrence.r_byweekno(),
+			))
+
+			for dt in ruleset:
+				print(dt)
+				arr.append(dt)
+
+			out.append(arr)
+
+		except Exception as e:
+			print("hello2")
+			print(e)
+
+	return JsonResponse({"out": out})
+
+def calendarView(request):
+
+	# c = calendar.HTMLCalendar(calendar.SUNDAY)
+	# html_cal = c.formatmonth(2020,1)
+	# context = {"calendar": html_cal}
+
+	# print(calendar.monthcalendar(1983, 11))
+
+	# cal_data = calendar.monthcalendar(2020, 5)
+	# for week in cal_data:
+		
+
+
+	out = calendar.monthcalendar(2020, 5)
+	context = {"calendar": out}
+
+	return render(request, "maketime/full_calendar.html", context)
