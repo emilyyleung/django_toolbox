@@ -81,8 +81,6 @@
 	</style>
 </head>
 <body>
-	<!-- {{calendar|safe}} -->
-
 
 	<div class="month">
 		<ul>
@@ -90,7 +88,7 @@
 			<li class="next">&#10095;</li>
 		</ul>
 		<ul>
-			<li>May<br><span style="font-size:18px">2020</span></li>
+			<li>May 2020</li>
 		</ul>
 	</div>
 
@@ -104,7 +102,7 @@
 		<li>Su</li>
 	</ul>
 
-	{% for week in calendar %}
+	<!-- {% for week in calendar %}
 		<ul class="days">
 			{% for day in week %}
 				{% if day == 0 %}
@@ -114,6 +112,23 @@
 				{% endif %}
 			{% endfor %}
 		</ul>
+	{% endfor %} -->
+
+	{% for week in event_calendar %}
+		<ul class="days">
+			{% for day in week %}
+				{% if day.Day == 0 %}
+					<li style="visibility: hidden;">{{day}}</li>
+				{% else %}
+					{% if day.Events %}
+						<li>{{day.Day}} - {{day.Events}}</li>
+					{% else %}
+						<li>{{day.Day}}</li>
+					{% endif %}
+				{% endif %}
+			{% endfor %}
+		</ul>
 	{% endfor %}
+</body>
 </body>
 </html>

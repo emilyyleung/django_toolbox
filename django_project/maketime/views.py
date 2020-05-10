@@ -344,13 +344,32 @@ def calendarView(request):
 	# context = {"calendar": html_cal}
 
 	# print(calendar.monthcalendar(1983, 11))
+	
+	events_obj = {
+		1: "hello world",
+		10: "bye world",
+		18: "Dinner Party",
+		24: "Happy birthday!"
+	}
+	
+	cal_data = calendar.monthcalendar(2020, 5)
+	month_arr = []
+	for week in cal_data:
+		week_arr = []
+		for day in week:
+			obj = {"Day": day}
+			if day in events_obj.keys():
+				obj["Events"] = events_obj[day]
+			week_arr.append(obj)
+		month_arr.append(week_arr)
 
-	# cal_data = calendar.monthcalendar(2020, 5)
-	# for week in cal_data:
-		
+	print(month_arr)
+
 
 
 	out = calendar.monthcalendar(2020, 5)
 	context = {"calendar": out}
+
+	context["event_calendar"] = month_arr
 
 	return render(request, "maketime/full_calendar.html", context)
