@@ -121,7 +121,15 @@
 					<li style="visibility: hidden;">{{day}}</li>
 				{% else %}
 					{% if day.Events %}
-						<li>{{day.Day}} - {{day.Events}}</li>
+						<li>
+							<div>{{day.Day}}
+								<div>
+									{% for ev in day.Events %}
+										- {{ev}}
+									{% endfor %}
+								</div>
+							</div>
+						</li>
 					{% else %}
 						<li>{{day.Day}}</li>
 					{% endif %}

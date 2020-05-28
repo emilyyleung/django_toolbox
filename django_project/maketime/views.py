@@ -346,10 +346,10 @@ def calendarView(request):
 	# print(calendar.monthcalendar(1983, 11))
 	
 	events_obj = {
-		1: "hello world",
-		10: "bye world",
-		18: "Dinner Party",
-		24: "Happy birthday!"
+		1: ["hello world", "hey there"],
+		10: ["bye world"],
+		18: ["Dinner Party", "Wedding!", "Bowling", "Basketball Game", "Surfing"],
+		24: ["Happy birthday!"]
 	}
 	
 	cal_data = calendar.monthcalendar(2020, 5)
