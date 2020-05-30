@@ -5,12 +5,17 @@
 	<style type="text/css">
 
 		ul {list-style-type: none;}
-		body {font-family: Verdana, sans-serif;}
+		li {list-style-type: none;}
+		body {font-family: Calibri, sans-serif;}
+
+		hr {
+			border-top: 2px solid #1abc9c;
+		}
 
 		/* Month header */
 		.month {
 			width: 100%;
-			background: #1abc9c;
+			/*background: #1abc9c;*/
 			text-align: center;
 		}
 
@@ -22,8 +27,8 @@
 
 		.month ul li {
 			padding: 70px 25px;
-			color: white;
-			font-size: 20px;
+			color: #1abc9c;
+			font-size: 30px;
 			text-transform: uppercase;
 			letter-spacing: 3px;
 		}
@@ -38,29 +43,55 @@
 			float: right;
 		}
 
-		/* Weekdays (Mon-Sun) */
-		.weekdays {
-			margin: 0;
-			padding: 10px 0;
-			background-color:#ddd;
+		.day-of-week,
+		.date-grid {
+			display: grid;
+			grid-template-columns: repeat(7, minmax(50px, 1fr)) ;
+			/*text-align: center;*/
+			padding: 0;
 		}
 
-		.weekdays li {
-			display: inline-block;
-			width: 13.6%;
-			color: #666;
+		.day-of-week {
+			margin-top: 1.25em;
+		}
+
+		.day-of-week > * {
+			/*font-size: 0.7em;*/
+			color: #1abc9c;
+			font-weight: 700;
+			text-transform: uppercase;
 			text-align: center;
 		}
 
-		/* Days (1-31) */
-		.days {
-			padding: 10px 0;
-			height: 100px;
-			background: #eee;
-			margin: 0;
+		.day::before {
+			display: block;
+			content: "";
+			padding-top: 100%;
 		}
 
-		.days li {
+		.day {
+			display: grid;
+			margin: 0.1rem;
+			background-color: #1abc9c
+		}
+
+		.contain::before {
+			/*grid-area: 1 / 1 / 2 / 2;*/
+		}
+
+		.contain {
+			position: absolute;
+		}
+
+		/* Days (1-31) */
+		/*.days {
+			padding: 10px 0;
+			height: 100px; 
+			background: #eee;
+			margin: 0;
+		}*/
+
+		/*.days li {
 			list-style-type: none;
 			display: inline-block;
 			width: 13.6%;
@@ -70,14 +101,14 @@
 			font-size:12px;
 			color: #777;
 			height: 100%;
-		}
+		}*/
 
 		/* Highlight the "current" day */
-		.days li .active {
+		/*.days li .active {
 			padding: 5px;
 			background: #1abc9c;
 			color: white !important
-		}
+		}*/
 	</style>
 </head>
 <body>
@@ -88,54 +119,63 @@
 			<li class="next">&#10095;</li>
 		</ul>
 		<ul>
-			<li>May 2020</li>
+			<li><b>{{month}}</b></li>
 		</ul>
 	</div>
 
-	<ul class="weekdays">
-		<li>Mo</li>
-		<li>Tu</li>
-		<li>We</li>
-		<li>Th</li>
-		<li>Fr</li>
-		<li>Sa</li>
-		<li>Su</li>
+	<hr/>
+
+	<ul class="day-of-week">
+		<li>MON</li>
+		<li>TUE</li>
+		<li>WED</li>
+		<li>THU</li>
+		<li>FRI</li>
+		<li>SAT</li>
+		<li>SUN</li>
 	</ul>
 
-	<!-- {% for week in calendar %}
-		<ul class="days">
-			{% for day in week %}
-				{% if day == 0 %}
-					<li style="visibility: hidden;">{{day}}</li>
-				{% else %}
-					<li>{{day}}</li>
-				{% endif %}
-			{% endfor %}
-		</ul>
-	{% endfor %} -->
-
 	{% for week in event_calendar %}
-		<ul class="days">
+		<div class="date-grid">
+
 			{% for day in week %}
 				{% if day.Day == 0 %}
-					<li style="visibility: hidden;">{{day}}</li>
-				{% else %}
-					{% if day.Events %}
-						<li>
-							<div>{{day.Day}}
-								<div>
+					<div class="day" style="background-color: white">
+						<div class="contain">
+							<div style="visibility: hidden;">{{day.Day}}</div>
+						</div>
+					</div>
+				{% elif day.Events %}
+					<div class="day" style="background-color: #172A3A">
+						<div class="contain">
+							<div style="color: white; padding: 0.3rem; font-weight: 700;">{{day.Day}}</div>
+							<div style="padding: 0.3rem">
+								{% if day.Events %}
 									{% for ev in day.Events %}
-										- {{ev}}
+										<li style="color: white">{{ev}}</li>
 									{% endfor %}
-								</div>
+								{% endif %}
 							</div>
-						</li>
-					{% else %}
-						<li>{{day.Day}}</li>
-					{% endif %}
+						</div>
+					</div>
+				{% else %}
+
+					<div class="day">
+						<div class="contain">
+							<div style="color: white; padding: 0.3rem; font-weight: 700;">{{day.Day}}</div>
+							<div style="padding: 0.3rem">
+								{% if day.Events %}
+									{% for ev in day.Events %}
+										<li>{{ev}}</li>
+									{% endfor %}
+								{% endif %}
+							</div>
+						</div>
+					</div>
+
 				{% endif %}
 			{% endfor %}
-		</ul>
+		</div>
 	{% endfor %}
 </body>
 </body>

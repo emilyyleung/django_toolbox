@@ -337,22 +337,37 @@ def testEvents(request):
 
 	return JsonResponse({"out": out})
 
-def calendarView(request):
+def calendarView(request, year=2020, month=5):
 
 	# c = calendar.HTMLCalendar(calendar.SUNDAY)
 	# html_cal = c.formatmonth(2020,1)
 	# context = {"calendar": html_cal}
 
 	# print(calendar.monthcalendar(1983, 11))
+
+	month_lut = {
+		1: "JANUARY",
+		2: "FEBRUARY",
+		3: "MARCH",
+		4: "APRIL",
+		5: "MAY",
+		6: "JUNE",
+		7: "JULY",
+		8: "AUGUST",
+		9: "SEPTEMBER",
+		10: "OCTOBER",
+		11: "NOVEMBER",
+		12: "DECEMBER",
+	}
 	
 	events_obj = {
-		1: ["hello world", "hey there"],
+		1: ["hello world", "hey there", "Dinner Party", "Wedding!"],
 		10: ["bye world"],
 		18: ["Dinner Party", "Wedding!", "Bowling", "Basketball Game", "Surfing"],
 		24: ["Happy birthday!"]
 	}
 	
-	cal_data = calendar.monthcalendar(2020, 5)
+	cal_data = calendar.monthcalendar(int(year), int(month))
 	month_arr = []
 	for week in cal_data:
 		week_arr = []
@@ -371,5 +386,6 @@ def calendarView(request):
 	context = {"calendar": out}
 
 	context["event_calendar"] = month_arr
+	context["month"] = month_lut[int(month)] + " " + str(year)
 
 	return render(request, "maketime/full_calendar.html", context)

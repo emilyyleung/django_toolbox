@@ -9,5 +9,6 @@ urlpatterns = [
 	path('uploadEvents/', views.uploadEvents, name='maketime-uploadEvents'),
 	path('recurringEvents/', views.recurringEvents, name='maketime-recurringEvents'),
 	path('testEvents/', views.testEvents, name='maketime-testEvents'),
-	path('calendarView/', views.calendarView, name='maketime-calendarView'),
+	# path('calendarView/', views.calendarView, name='maketime-calendarView'),
+	path('calendarView/<str:year>/<str:month>/', views.calendarView, name='maketime-calendarView'),
 ]
